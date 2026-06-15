@@ -50,5 +50,22 @@ namespace FunWebsiteThing.SQL
                 con.Close();
             }
         }
+
+        // Anonymous ownership of posts/threads on delete
+        public static void AccountDeleteForum()
+        {
+            using (var con = Main.Connect())
+            {
+                con.Open();
+
+                string trigger = "CREATE TRIGGER IF NOT EXISTS accountsdeleteforumtrigger BEFORE DELETE ON accounts FOR EACH ROW BEGIN UPDATE forumposts SET id = -1 WHERE id = OLD.id; UPDATE forumthreads SET id = -1 WHERE id = OLD.id; END;";
+                using (var cmd = new MySqlCommand(trigger, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+
+                con.Close();
+            }
+        }
     }
 }

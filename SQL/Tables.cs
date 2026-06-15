@@ -159,5 +159,37 @@ namespace FunWebsiteThing.SQL
                 con.Close();
             }
         }
+
+        public static void ForumThreads()
+        {
+            using (var con = Main.Connect())
+            {
+                con.Open();
+
+                string forum = "CREATE TABLE IF NOT EXISTS forumthreads (topicid INT(11) PRIMARY KEY, id INT(11), title VARCHAR(255), created DATETIME DEFAULT CURRENT_TIMESTAMP, lastpostedin DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id) REFERENCES accounts(id))";
+                using (var cmd = new MySqlCommand(forum, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+
+                con.Close();
+            }
+        }
+
+        public static void ForumPosts()
+        {
+            using (var con = Main.Connect())
+            {
+                con.Open();
+
+                string forum = "CREATE TABLE IF NOT EXISTS forumposts (postid INT(11) PRIMARY KEY, topicid INT(11), id INT(11), post VARCHAR(255), created DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id) REFERENCES accounts(id), FOREIGN KEY (topicid) REFERENCES forumthreads(topicid))";
+                using (var cmd = new MySqlCommand(forum, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+
+                con.Close();
+            }
+        }
     }
 }

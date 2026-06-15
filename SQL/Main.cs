@@ -29,6 +29,9 @@ namespace FunWebsiteThing.SQL
                 Tables.Stats(); // stats table
                 Tables.Bans(); // bans table
                 Triggers.UnbanOnExpireIP(); // unban on expire IP event
+                //Tables.ForumThreads();
+                //Tables.ForumPosts();
+                //Triggers.AccountDeleteForum();
             }
             else
             {
