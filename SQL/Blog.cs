@@ -137,7 +137,7 @@ namespace FunWebsiteThing.SQL
                         }
                     }
                 }
-                return count + 1;
+                return count;
             }
             catch (MySqlException e)
             {
