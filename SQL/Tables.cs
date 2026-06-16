@@ -182,7 +182,7 @@ namespace FunWebsiteThing.SQL
             {
                 con.Open();
 
-                string forum = "CREATE TABLE IF NOT EXISTS forumposts (postid INT(11) PRIMARY KEY, topicid INT(11), id INT(11), post VARCHAR(255), created DATETIME DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_forumposts_id_accounts FOREIGN KEY (id) REFERENCES accounts(id), CONSTRAINT fk_forumposts_topicid_forumthreads FOREIGN KEY (topicid) REFERENCES forumthreads(topicid) ON DELETE CASCADE)";
+                string forum = "CREATE TABLE IF NOT EXISTS forumposts (postid INT(11) PRIMARY KEY, topicid INT(11), id INT(11), post MEDIUMTEXT, created DATETIME DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_forumposts_id_accounts FOREIGN KEY (id) REFERENCES accounts(id), CONSTRAINT fk_forumposts_topicid_forumthreads FOREIGN KEY (topicid) REFERENCES forumthreads(topicid) ON DELETE CASCADE)";
                 using (var cmd = new MySqlCommand(forum, con))
                 {
                     cmd.ExecuteNonQuery();
