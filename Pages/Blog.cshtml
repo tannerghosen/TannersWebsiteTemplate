@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = Model.Title;//title;
 }
-@if(Model.Title != null)
+@if(SQL.Blog.GetBlogPostCount() >= 1)
 {
     <!-- Blog -->
     <h1>@ViewData["Title"]</h1>
