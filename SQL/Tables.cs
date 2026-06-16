@@ -29,7 +29,7 @@ namespace FunWebsiteThing.SQL
                 con.Open();
 
                 // Security Questions Table
-                string securityquestion = "CREATE TABLE IF NOT EXISTS securityquestion (id INT(11) PRIMARY KEY, question VARCHAR(255) NOT NULL, answer VARCHAR(255) NOT NULL, FOREIGN KEY (id) REFERENCES accounts(id) ON DELETE CASCADE)";
+                string securityquestion = "CREATE TABLE IF NOT EXISTS securityquestion (id INT(11) PRIMARY KEY, question VARCHAR(255) NOT NULL, answer VARCHAR(255) NOT NULL, CONSTRAINT fk_securityquestion_id_accounts FOREIGN KEY (id) REFERENCES accounts(id) ON DELETE CASCADE)";
                 using (var cmd = new MySqlCommand(securityquestion, con))
                 {
                     cmd.ExecuteNonQuery();
@@ -61,7 +61,7 @@ namespace FunWebsiteThing.SQL
             {
                 con.Open();
 
-                string comments = "CREATE TABLE IF NOT EXISTS comments (id INT(11) PRIMARY KEY AUTO_INCREMENT, commentsid INT(11) NOT NULL, userid INT(11) NOT NULL, comment VARCHAR(2550), date DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (userid) REFERENCES accounts(id) ON DELETE CASCADE)";
+                string comments = "CREATE TABLE IF NOT EXISTS comments (id INT(11) PRIMARY KEY AUTO_INCREMENT, commentsid INT(11) NOT NULL, userid INT(11) NOT NULL, comment VARCHAR(2550), date DATETIME DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_comments_id_accounts FOREIGN KEY (userid) REFERENCES accounts(id) ON DELETE CASCADE)";
                 using (var cmd = new MySqlCommand(comments, con))
                 {
                     cmd.ExecuteNonQuery();
@@ -150,7 +150,7 @@ namespace FunWebsiteThing.SQL
             {
                 con.Open();
 
-                string bans = "CREATE TABLE IF NOT EXISTS accountbans (id INT(11) PRIMARY KEY, banned BOOL, reason VARCHAR(255) DEFAULT 'You have been banned.', expire DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id) REFERENCES accounts(id) ON DELETE CASCADE)";
+                string bans = "CREATE TABLE IF NOT EXISTS accountbans (id INT(11) PRIMARY KEY, banned BOOL, reason VARCHAR(255) DEFAULT 'You have been banned.', expire DATETIME DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_accountbans_id_accounts FOREIGN KEY (id) REFERENCES accounts(id) ON DELETE CASCADE)";
                 using (var cmd = new MySqlCommand(bans, con))
                 {
                     cmd.ExecuteNonQuery();
@@ -166,7 +166,7 @@ namespace FunWebsiteThing.SQL
             {
                 con.Open();
 
-                string forum = "CREATE TABLE IF NOT EXISTS forumthreads (topicid INT(11) PRIMARY KEY, id INT(11), title VARCHAR(255), created DATETIME DEFAULT CURRENT_TIMESTAMP, lastpostedin DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id) REFERENCES accounts(id))";
+                string forum = "CREATE TABLE IF NOT EXISTS forumthreads (topicid INT(11) PRIMARY KEY, id INT(11), title VARCHAR(255), created DATETIME DEFAULT CURRENT_TIMESTAMP, lastpostedin DATETIME DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_forumthreads_id_accounts FOREIGN KEY (id) REFERENCES accounts(id))";
                 using (var cmd = new MySqlCommand(forum, con))
                 {
                     cmd.ExecuteNonQuery();
@@ -182,7 +182,23 @@ namespace FunWebsiteThing.SQL
             {
                 con.Open();
 
-                string forum = "CREATE TABLE IF NOT EXISTS forumposts (postid INT(11) PRIMARY KEY, topicid INT(11), id INT(11), post VARCHAR(255), created DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id) REFERENCES accounts(id), FOREIGN KEY (topicid) REFERENCES forumthreads(topicid))";
+                string forum = "CREATE TABLE IF NOT EXISTS forumposts (postid INT(11) PRIMARY KEY, topicid INT(11), id INT(11), post VARCHAR(255), created DATETIME DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_forumposts_id_accounts FOREIGN KEY (id) REFERENCES accounts(id), CONSTRAINT fk_forumposts_topicid_forumthreads FOREIGN KEY (topicid) REFERENCES forumthreads(topicid) ON DELETE CASCADE)";
+                using (var cmd = new MySqlCommand(forum, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+
+                con.Close();
+            }
+        }
+
+        public static void PinnedThreads()
+        {
+            using (var con = Main.Connect())
+            {
+                con.Open();
+
+                string forum = "CREATE TABLE IF NOT EXISTS pinnedthreads (topicid INT(11) PRIMARY KEY, CONSTRAINT fk_pinnedthreads_topicid_forumthreads FOREIGN KEY (topicid) REFERENCES forumthreads(topicid) ON DELETE CASCADE)";
                 using (var cmd = new MySqlCommand(forum, con))
                 {
                     cmd.ExecuteNonQuery();
