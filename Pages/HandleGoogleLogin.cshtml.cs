@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
-using FunWebsiteThing.Controllers.Classes;
+using TannersWebsiteTemplate.Controllers.Classes;
 
 
-namespace FunWebsiteThing.Pages
+namespace TannersWebsiteTemplate.Pages
 {
     // This is the callback page after we initiated the OAuth2 login challenge in Login. We redirect to WelcomeExternal.
     public class HandleGoogleLoginModel : PageModel
@@ -51,7 +51,7 @@ namespace FunWebsiteThing.Pages
 
                     // This is a work around as HttpContext for some reason is initially null/uninitialized during the first time register/login via AccountController, so we just handle it by logging in (making a session) via SessionManager here instead of AccountController's Register method calling it.
                     await _a.Register(email, username, password, "", "", true);
-                    _s.Login(username, FunWebsiteThing.SQL.Accounts.GetUserID(username), 0);
+                    _s.Login(username, TannersWebsiteTemplate.SQL.Accounts.GetUserID(username), 0);
                 }
                 else
                 {

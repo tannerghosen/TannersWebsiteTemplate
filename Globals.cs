@@ -1,4 +1,4 @@
-﻿namespace FunWebsiteThing
+﻿namespace TannersWebsiteTemplate
 {
     public struct Globals
     {

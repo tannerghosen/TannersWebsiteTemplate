@@ -1,4 +1,4 @@
-﻿namespace FunWebsiteThing.SQL
+﻿namespace TannersWebsiteTemplate.SQL
 {
     public static class Forum
     {

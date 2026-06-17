@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.RegularExpressions;
 
-namespace FunWebsiteThing.Pages
+namespace TannersWebsiteTemplate.Pages
 {
     public class ForgetPasswordModel : PageModel
     {

@@ -1,9 +1,9 @@
 ﻿using System.Net.WebSockets;
 using System.Net;
 using System.Text;
-using FunWebsiteThing.Controllers.Classes;
+using TannersWebsiteTemplate.Controllers.Classes;
 
-namespace FunWebsiteThing
+namespace TannersWebsiteTemplate
 {
     public static class WebSocketServer
     {

@@ -1,6 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace FunWebsiteThing.SQL
+namespace TannersWebsiteTemplate.SQL
 {
     public static class Blog
     {

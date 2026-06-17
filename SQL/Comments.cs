@@ -1,7 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Globalization;
 
-namespace FunWebsiteThing.SQL
+namespace TannersWebsiteTemplate.SQL
 {
     public static class Comments
     {
