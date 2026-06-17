@@ -14,7 +14,7 @@ namespace TannersWebsiteTemplate
         /// <summary>
         /// Our log file is located in the program's folder
         /// </summary>
-        public static string Log = "./FWT.log";
+        public static string Log = "./TWT.log";
         /// <summary>
         /// Writes a message to our FWT.log, containing SQL errors / messages, website interactions (login, logout), and debug info when needed.
         /// </summary>

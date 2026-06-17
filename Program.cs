@@ -8,10 +8,10 @@ using System.Net.Http;
 using System.Threading.RateLimiting;
 
 // domainname and sqlconstr are required to continue. If they are not set in your environment variables (global or local), the program will not run. Google OAuth is optional.
-string sqlconstr = Environment.GetEnvironmentVariable("FWTConnectionString"); // FWTConnectionString, MySQL Connction String, syntax looks like this: Server=(server);Database=(db);User ID=(user);Password=(pass);
-string gclientid = Environment.GetEnvironmentVariable("FWTGoogleClientId"); // FWTGoogleClientId, Google Client Id, used for OAuth 2.0 login, Optional
-string gclientsec = Environment.GetEnvironmentVariable("FWTGoogleClientSecret"); // FWTGoogleClientSecret, Google Client Secret, used for OAuth 2.0 login, Optional
-string domainname = Environment.GetEnvironmentVariable("FWTDomainName"); // FWTDomainName, Domain Name used for the website. (example: localhost or www.example.com)
+string sqlconstr = Environment.GetEnvironmentVariable("TWTConnectionString"); // FWTConnectionString, MySQL Connction String, syntax looks like this: Server=(server);Database=(db);User ID=(user);Password=(pass);
+string gclientid = Environment.GetEnvironmentVariable("TWTGoogleClientId"); // FWTGoogleClientId, Google Client Id, used for OAuth 2.0 login, Optional
+string gclientsec = Environment.GetEnvironmentVariable("TWTGoogleClientSecret"); // FWTGoogleClientSecret, Google Client Secret, used for OAuth 2.0 login, Optional
+string domainname = Environment.GetEnvironmentVariable("TWTDomainName"); // FWTDomainName, Domain Name used for the website. (example: localhost or www.example.com)
 
 /* To set up Google Login:
    1. Go to console.cloud.google.com
@@ -27,7 +27,7 @@ if (setcheck.Contains(false))
     Console.WriteLine("Fatal error with program. Ending program, read below.");
     Console.WriteLine($"One or more of the environment variables is not set. You must add and set the environment variables listed in this error for this program to run.");
     Console.WriteLine($"For more clarification, see the project's code in Program.cs");
-    Console.WriteLine($"FWTConnectionString Set: {setcheck[0]} FWTDomainName Set: {setcheck[1]}");
+    Console.WriteLine($"TWTConnectionString Set: {setcheck[0]} TWTDomainName Set: {setcheck[1]}");
     Console.ReadKey();
 
     Environment.Exit(0);
@@ -56,7 +56,7 @@ builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = "TannerGhosensFunWebsiteThing.Session";
+    options.Cookie.Name = "TannersWebsiteTemplate.Session";
     options.Cookie.IsEssential = true;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.Cookie.HttpOnly = true;
