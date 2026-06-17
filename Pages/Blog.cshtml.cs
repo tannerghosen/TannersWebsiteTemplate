@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Reflection;
 
-namespace FunWebsiteThing.Pages
+namespace TannersWebsiteTemplate.Pages
 {
     public class BlogModel : PageModel
     {
