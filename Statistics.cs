@@ -10,19 +10,19 @@
     {
         public async static void IncrementLogins()
         {
-            Logger.Write("Increasementing logins", "STATS");
+            Logger.Write("Incrementing logins", "STATS");
             await SQL.Stats.UpdateStat("logins");
         }
 
         public async static void IncrementRegistrations()
         {
-            Logger.Write("Increasementing registrations", "STATS");
+            Logger.Write("Incrementing registrations", "STATS");
             await SQL.Stats.UpdateStat("registrations");
         }
 
         public async static void IncrementErrors()
         {
-            Logger.Write("Increasementing error total", "STATS");
+            Logger.Write("Incrementing error total", "STATS");
             await SQL.Stats.UpdateStat("registrations");
         }
 
