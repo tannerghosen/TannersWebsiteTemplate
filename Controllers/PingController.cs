@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FunWebsiteThing.Controllers
+namespace TannersWebsiteTemplate.Controllers
 {
     [ApiController]
     [Route("api/")]

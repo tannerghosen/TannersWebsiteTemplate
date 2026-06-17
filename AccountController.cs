@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
-namespace FunWebsiteThing
+namespace TannersWebsiteTemplate
 {
     public class AccountController : Controller
     {

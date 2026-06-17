@@ -1,6 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace FunWebsiteThing.SQL
+namespace TannersWebsiteTemplate.SQL
 {
     // Creates all the tables in the database
     public static class Tables

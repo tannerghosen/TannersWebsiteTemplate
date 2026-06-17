@@ -1,4 +1,4 @@
-using FunWebsiteThing;
+using TannersWebsiteTemplate;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -138,7 +138,7 @@ app.UseEndpoints(endpoints =>
 app.UseStatusCodePagesWithRedirects("/Error?error={0}");
 
 app.MapRazorPages();
-FunWebsiteThing.SQL.Main.Init(sqlconstr);  // Init MySQL classes, also creates tables / triggers / events if they aren't already made.
+TannersWebsiteTemplate.SQL.Main.Init(sqlconstr);  // Init MySQL classes, also creates tables / triggers / events if they aren't already made.
 Globals.DomainName = domainname;
-FunWebsiteThing.WebSocketServer.Start(); // Start the WebSocket Server
+TannersWebsiteTemplate.WebSocketServer.Start(); // Start the WebSocket Server
 app.Run();

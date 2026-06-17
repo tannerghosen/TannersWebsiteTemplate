@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.RateLimiting;
 
-namespace FunWebsiteThing.Pages
+namespace TannersWebsiteTemplate.Pages
 {
     [DisableRateLimiting] // This allows this page to be actually accessible if you're being ratelimited, which is ideal as it tells you you're being ratelimited.
     public class ErrorModel : PageModel

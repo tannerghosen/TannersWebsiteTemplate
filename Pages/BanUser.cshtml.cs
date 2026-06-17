@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace FunWebsiteThing.Pages
+namespace TannersWebsiteTemplate.Pages
 {
     public class BanUserModel : PageModel
     {
