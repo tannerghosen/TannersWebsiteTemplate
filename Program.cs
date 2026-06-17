@@ -8,10 +8,10 @@ using System.Net.Http;
 using System.Threading.RateLimiting;
 
 // domainname and sqlconstr are required to continue. If they are not set in your environment variables (global or local), the program will not run. Google OAuth is optional.
-string sqlconstr = Environment.GetEnvironmentVariable("TWTConnectionString"); // FWTConnectionString, MySQL Connction String, syntax looks like this: Server=(server);Database=(db);User ID=(user);Password=(pass);
-string gclientid = Environment.GetEnvironmentVariable("TWTGoogleClientId"); // FWTGoogleClientId, Google Client Id, used for OAuth 2.0 login, Optional
-string gclientsec = Environment.GetEnvironmentVariable("TWTGoogleClientSecret"); // FWTGoogleClientSecret, Google Client Secret, used for OAuth 2.0 login, Optional
-string domainname = Environment.GetEnvironmentVariable("TWTDomainName"); // FWTDomainName, Domain Name used for the website. (example: localhost or www.example.com)
+string sqlconstr = Environment.GetEnvironmentVariable("TWTConnectionString"); // TWTConnectionString, MySQL Connction String, syntax looks like this: Server=(server);Database=(db);User ID=(user);Password=(pass);
+string gclientid = Environment.GetEnvironmentVariable("TWTGoogleClientId"); // TWTGoogleClientId, Google Client Id, used for OAuth 2.0 login, Optional
+string gclientsec = Environment.GetEnvironmentVariable("TWTGoogleClientSecret"); // TWTGoogleClientSecret, Google Client Secret, used for OAuth 2.0 login, Optional
+string domainname = Environment.GetEnvironmentVariable("TWTDomainName"); // TWTDomainName, Domain Name used for the website. (example: localhost or www.example.com)
 
 /* To set up Google Login:
    1. Go to console.cloud.google.com
