@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using TannersWebsiteTemplate.Models;
 
 namespace TannersWebsiteTemplate.SQL
 {
@@ -77,7 +78,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Gets a blog post by blogid
-        public static (string? title, string? message, string? date) GetBlogPost(int? blogid)
+        public static BlogPost GetBlogPost(int? blogid)
         {
             string? title = null, message = null, date = null;
             try
@@ -91,7 +92,7 @@ namespace TannersWebsiteTemplate.SQL
                         cmd.Parameters.AddWithValue("@id", blogid);
                         using (var reader = cmd.ExecuteReader())
                         {
-                            if (reader.Read()) 
+                            if (reader.Read())
                             {
                                 title = reader.GetString(0);
                                 message = reader.GetString(1);
@@ -99,17 +100,17 @@ namespace TannersWebsiteTemplate.SQL
                             }
                             else
                             {
-                                return (null, null, null);
+                                return new BlogPost { Title = null, Message = null, Date = null };
                             }
                         }
                     }
-                    return (title, message, date);
+                    return new BlogPost { Title = title , Message = message, Date = date };
                 }
             }
             catch (MySqlException e)
             {
                 Logger.Write("SQL.Blog: An error occured in GetBlogPost: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
-                return (null, null, null);
+                return new BlogPost { Title = null, Message = null, Date = null };
             }
         }
 

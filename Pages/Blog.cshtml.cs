@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using TannersWebsiteTemplate.Models;
 using System.Reflection;
 
 namespace TannersWebsiteTemplate.Pages
@@ -34,13 +35,16 @@ namespace TannersWebsiteTemplate.Pages
             {
                 Post = SQL.Blog.GetBlogPostCount();
             }
-            (Title, Message, Date) = SQL.Blog.GetBlogPost(Post); //  Get the post to be displayed in the page
             if (SQL.Blog.DoesBlogPostExist(Post) == false)
             {
                 Title = "Deleted Post";
                 Message = "This post was deleted";
                 Date = "Unknown";
             }
+            BlogPost blogpost = SQL.Blog.GetBlogPost(Post); //  Get the post to be displayed in the page
+            Title = blogpost.Title;
+            Message = blogpost.Message;
+            Date = blogpost.Date;
         }
 
         public async Task<IActionResult> OnPost()
