@@ -1,11 +1,6 @@
-﻿namespace TannersWebsiteTemplate
+﻿using TannersWebsiteTemplate.Models;
+namespace TannersWebsiteTemplate
 {
-    public struct Stats
-    {
-        public int Logins;
-        public int Registrations;
-        public int Errors;
-    }
     public static class Statistics
     {
         public async static void IncrementLogins()
