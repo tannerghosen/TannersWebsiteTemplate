@@ -9,7 +9,7 @@ body
 
 html, body 
 {
-	height: 100%;
+	height: 150vh;
 	background: $black;
 	color: $white;
 	transition: background-color 0.5s ease;
@@ -436,14 +436,14 @@ td
 	margin: 0 auto;
 	max-width: 100%;
 	min-width: 100%;
-	width: 100%;
+	width: 50%;
 }
 
 table 
 {
 	display: block;
 	overflow-x: auto;
-	max-height: 150px;
+	max-height: 40vh;
 	max-width: 800px;
 	min-width: 800px;
 	width: 800px;
@@ -518,4 +518,21 @@ input {
 .submit input 
 {
 	color: $white !important;
+}
+
+.footer 
+{
+	background-color: $almostblack;
+	color: $white !important;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+}
+
+.lightmode .footer 
+{
+	background-color: $lightergray !important;
+	color: $black !important;
 }
