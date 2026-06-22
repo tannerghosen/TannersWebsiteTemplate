@@ -29,10 +29,6 @@ namespace TannersWebsiteTemplate.SQL
                 Tables.Stats(); // stats table
                 Tables.Bans(); // bans table
                 Triggers.UnbanOnExpireIP(); // unban on expire IP event
-                Tables.ForumThreads();
-                Tables.PinnedThreads();
-                Tables.ForumPosts();
-                Triggers.AccountDeleteForum();
             }
             else
             {

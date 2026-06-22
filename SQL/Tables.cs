@@ -159,53 +159,5 @@ namespace TannersWebsiteTemplate.SQL
                 con.Close();
             }
         }
-
-        public static void ForumThreads()
-        {
-            using (var con = Main.Connect())
-            {
-                con.Open();
-
-                string forum = "CREATE TABLE IF NOT EXISTS forumthreads (topicid INT(11) PRIMARY KEY, id INT(11), title VARCHAR(255), created DATETIME DEFAULT CURRENT_TIMESTAMP, lastpostedin DATETIME DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_forumthreads_id_accounts FOREIGN KEY (id) REFERENCES accounts(id))";
-                using (var cmd = new MySqlCommand(forum, con))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-
-                con.Close();
-            }
-        }
-
-        public static void ForumPosts()
-        {
-            using (var con = Main.Connect())
-            {
-                con.Open();
-
-                string forum = "CREATE TABLE IF NOT EXISTS forumposts (postid INT(11) PRIMARY KEY, topicid INT(11), id INT(11), post MEDIUMTEXT, created DATETIME DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_forumposts_id_accounts FOREIGN KEY (id) REFERENCES accounts(id), CONSTRAINT fk_forumposts_topicid_forumthreads FOREIGN KEY (topicid) REFERENCES forumthreads(topicid) ON DELETE CASCADE)";
-                using (var cmd = new MySqlCommand(forum, con))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-
-                con.Close();
-            }
-        }
-
-        public static void PinnedThreads()
-        {
-            using (var con = Main.Connect())
-            {
-                con.Open();
-
-                string forum = "CREATE TABLE IF NOT EXISTS pinnedthreads (topicid INT(11) PRIMARY KEY, CONSTRAINT fk_pinnedthreads_topicid_forumthreads FOREIGN KEY (topicid) REFERENCES forumthreads(topicid) ON DELETE CASCADE)";
-                using (var cmd = new MySqlCommand(forum, con))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-
-                con.Close();
-            }
-        }
     }
 }
