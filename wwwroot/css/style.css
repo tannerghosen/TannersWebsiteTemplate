@@ -349,6 +349,12 @@ td {
   width: 50%;
 }
 
+.commentsection .post {
+  overflow-x: auto;
+  max-width: 75%;
+  min-width: 75%;
+}
+
 table {
   display: block;
   overflow-x: auto;
