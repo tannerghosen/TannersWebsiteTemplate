@@ -1,6 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+html, body {
+  height: 150vh;
+}
+
 #links, #linksthebutton {
   font-size: 85%;
+}
+
+#Comment {
+  width: 50%;
+}
+
+.blog {
+  max-width: 50vw;
+}
+
+.commentsection {
+  width: 100%;
+}
+
+.commentsection .post {
+  overflow-x: auto;
+  max-width: 25%;
+  min-width: 25%;
 }
 
 @media (min-width: 480px) and (max-width: 720px) {
@@ -10,7 +32,7 @@
   .container {
     height: 60vh; /* screen height */
     max-height: 65vh;
-    max-width: 75%;
+    max-width: 100%;
     top: 5%;
     overflow: hidden;
   }
@@ -49,7 +71,7 @@
   .container {
     height: 60vh; /* screen height */
     max-height: 65vh;
-    max-width: 75%;
+    max-width: 100%;
     top: 5%;
     overflow: hidden;
   }
@@ -88,7 +110,7 @@
   .container {
     height: 60vh; /* screen height */
     max-height: 65vh;
-    max-width: 85%;
+    max-width: 100%;
     top: 5%;
     overflow: hidden;
   }
@@ -128,7 +150,7 @@
   .container {
     height: 60vh; /* screen height */
     max-height: 65vh;
-    max-width: 95%;
+    max-width: 100%;
     top: 5%;
     overflow: hidden;
   }

@@ -13,8 +13,12 @@ document.addEventListener("DOMContentLoaded", () =>
 	// Mobile Check
 	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
 	{
+		const url = window.location.href;
 		let link = document.createElement("link");
-		link.href = "./css/mobile.css";
+		if (!url.includes("/Blog/") && !url.includes("/Profile/"))
+			link.href = "./css/mobile.css";
+		else
+			link.href = "../css/mobile.css";
 		link.rel = "stylesheet";
 		document.head.appendChild(link);
 	}
