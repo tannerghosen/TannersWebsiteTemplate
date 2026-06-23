@@ -1,28 +1,31 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 html, body {
-  height: 150vh;
+  height: 100vh;
 }
 
 #links, #linksthebutton {
   font-size: 85%;
 }
 
-#Comment {
-  width: 50%;
-}
-
 .blog {
   max-width: 50vw;
 }
 
-.commentsection {
-  width: 100%;
+table {
+  max-height: 20vh;
+  max-width: 300px;
+  min-width: 300px;
+  width: 300px;
 }
 
-.commentsection .post {
-  overflow-x: auto;
-  max-width: 25%;
-  min-width: 25%;
+input, #commentbox {
+  width: 100%;
+  font-size: 1em;
+}
+
+#app {
+  height: 50vh;
+  overflow: visible;
 }
 
 @media (min-width: 480px) and (max-width: 720px) {
@@ -30,7 +33,7 @@ html, body {
     font-size: 80%;
   }
   .container {
-    height: 60vh; /* screen height */
+    height: 100vh; /* screen height */
     max-height: 65vh;
     max-width: 100%;
     top: 5%;
@@ -69,7 +72,7 @@ html, body {
     font-size: 80%;
   }
   .container {
-    height: 60vh; /* screen height */
+    height: 100vh; /* screen height */
     max-height: 65vh;
     max-width: 100%;
     top: 5%;
@@ -108,7 +111,7 @@ html, body {
     font-size: 70%;
   }
   .container {
-    height: 60vh; /* screen height */
+    height: 100vh; /* screen height */
     max-height: 65vh;
     max-width: 100%;
     top: 5%;
@@ -148,7 +151,7 @@ html, body {
     font-size: 60%;
   }
   .container {
-    height: 60vh; /* screen height */
+    height: 100vh; /* screen height */
     max-height: 65vh;
     max-width: 100%;
     top: 5%;

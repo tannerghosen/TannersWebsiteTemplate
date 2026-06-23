@@ -474,14 +474,6 @@ table
 	margin: 0 auto;
 }
 
-#Comment 
-{
-	resize: none;
-	max-width: 100%;
-	min-width: 100%;
-	width: 100%;
-}
-
 .blog 
 {
 	text-align: center;
@@ -541,4 +533,12 @@ input {
 {
 	background-color: $lightergray !important;
 	color: $black !important;
+}
+
+#commentbox 
+{
+	width: 100%;
+	resize: none;
+	max-width: 100%;
+	min-width: 100%;
 }

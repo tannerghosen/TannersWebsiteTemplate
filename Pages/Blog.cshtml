@@ -30,7 +30,7 @@
             // eventually this if statement will be altered a bit to consider blog posts that don't want comments enabled
             <form method="post">
                 <fieldset>
-                <textarea style="margin: auto; color: #111" rows="5" col="200" asp-for="Comment"></textarea>
+                <textarea id="commentbox" style="margin: auto; color: #111" rows="5" col="200" asp-for="Comment"></textarea>
                 <input type="hidden" name="CS" value="@Model.Post" />
                 <input type="hidden" asp-for="Title" value="@Model.Title" />
                 <input type="hidden" asp-for="Message" value="@Model.Message" />
@@ -93,3 +93,9 @@ else
 {
     <a href="/BlogPost">Add Blog Post</a>
 }
+<script>
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+{
+    document.getElementById("commentbox").rows = 1;
+}
+</script>
