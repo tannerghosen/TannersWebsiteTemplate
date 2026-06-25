@@ -18,7 +18,7 @@ namespace TannersWebsiteTemplate
         public async static void IncrementErrors()
         {
             Logger.Write("Incrementing error total", "STATS");
-            await SQL.Stats.UpdateStat("registrations");
+            await SQL.Stats.UpdateStat("errors");
         }
 
         public async static void ResetStats()
