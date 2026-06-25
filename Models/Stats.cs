@@ -1,6 +1,6 @@
 ﻿namespace TannersWebsiteTemplate.Models
 {
-    public struct Stats
+    public class Stats
     {
         public int Logins;
         public int Registrations;

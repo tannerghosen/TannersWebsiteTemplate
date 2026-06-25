@@ -1,6 +1,6 @@
 ﻿namespace TannersWebsiteTemplate.Models
 {
-    public struct Comment
+    public class Comment
     {
     }
 }

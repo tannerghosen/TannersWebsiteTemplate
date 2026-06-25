@@ -1,6 +1,6 @@
 ﻿namespace TannersWebsiteTemplate.Models
 {
-    public struct BlogPost
+    public class BlogPost
     {
         public string? Title { get; set; }
         public string? Message { get; set; }
