@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using TannersWebsiteTemplate.Models;
 
 namespace TannersWebsiteTemplate.SQL
 {
@@ -77,7 +78,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Get the stats table as an int array
-        public static int[] GetStats()
+        public static Models.Stats GetStats()
         {
             int logins = 0, registrations = 0, errors = 0;
             try
@@ -130,13 +131,13 @@ namespace TannersWebsiteTemplate.SQL
                             }
                         }
                     }
-                    return new int[] { logins, registrations, errors };
+                    return new Models.Stats { Logins = logins, Registrations = registrations, Errors = errors };
                 }
             }
             catch (MySqlException e)
             {
                 Logger.Write("SQL.Stats: An error occured in GetStats " + e.Message + "\nSQL.Stats: Error Code: " + e.ErrorCode, "ERROR");
-                return new int[] { 0, 0, 0 };
+                return new Models.Stats { Logins = 0, Registrations = 0, Errors = 0 };
             }
         }
     }
