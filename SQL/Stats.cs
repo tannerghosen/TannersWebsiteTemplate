@@ -13,17 +13,22 @@ namespace TannersWebsiteTemplate.SQL
                 {
                     con.Open();
                     string query = "";
-                    if (stat == "logins" || stat == "Logins")
+                    switch (stat)
                     {
-                        query = "UPDATE stats SET count = count + 1 WHERE stat = 'logins'";
-                    }
-                    else if (stat == "registrations" || stat == "Registrations")
-                    {
-                        query = "UPDATE stats SET count = count + 1 WHERE stat = 'registrations'";
-                    }
-                    else if (stat == "errors" || stat == "Errors")
-                    {
-                        query = "UPDATE stats SET count = count + 1 WHERE stat = 'errors'";
+                        case "logins":
+                        case "Logins":
+                            query = "UPDATE stats SET count = count + 1 WHERE stat = 'logins'";
+                            break;
+                        case "registrations":
+                        case "Registrations":
+                            query = "UPDATE stats SET count = count + 1 WHERE stat = 'registrations'";
+                            break;
+                        case "errors":
+                        case "Errors":
+                            query = "UPDATE stats SET count = count + 1 WHERE stat = 'errors'";
+                            break;
+                        default:
+                            break;
                     }
                     using (var cmd = new MySqlCommand(query, con))
                     {
