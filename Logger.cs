@@ -16,7 +16,7 @@ namespace TannersWebsiteTemplate
         /// </summary>
         public static string Log = "./TWT.log";
         /// <summary>
-        /// Writes a message to our FWT.log, containing SQL errors / messages, website interactions (login, logout), and debug info when needed.
+        /// Writes a message to our TWT.log, containing SQL errors / messages, website interactions (login, logout), and debug info when needed.
         /// </summary>
         /// <param name="message"></param>
         /// <param name="messagetype"></param>
