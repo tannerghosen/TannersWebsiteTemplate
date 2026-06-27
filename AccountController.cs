@@ -57,7 +57,7 @@ namespace TannersWebsiteTemplate
             return StatusCode(403, "You're already logged in.");
         }
 
-        public async Task<IActionResult> Register(string Email, string Username, string Password, string? SecurityQuestion = null, string? Answer = null, bool External = false)
+        public async Task<IActionResult> Register(string Email, string Username, string Password, string? SecurityQuestion = null, string? Answer = null)
         {
             if(!_s.IsUserLoggedIn())
             {
@@ -65,11 +65,7 @@ namespace TannersWebsiteTemplate
                 (bool result, bool error) = await SQL.Accounts.Register(Email, Username, Password, sid); 
                 if (result == true)
                 {
-                    // We have this if statement here in case it's an External login. The HttpContext is null/uninitialized on the callback page (see the comment), so we handle the session stuff there.
-                    if (External == false) 
-                    {
-                        _s.Login(Username, SQL.Accounts.GetUserID(Username), sid);
-                    }
+                    _s.Login(Username, SQL.Accounts.GetUserID(Username), sid);
                     await SQL.Accounts.CreateSecurityQuestion(SQL.Accounts.GetUserID(Username), SecurityQuestion, Answer);
                     IncrementRegistrations();
                     return Ok("Account Registered. Logged into " + Username + ".");
