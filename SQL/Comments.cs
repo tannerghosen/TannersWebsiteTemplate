@@ -1,5 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
+using TannersWebsiteTemplate.Models;
 using System.Globalization;
+using System.Reflection.PortableExecutable;
 
 namespace TannersWebsiteTemplate.SQL
 {
@@ -44,20 +46,17 @@ namespace TannersWebsiteTemplate.SQL
             }
         }
 
-        // Grabs usernames, comments, and dates from database and returns them as arrays
-        public static string[][] GrabComments(int section = 0)
+        // Gets the comments for a specified section and puts them into a CommentSection model
+        public static CommentSection GetCommentSection(int section = 0)
         {
-            List<string> usernames = new List<string>();
-            List<string> comments = new List<string>();
-            List<string> dates = new List<string>();
-            List<string> ids = new List<string>();
+            CommentSection cs = new CommentSection();
             try
             {
                 using (var con = Main.Connect())
                 {
                     con.Open();
-                    // SELECT account username, comments comment, comments date FROM comments JOIN accounts on comments userid = accounts id WHERE commentsid = section ORDER BY comments date DESC
-                    string query = @"SELECT a.username, c.comment, c.date, c.id FROM comments c JOIN accounts a ON a.id = c.userid WHERE c.commentsid = @section ORDER BY c.date DESC";
+                    // SELECT account id, account username, comments comment, comments date, comments id FROM comments JOIN accounts on comments userid = accounts id WHERE commentsid = section ORDER BY comments date DESC
+                    string query = @"SELECT a.id, a.username, c.comment, c.date, c.id FROM comments c JOIN accounts a ON a.id = c.userid WHERE c.commentsid = @section ORDER BY c.date DESC";
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@section", section);
@@ -67,21 +66,18 @@ namespace TannersWebsiteTemplate.SQL
                             {
                                 while (reader.Read())
                                 {
-                                    usernames.Add(reader.GetString(0));
-                                    ids.Add(Convert.ToString(reader.GetInt32(3)));
-                                    comments.Add(reader.GetString(1));
-                                   // var date = DateTime.ParseExact(reader.GetDateTime(2), "g", CultureInfo.InvariantCulture);
-                                    dates.Add(Convert.ToString(reader.GetDateTime(2)));
+                                    //Comment c = new Comment { UserId = reader.GetInt32(0), Username = reader.GetString(1), Content = reader.GetString(2), Date = Convert.ToString(reader.GetDateTime(3)), CommentSId = reader.GetInt32(4) };
+                                    cs.Comments.Add(new Comment { UserId = reader.GetInt32(0), Username = reader.GetString(1), Content = reader.GetString(2), Date = Convert.ToString(reader.GetDateTime(3)), CommentSId = reader.GetInt32(4) });
                                 }
                             }
                         }
                     }
-                    return new string[][] { usernames.ToArray(), comments.ToArray(), dates.ToArray(), ids.ToArray() };
+                    return cs;
                 }
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Comments: An error occured in GrabComments: " + e.Message + "\nSQL.Comments: Error Code: " + e.ErrorCode, "ERROR");
+                Logger.Write("SQL.Comments: An error occured in GetCommentSection: " + e.Message + "\nSQL.Comments: Error Code: " + e.ErrorCode, "ERROR");
                 return null;
             }
         }

@@ -1,5 +1,6 @@
 ﻿@page
 @using System.Globalization
+@using TannersWebsiteTemplate.Models;
 @model BlogModel
 @{
     ViewData["Title"] = Model.Title;//title;
@@ -49,29 +50,26 @@
     <div class="commentsection">
         <table>
             @{
-                string[][] array = SQL.Comments.GrabComments(Model.Post);
-                var (usernames, comments, dates, ids) = (array[0], array[1], array[2], array[3]);
-                if (usernames.Length == 0 || usernames == null || Model.Title == "Deleted Post")
+                if (Model.cs.Comments.Count == 0 || Model.cs == null || Model.Title == "Deleted Post")
                 {
                     <tr><td><b>No comments available...</b></td></tr>
                 }
                 else
                 {
-                    for (int i = 0; i < usernames.Length; i++)
+                    foreach (Comment comment in Model.cs.Comments)
                     {
                         <tr>
-                            <td><b><a asp-page="/Profile" asp-route-id="@SQL.Accounts.GetUserID(@usernames[i])">@usernames[i]</a></b> (@dates[i])</td>
-                            <!--<td><b><a asp-page="/Profile" asp-route-UserId="@SQL.Accounts.GetUserID(@usernames[i])">@usernames[i]</a></b> (@dates[i])</td>-->
+                            <td><b><a asp-page="/Profile" asp-route-id="@comment.UserId">@comment.Username</a></b> (@comment.Date)</td>
                             <td class="post">
-                                @comments[i]
+                                @comment.Content
                             </td>
                             @if (HttpContext.Session.GetInt32("IsAdmin") == 1 && SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId"))) // if the user is admin in session and is admin in the database
                             {
                                 <td>
                                     <form method="post" asp-page-handler="Delete">
-                                        <input type="hidden" name="commentid" value="@ids[i]" />
+                                        <input type="hidden" name="commentid" value="@Model.Post" />
                                         <input type="hidden" name="CS" value="@Model.Post" />
-                                        <input type="hidden" asp-for="Title" value="@Model.Title" /> 
+                                        <input type="hidden" asp-for="Title" value="@Model.Title" />
                                         <input type="hidden" asp-for="Message" value="@Model.Message" />
                                         <button type="submit">Delete</button>
                                     </form>

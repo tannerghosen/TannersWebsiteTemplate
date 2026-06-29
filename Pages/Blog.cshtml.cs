@@ -23,6 +23,8 @@ namespace TannersWebsiteTemplate.Pages
         [BindProperty]
         public string Date { get; set; }
 
+        [BindProperty]
+        public CommentSection cs { get; set; }
         public void OnGet()
         {
             //Post = Convert.ToInt32(Request.Query["Post"]);
@@ -45,6 +47,7 @@ namespace TannersWebsiteTemplate.Pages
             Title = blogpost.Title;
             Message = blogpost.Message;
             Date = blogpost.Date;
+            cs = SQL.Comments.GetCommentSection(Post);
         }
 
         public async Task<IActionResult> OnPost()
