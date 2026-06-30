@@ -20,8 +20,8 @@ html, body
 .container {
 	/* flexbox */
 	max-width: 65%; /* we don't need a lot of space */
-	height: 45vh; /* screen height */
-	max-height: 45vh;
+	/*height: 45vh; /* screen height */
+	/*max-height: 45vh;*/
 	min-width: 60%;
 	display: flex;
 	flex-direction: column; /* display as a column */
