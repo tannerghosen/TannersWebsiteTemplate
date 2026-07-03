@@ -14,21 +14,18 @@
     <span>
         @if (Model.Post > 1)
         {
-            <!--<a href="/Blog?Post=@(Model.Post - 1)">Back</a>-->
             <a href="/Blog/@(Model.Post - 1)">Back</a>
         }
         @if (Model.Post < SQL.Blog.GetBlogPostCount()) // if post id is less than total blog posts
         {
-            <!--<a href="/Blog?Post=@(Model.Post + 1)">Next</a>-->
             <a href="/Blog/@(Model.Post + 1)">Next</a>
         }
     </span>
     <!-- Comment Section -->
     <div>
-        
-        @if ((Model.Title != "Deleted Post" && Model.Title != null))
+
+        @if ((Model.Title != "Deleted Post" && Model.Title != null)) // eventually this if statement will be altered a bit to consider blog posts that don't want comments enabled
         {
-            // eventually this if statement will be altered a bit to consider blog posts that don't want comments enabled
             <form method="post">
                 <fieldset>
                 <textarea id="commentbox" style="margin: auto; color: #111" rows="5" col="200" asp-for="Comment"></textarea>

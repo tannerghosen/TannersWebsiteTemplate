@@ -53,7 +53,7 @@ namespace TannersWebsiteTemplate.Pages
         public async Task<IActionResult> OnPost()
         {
             Post = int.TryParse(Request.Form["CS"], out int cs) ? cs : 0; // What post this comment belongs to (CS input in form on page)
-            string username = HttpContext.Session.GetString("Username") ?? "Anonymous"; // if the user is not logged in, use anonymous
+            string username = SQL.Accounts.DoesUserExist(HttpContext.Session.GetString("Username")) ? HttpContext.Session.GetString("Username") : "Anonymous"; // if the user is not logged in, use anonymous
             await SQL.Comments.AddComment(Comment, username, Post);
 
             return RedirectToPage("/Blog", new { post = Post});
