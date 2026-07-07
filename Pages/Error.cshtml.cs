@@ -20,7 +20,7 @@ namespace TannersWebsiteTemplate.Pages
             {
                 case 0:
                 default:
-                    ErrorMessage = "A server error has occured.";
+                    ErrorMessage = "A server error has occurred.";
                     break;
                 case 404:
                     ErrorMessage = "This page does not exist.";
