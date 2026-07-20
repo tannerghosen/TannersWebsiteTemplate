@@ -14,24 +14,8 @@
         <thead><tr><td>User ID</td><td>Username</td><td>Email</td><td>Session ID</td><td>Security Question</td><td>Are they Admin?</td><td>Delete User</td><td>Update User</td><td>Admin User</td><td>Ban / Unban User</td></tr></thead>
         <tbody>
             @{
-                // Accounts / Security Question Tables joined as a 2d array (row, column). each user entry is 1 row, with multiple columns
-                string[]?[]? info = SQL.Admin.GrabAccountsTable();
-                // newinfo is the same as the above Accounts Table outside of row[5] being modified from being a boolean true/false to a Yes/No via a select statement
-                string[][] newinfo = info.Select(row =>
-                {
-                    if (Convert.ToBoolean(row[5]) == true) // if the result of column 5 (Are they Admin?) is true, set it to Yes, else No
-                    {
-                        row[5] = "Yes";
-                    }
-                    else
-                    {
-                        row[5] = "No";
-                    }
-                    return row;
-                }).ToArray();
-
                 // for-each to add a row to our table for each account in accounts table, alongside add functionality to drop/alter them without having to open up MySQL's command prompt
-                foreach(string[] row in newinfo)
+                foreach(string[] row in Model.AccountsTable)
                 {
                     string updateurl = "/Update?Id="+row[0];
                     string banurl = "/BanUser?Id=" + row[0];
@@ -88,16 +72,12 @@
                 }
             </tbody>
         </table>        
-        @{
-            // Get our stats from the sql db
-            Stats stats = Statistics.GetStats();
-        }
         <table>
             <tbody>
                 <tr><td>Stat</td><td>Count</td></tr>
-                <tr><td>Logins</td><td>@stats.Logins</td></tr>
-                <tr><td>Registrations</td><td>@stats.Registrations</td></tr>
-                <tr><td>Errors</td><td>@stats.Errors</td></tr>
+                <tr><td>Logins</td><td>@Model.stats.Logins</td></tr>
+                <tr><td>Registrations</td><td>@Model.stats.Registrations</td></tr>
+                <tr><td>Errors</td><td>@Model.stats.Errors</td></tr>
                 <tr><td>
                                 <form method="post" asp-page-handler="ResetStats">
                                     <button type="submit">Reset Stats</button>
