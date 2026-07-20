@@ -33,4 +33,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Status.cs" />
+  </ItemGroup>
+
 </Project>

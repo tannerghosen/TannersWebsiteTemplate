@@ -12,10 +12,10 @@
 <button id="send">Send</button>
 <div id="messages"></div>
 @{
-    string Password = WebSocketServer.GetAccessPassword();
+    string Password = Status.GetAccessPassword();
 }
 <script>
-            const websocket = new WebSocket("ws://@Globals.DomainName:5000/");
+            const websocket = new WebSocket("wss://@Globals.DomainName/ws");
 
             websocket.onopen = () =>
             {

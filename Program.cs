@@ -120,6 +120,13 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseWebSockets();
+
+var WebSocketOptions = new WebSocketOptions
+{
+    KeepAliveInterval = TimeSpan.FromSeconds(120)
+};
+
 app.UseRouting();
 
 app.UseSession();
@@ -133,8 +140,9 @@ app.UseEndpoints(endpoints =>
 
 app.UseStatusCodePagesWithRedirects("/Error?error={0}");
 
+
 app.MapRazorPages();
 TannersWebsiteTemplate.SQL.Main.Init(sqlconstr);  // Init MySQL classes, also creates tables / triggers / events if they aren't already made.
 Globals.DomainName = domainname;
-TannersWebsiteTemplate.WebSocketServer.Start(); // Start the WebSocket Server
+TannersWebsiteTemplate.Status.CreateAccessPassword(); // Create the Access Password
 app.Run();

@@ -71,7 +71,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/main.js"></script>
     <script>
-        const websocket = new WebSocket("ws://@Globals.DomainName:5000/");
+        const websocket = new WebSocket("wss://@Globals.DomainName/ws");
 
                 websocket.onopen = () =>
                 {
