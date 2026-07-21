@@ -36,7 +36,7 @@ namespace TannersWebsiteTemplate
                 {
                     if (!SQL.Admin.IsUserBannedSimple(SQL.Accounts.GetUserID(Username))) // if user is not banned
                     {
-                        _s.Login(Username, SQL.Accounts.GetUserID(Username), sid);
+                        await _s.Login(Username, SQL.Accounts.GetUserID(Username), sid);
                         IncrementLogins();
                         return Ok("Login successful. Logged in as: " + Username + ".");
                     }
@@ -65,7 +65,7 @@ namespace TannersWebsiteTemplate
                 (bool result, bool error) = await SQL.Accounts.Register(Email, Username, Password, sid); 
                 if (result == true)
                 {
-                    _s.Login(Username, SQL.Accounts.GetUserID(Username), sid);
+                    await _s.Login(Username, SQL.Accounts.GetUserID(Username), sid);
                     await SQL.Accounts.CreateSecurityQuestion(SQL.Accounts.GetUserID(Username), SecurityQuestion, Answer);
                     IncrementRegistrations();
                     return Ok("Account Registered. Logged into " + Username + ".");
@@ -82,12 +82,12 @@ namespace TannersWebsiteTemplate
             return StatusCode(403, "You're already logged in, no need to register an account!");
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
             string? username = _s.GetSession().Username;
             if (_s.IsUserLoggedIn() && (username != null || username != ""))
             {
-                _s.Logout();
+                await _s.Logout();
                 return Ok("Logged out of "+ username);
             }
             return BadRequest("You're not logged in.");

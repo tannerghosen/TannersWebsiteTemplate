@@ -19,9 +19,9 @@ namespace TannersWebsiteTemplate.Pages
                 Response.Redirect("/Index");
             }
         }
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
-            _a.Logout();
+            await _a.Logout();
             Logger.Write("Logging out this user: " + HttpContext.Session.GetString("Username") + " " + HttpContext.Session.GetInt32("UserId") + " " + HttpContext.Session.GetInt32("SessionId") + " " + HttpContext.Session.GetInt32("IsLoggedIn"), "LOGOUT");
 
             return Redirect("/Index");
