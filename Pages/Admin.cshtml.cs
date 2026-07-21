@@ -21,6 +21,10 @@ namespace TannersWebsiteTemplate.Pages
         }
         public void OnGet()
         {
+            if (HttpContext.Session.GetInt32("IsAdmin") != 1 || !SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
+            {
+                Response.Redirect("/Index");
+            }
             // Accounts / Security Question Tables joined as a 2d array (row, column). each user entry is 1 row, with multiple columns
             AccountsTable = SQL.Admin.GrabAccountsTable();
             // row[5] being modified from being a boolean true / false to a Yes / No via a select statement
@@ -36,10 +40,6 @@ namespace TannersWebsiteTemplate.Pages
                 }
                 return row;
             }).ToArray();
-            if (HttpContext.Session.GetInt32("IsAdmin") != 1 || !SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
-            {
-                Response.Redirect("/Index");
-            }
             stats = Statistics.GetStats();
         }
 
