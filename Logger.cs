@@ -29,12 +29,12 @@ namespace TannersWebsiteTemplate
             StackFrame grandparentsf = st.GetFrame(2); // this is the grandparent (parent's parent) of the method call
             using (StreamWriter writer = new StreamWriter(Log, true))
             {
-                writer.WriteLine("(" + Time + ") [" + messagetype + "]: " + message);
+                await writer.WriteLineAsync("(" + Time + ") [" + messagetype + "]: " + message);
                 if (messagetype == "ERROR" || messagetype == "DEBUG") // if error, let's help out by giving the stack trace
                 {
                     if (messagetype == "ERROR") Statistics.IncrementErrors();
                     string stack = grandparentsf != null ? grandparentsf.GetMethod().Name + " -> " + parentsf.GetMethod().Name : parentsf.GetMethod().Name; // this is a string that says Grandparent -> Parent
-                    writer.WriteLine("(" + Time + ") [" + messagetype + "]: " + messagetype == "ERROR" ? flavortexts[0] : flavortexts[1] + " " + stack + ".");
+                    await writer.WriteLineAsync("(" + Time + ") [" + messagetype + "]: " + messagetype == "ERROR" ? flavortexts[0] : flavortexts[1] + " " + stack + ".");
                 }
                 writer.Close();
             }
