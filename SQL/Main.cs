@@ -66,14 +66,14 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                _ = Logger.Write("SQL: Something is wrong with MySQL.\nError provided: " + e.Message + "\nSQL: Error Code: " + e.ErrorCode, "SQL");
-                Console.WriteLine("SQL: Something is wrong with MySQL.\nError provided: " + e.Message + "\nSQL: Error Code: " + e.ErrorCode);
+                _ = Logger.Write("SQL: Something is wrong with the MySQL connection string.\nError provided: " + e.Message + "\nSQL: Error Code: " + e.ErrorCode, "SQL");
+                Console.WriteLine("SQL: Something is wrong with the MySQL connection string.\nError provided: " + e.Message + "\nSQL: Error Code: " + e.ErrorCode);
                 return false;
             }
             catch (Exception ex)
             {
-                _ = Logger.Write("SQL: Something is wrong with MySQL that caused a regular exception.\nError provided: " + ex.Message, "SQL");
-                Console.WriteLine("SQL: Something is wrong with MySQL that caused a regular exception.\nError provided: " + ex.Message);
+                _ = Logger.Write("SQL: Something is wrong with the MySQL connection string that caused a regular exception.\nError provided: " + ex.Message, "SQL");
+                Console.WriteLine("SQL: Something is wrong withthe MySQL connection string that caused a regular exception.\nError provided: " + ex.Message);
                 return false;
             }
         }
