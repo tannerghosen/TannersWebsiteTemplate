@@ -13,7 +13,14 @@ namespace TannersWebsiteTemplate.Controllers
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-                await webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes((Status.status == "" ? "" : Status.status))), WebSocketMessageType.Text, true, CancellationToken.None);
+                try
+                {
+                    await webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes((Status.status == "" ? "" : Status.status))), WebSocketMessageType.Text, true, CancellationToken.None);
+                }
+                catch (WebSocketException wse)
+                {
+                    await Logger.Write(wse.Message, "WEBSOCKET");
+                }
                 await Echo(webSocket);
             }
             else
@@ -68,13 +75,7 @@ namespace TannersWebsiteTemplate.Controllers
             }
             catch (WebSocketException wse)
             {
-                Logger.Write(wse.Message, "WEBSOCKET");
-                Console.WriteLine(wse.Message);
-            }
-            catch (Exception e)
-            {
-                Logger.Write(e.ToString(), "WEBSOCKET");
-                Console.WriteLine(e.ToString());
+                await Logger.Write(wse.Message, "WEBSOCKET");
             }
         }
     }
