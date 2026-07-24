@@ -24,6 +24,8 @@ bool[] setcheck = { !string.IsNullOrWhiteSpace(sqlconstr), !string.IsNullOrWhite
 if (setcheck.Contains(false))
 {
     // Display Fatal Error in console
+    _ = Logger.Write("Fatal error with program. Required environment variables were not set. ", "FATAL");
+    _ = Logger.Write($"TWTConnectionString Set: {setcheck[0]} TWTDomainName Set: {setcheck[1]}", "FATAL");
     Console.WriteLine("Fatal error with program. Ending program, read below.");
     Console.WriteLine($"One or more of the environment variables is not set. You must add and set the environment variables listed in this error for this program to run.");
     Console.WriteLine($"For more clarification, see the project's code in Program.cs");

@@ -33,7 +33,7 @@ namespace TannersWebsiteTemplate.SQL
             else
             {
                 // Fatal Error happened, like in Program.cs we stop the program altogether here.
-                //Logger.Write("Fatal error with MySQL. Ending program.", "FATAL");
+                _ = Logger.Write("Fatal error with MySQL. Ending program.", "FATAL");
                 Console.WriteLine("Fatal error with MySQL. Ending program.");
 
                 Environment.Exit(0);
