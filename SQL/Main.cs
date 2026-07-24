@@ -36,7 +36,7 @@ namespace TannersWebsiteTemplate.SQL
                 _ = Logger.Write("Fatal error with MySQL. Ending program.", "FATAL");
                 Console.WriteLine("Fatal error with MySQL. Ending program.");
 
-                Environment.Exit(0);
+                Environment.Exit(1);
             }
         }
 

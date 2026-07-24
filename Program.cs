@@ -32,7 +32,7 @@ if (setcheck.Contains(false))
     Console.WriteLine($"TWTConnectionString Set: {setcheck[0]} TWTDomainName Set: {setcheck[1]}");
     Console.ReadKey();
 
-    Environment.Exit(0);
+    Environment.Exit(1);
 }
 
 Globals.DisableGoogle = string.IsNullOrWhiteSpace(gclientid) || string.IsNullOrWhiteSpace(gclientsec); // Disable Google login if these system environment variables are empty or not set.
