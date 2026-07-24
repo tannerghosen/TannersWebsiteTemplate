@@ -4,6 +4,6 @@
     ViewData["Title"] = "First Time Visit";
 }
 <h1>Welcome!</h1>
-<p>Your generated password is: @TempData["TempPassword"]</p>
+<p>Your generated password is: <span class="spoiler">@TempData["TempPassword"]</span></p>
 <p>You can still log in via @TempData["LoginSource"], however this password allows you to directly log in without going through @TempData["LoginSource"].</p>
 <p>You can change it <a href="/Settings">in your settings</a> at any time.</p>

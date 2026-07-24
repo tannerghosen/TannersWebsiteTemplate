@@ -542,3 +542,26 @@ input {
 	max-width: 100%;
 	min-width: 100%;
 }
+
+.spoiler
+{
+	background-color: $darkgray;
+	color: $darkgray;
+}
+.spoiler:hover 
+{
+	background-color: $darkgray;
+	color: $white;
+}
+
+.lightmode .spoiler 
+{
+	background-color: $lightgray;
+	color: $lightgray;
+}
+
+.lightmode .spoiler:hover
+{
+	background-color: $lightgray;
+	color: $black;
+}

@@ -439,3 +439,23 @@ input {
   max-width: 100%;
   min-width: 100%;
 }
+
+.spoiler {
+  background-color: #333;
+  color: #333;
+}
+
+.spoiler:hover {
+  background-color: #333;
+  color: #FFF;
+}
+
+.lightmode .spoiler {
+  background-color: #CCC;
+  color: #CCC;
+}
+
+.lightmode .spoiler:hover {
+  background-color: #CCC;
+  color: #000;
+}
