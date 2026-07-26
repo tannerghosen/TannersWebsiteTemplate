@@ -16,9 +16,7 @@ namespace TannersWebsiteTemplate.Pages
         [BindProperty]
         public string Result { get; set; }
 
-        [BindProperty]
-        public string Method { get; set; }
-
+        // These will keep form values between refreshes and be what the above variables use to intialize them.
         [TempData]
         public string username { get; set; }
 

@@ -25,6 +25,7 @@ namespace TannersWebsiteTemplate.Pages
         [BindProperty]
         public string Result { get; set; }
 
+        // These will keep form values between refreshes and be what the above variables use to intialize them.
         [TempData]
         public string email { get; set; }
         [TempData]
