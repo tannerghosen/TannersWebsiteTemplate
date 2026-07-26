@@ -9,10 +9,9 @@
     {
         ViewData["Title"] = "Admin Account";
         <h1>@ViewData["Title"]</h1>
-        <p>Welcome to your website. Your admin account password is: <span class="spoiler">@Globals.AdminPassword</span></p>
+        <p>Welcome to your website. Your admin account password is: <span class="spoiler">@Model.Password</span></p>
         <p><b>Make sure to get this password noted down! Refreshing the page will not show this message again!</b></p>
         Globals.FirstTimeRunning = false;
-        Globals.AdminPassword = "";
     }
     else
     {
