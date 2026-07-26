@@ -122,7 +122,7 @@ namespace TannersWebsiteTemplate.Pages
             }
             (email, username, password, confirmpassword, securityquestion, answer) = (Email, Username, Password, ConfirmPassword, SecurityQuestion, Answer);
             TempData["Result"] = Result;
-            return RedirectToPage();
+            return Page();
         }
     }
 }
