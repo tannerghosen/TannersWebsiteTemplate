@@ -13,6 +13,8 @@ namespace TannersWebsiteTemplate.Pages
         [BindProperty]
         public string Password { get; set; }
         [BindProperty]
+        public string ConfirmPassword { get; set; }
+        [BindProperty]
         public string SecurityQuestion { get; set; }
         [BindProperty]
         public string Answer { get; set; }
@@ -62,6 +64,14 @@ namespace TannersWebsiteTemplate.Pages
             else if (string.IsNullOrEmpty(Password)) // if password is empty
             {
                 Result += "Password is blank";
+            }
+            else if (string.IsNullOrEmpty(ConfirmPassword)) // if password is empty
+            {
+                Result += "Confirm Password is blank";
+            }
+            else if (Password != ConfirmPassword)
+            {
+                Result += "Password and Confirm Password do not match.";
             }
             else if (string.IsNullOrEmpty(SecurityQuestion)) // if security question / answer is empty
             {
