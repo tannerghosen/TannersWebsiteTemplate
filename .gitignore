@@ -370,3 +370,5 @@ FodyWeavers.xsd
 *.bat
 *.ps1
 *.py
+*.md
+!README.md
