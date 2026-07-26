@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace TannersWebsiteTemplate.Pages
 {
@@ -17,6 +18,9 @@ namespace TannersWebsiteTemplate.Pages
 
         [BindProperty]
         public string Method { get; set; }
+
+        [TempData]
+        public string username { get; set; }
 
         private SessionManager _s;
 
@@ -37,17 +41,13 @@ namespace TannersWebsiteTemplate.Pages
             {
                 Response.Redirect("/Index");
             }
+            Username = username;
         }
 
         // Changed from void to IActionResult because void doesn't actually wait for methods. For some reason, this was not an issue before we switched to MySQL, funny enough.
         public async Task<IActionResult> OnPost()
         {
             (bool b, int? id, string? reason, DateTime? expire) = SQL.Admin.IsUserBanned(SQL.Accounts.GetUserID(Username));
-            if ((Username == null || Username == "") || (Password == null || Password == ""))
-            {
-                Result = "Username or Password is blank.";
-                return Page();
-            }
             IActionResult result = await _a.Login(Username, Password);
             if (result is OkObjectResult && b)
             {
@@ -70,8 +70,9 @@ namespace TannersWebsiteTemplate.Pages
             {
                 Result = "You are already logged in.";
             }
-            TempData["Result"] = Result;
 
+            username = Username;
+            TempData["Result"] = Result;
             return Page();
         }
 

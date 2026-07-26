@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Text.RegularExpressions;
 
 namespace TannersWebsiteTemplate.Pages
@@ -24,6 +25,19 @@ namespace TannersWebsiteTemplate.Pages
         [BindProperty]
         public string Result { get; set; }
 
+        [TempData]
+        public string email { get; set; }
+        [TempData]
+        public string username { get; set; }
+        [TempData]
+        public string password { get; set; }
+        [TempData]
+        public string confirmpassword { get; set; }
+        [TempData]
+        public string securityquestion { get; set; }
+        [TempData]
+        public string answer { get; set; }
+
         private readonly ILogger<IndexModel> _logger;
         private AccountController _a;
         public RegisterModel(ILogger<IndexModel> logger, AccountController a)
@@ -38,6 +52,7 @@ namespace TannersWebsiteTemplate.Pages
             {
                 Response.Redirect("/Index");
             }
+            (Email, Username, Password, ConfirmPassword, SecurityQuestion, Answer) = (email, username, password, confirmpassword, securityquestion, answer);
         }
         public async Task<IActionResult> OnPost()
         {
@@ -105,9 +120,9 @@ namespace TannersWebsiteTemplate.Pages
             {
                 Result = "You did not click the verification checkbox.";
             }
+            (email, username, password, confirmpassword, securityquestion, answer) = (Email, Username, Password, ConfirmPassword, SecurityQuestion, Answer);
             TempData["Result"] = Result;
-            Console.WriteLine(TempData["Result"]);
-            return Page();
+            return RedirectToPage();
         }
     }
 }
