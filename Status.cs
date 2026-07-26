@@ -6,7 +6,7 @@ namespace TannersWebsiteTemplate
     {
         public static string status = "";
 
-        private static string AccessPassword { get; set; }
+        private static string AccessPassword = "";
 
         public static async Task CreateAccessPassword()
         {
