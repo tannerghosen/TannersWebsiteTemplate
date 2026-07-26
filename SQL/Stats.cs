@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MySqlConnector;
 using TannersWebsiteTemplate.Models;
 
 namespace TannersWebsiteTemplate.SQL

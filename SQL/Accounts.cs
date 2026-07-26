@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MySqlConnector;
 using System.Text.RegularExpressions;
 
 namespace TannersWebsiteTemplate.SQL
