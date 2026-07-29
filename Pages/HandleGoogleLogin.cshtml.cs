@@ -46,7 +46,7 @@ namespace TannersWebsiteTemplate.Pages
                         int num = random.Next(1, 9999);
                         username = username + num.ToString();
                     }
-                    string password = Password.GeneratePassword();
+                    string password = PasswordHelper.GeneratePassword();
                     TempData["TempPassword"] = password; // we store this for WelcomeExternal's message so the user can see their password
                     await _a.Register(email, username, password, "", "");
                 }

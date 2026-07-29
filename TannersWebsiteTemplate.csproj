@@ -14,8 +14,4 @@
     <PackageReference Include="MySqlConnector" Version="2.6.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Classes\" />
-  </ItemGroup>
-
 </Project>

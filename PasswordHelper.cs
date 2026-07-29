@@ -3,7 +3,7 @@ using System.Text;
 
 namespace TannersWebsiteTemplate.Controllers.Classes
 {
-    public class Password
+    public class PasswordHelper
     {
         /* Other Misc Things: characters, regexpattern, regex */
         private static string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*";

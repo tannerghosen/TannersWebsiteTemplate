@@ -18,7 +18,7 @@ namespace TannersWebsiteTemplate.SQL
                     if (count == 0)
                     {
                         Globals.FirstTimeRunning = true;
-                        string password = Controllers.Classes.Password.GeneratePassword();
+                        string password = Controllers.Classes.PasswordHelper.GeneratePassword();
                         Globals.AdminPassword = password;
                         string pass = BCrypt.Net.BCrypt.HashPassword(password);
                         string createadmin = "INSERT INTO accounts (id, email, username, password, isadmin) VALUES (1, 'admin@email.com', 'Admin', @pass, 1)";

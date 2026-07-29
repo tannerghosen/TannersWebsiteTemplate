@@ -10,7 +10,7 @@ namespace TannersWebsiteTemplate
 
         public static async Task CreateAccessPassword()
         {
-            AccessPassword = Password.GeneratePassword(); // generate a password needed to actually send new updates to the websocket server (can be get'd)
+            AccessPassword = PasswordHelper.GeneratePassword(); // generate a password needed to actually send new updates to the websocket server (can be get'd)
         }
       
         public static string GetAccessPassword()
