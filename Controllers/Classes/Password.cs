@@ -15,8 +15,7 @@ namespace TannersWebsiteTemplate.Controllers.Classes
         should not repeat characters more than 5 times consecutively
         8-32 characters in width
         */
-        private static string passregexpattern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])(?!.*(.)\\1{5,}).{8,32}$";
-        private static Regex passregex = new Regex(passregexpattern);
+        private static Regex passregex = Regexes.GetPasswordRegex();
 
         public static string GeneratePassword()
         {
