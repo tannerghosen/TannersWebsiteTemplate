@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TannersWebsiteTemplate.Models;
-using System.Reflection;
 
 namespace TannersWebsiteTemplate.Pages
 {

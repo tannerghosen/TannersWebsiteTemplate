@@ -1,7 +1,5 @@
 ﻿using MySqlConnector;
 using TannersWebsiteTemplate.Models;
-using System.Globalization;
-using System.Reflection.PortableExecutable;
 
 namespace TannersWebsiteTemplate.SQL
 {

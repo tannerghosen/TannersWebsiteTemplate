@@ -1,10 +1,7 @@
 using TannersWebsiteTemplate;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Hosting;
 using System.Globalization;
-using System.Net.Http;
 using System.Threading.RateLimiting;
 
 // domainname and sqlconstr are required to continue. If they are not set in your environment variables (global or local), the program will not run. Google OAuth is optional.
