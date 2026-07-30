@@ -1,4 +1,5 @@
-﻿using TannersWebsiteTemplate.SQL;
+﻿// https://www.c-sharpcorner.com/article/middlewares-in-asp-net-core-the-ultimate-detailed-guide/
+using TannersWebsiteTemplate.SQL;
 namespace TannersWebsiteTemplate.Middleware
 {
     public class IPBannedMiddleware
