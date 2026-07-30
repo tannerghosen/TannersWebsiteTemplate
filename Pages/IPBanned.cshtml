@@ -1,0 +1,13 @@
+﻿@page
+@inject SessionManager s;
+@{
+    Layout = null;
+}
+@model TannersWebsiteTemplate.Pages.IPBannedModel
+<link rel="stylesheet" href="~/css/style.css">
+@{
+    (bool isbanned, string ip, string reason, DateTime? expire) = SQL.Admin.IsUserIPBanned(s.GetIP());
+    ViewData["Title"] = "You are IP Banned";
+    <h1>@ViewData["Title"]</h1>
+    <p>You are currently IP banned from the website.<br>Reason Provided: @reason<br />This ban expires: @expire.<br />If you believe this is in error, please contact the admins.<br /><i>Current IP Address: @s.GetIP()</i></p>
+}

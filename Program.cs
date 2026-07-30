@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Globalization;
 using System.Threading.RateLimiting;
+using TannersWebsiteTemplate.Middleware;
 
 // domainname and sqlconstr are required to continue. If they are not set in your environment variables (global or local), the program will not run. Google OAuth is optional.
 string sqlconstr = Environment.GetEnvironmentVariable("TWTConnectionString"); // TWTConnectionString, MySQL Connction String, syntax looks like this: Server=(server);Database=(db);User ID=(user);Password=(pass);
@@ -117,7 +118,12 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+
+TannersWebsiteTemplate.SQL.Main.Init(sqlconstr);  // Init MySQL classes, also creates tables / triggers / events if they aren't already made.
+Globals.DomainName = domainname;
+TannersWebsiteTemplate.Status.CreateAccessPassword(); // Create the Access Password
 
 app.UseWebSockets();
 
@@ -127,6 +133,10 @@ var WebSocketOptions = new WebSocketOptions
 };
 
 app.UseRouting();
+
+app.UseMiddleware<IPBannedMiddleware>();
+
+app.UseAuthentication();
 
 app.UseSession();
 
@@ -141,7 +151,4 @@ app.UseStatusCodePagesWithRedirects("/Error?error={0}");
 
 
 app.MapRazorPages();
-TannersWebsiteTemplate.SQL.Main.Init(sqlconstr);  // Init MySQL classes, also creates tables / triggers / events if they aren't already made.
-Globals.DomainName = domainname;
-TannersWebsiteTemplate.Status.CreateAccessPassword(); // Create the Access Password
 app.Run();
