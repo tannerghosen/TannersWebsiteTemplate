@@ -1,6 +1,4 @@
-﻿using TannersWebsiteTemplate.Controllers.Classes;
-
-namespace TannersWebsiteTemplate
+﻿namespace TannersWebsiteTemplate
 {
     public static class Status
     {
