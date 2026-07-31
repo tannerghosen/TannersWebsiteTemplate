@@ -34,22 +34,24 @@ if (setcheck.Contains(false))
 }
 
 Globals.DisableGoogle = string.IsNullOrWhiteSpace(gclientid) || string.IsNullOrWhiteSpace(gclientsec); // Disable Google login if these system environment variables are empty or not set.
-
+Globals.DomainName = domainname;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins",
+    options.AddPolicy("TWTPolicy",
         builder => builder
-            .AllowAnyOrigin()
+            .WithOrigins("https://" + Globals.DomainName, "https://www.google.com") // If your site hgas more domains, simply add it to the end here
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
+// Add custom routes for certain pages
 builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
 {
     options.Conventions.AddPageRoute("/Profile", "Profile/{id}"); // /Profile/(id)
     options.Conventions.AddPageRoute("/Blog", "Blog/{post}"); // /Blog/(post)
 });
 builder.Services.AddHttpContextAccessor();
+// Add session
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = "TannersWebsiteTemplate.Session";
@@ -108,7 +110,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 var app = builder.Build();
-app.UseCors("AllowAllOrigins");
+app.UseCors("TWTPolicy");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -122,8 +124,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 TannersWebsiteTemplate.SQL.Main.Init(sqlconstr);  // Init MySQL classes, also creates tables / triggers / events if they aren't already made.
-Globals.DomainName = domainname;
-TannersWebsiteTemplate.Status.CreateAccessPassword(); // Create the Access Password
+await TannersWebsiteTemplate.Status.CreateAccessPassword(); // Create the Access Password
 
 app.UseWebSockets();
 
@@ -134,7 +135,7 @@ var WebSocketOptions = new WebSocketOptions
 
 app.UseRouting();
 
-app.UseMiddleware<IPBannedMiddleware>();
+app.UseMiddleware<IPBannedMiddleware>(); // Add our middleware addition for IP ban checks n redirects
 
 app.UseAuthentication();
 
