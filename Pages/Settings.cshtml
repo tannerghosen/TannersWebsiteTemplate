@@ -3,11 +3,11 @@
 @using System.Text.RegularExpressions;
 @model SettingsModel
 @{
-    ViewData["Title"] = "Settings";
+    ViewData["Title"] = "Account Settings";
 }
 
 <h1>@ViewData["Title"]</h1>
-
+<a href="Profile/@HttpContext.Session.GetInt32("UserId")">Your Profile</a>
 @{
         <form method="post">
             <fieldset>
