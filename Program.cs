@@ -40,9 +40,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("TWTPolicy",
         builder => builder
-            .WithOrigins("https://" + Globals.DomainName, "https://www.google.com") // If your site hgas more domains, simply add it to the end here
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod());
 });
 // Add custom routes for certain pages
 builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
@@ -109,8 +109,8 @@ builder.Services.AddAuthentication(options =>
     }
 });
 
+// App
 var app = builder.Build();
-app.UseCors("TWTPolicy");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -135,6 +135,8 @@ var WebSocketOptions = new WebSocketOptions
 
 app.UseRouting();
 
+app.UseCors("TWTPolicy");
+
 app.UseMiddleware<IPBannedMiddleware>(); // Add our middleware addition for IP ban checks n redirects
 
 app.UseAuthentication();
@@ -150,6 +152,6 @@ app.UseEndpoints(endpoints =>
 
 app.UseStatusCodePagesWithRedirects("/Error?error={0}");
 
-
 app.MapRazorPages();
+
 app.Run();
