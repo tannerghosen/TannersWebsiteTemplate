@@ -101,7 +101,7 @@ builder.Services.AddAuthentication(options =>
 // A lot of the OAuth2.0 authentication is handled by middleware in ASP.NET Core, all we need to do is initiate a request to the provider and handle the response.
 .AddGoogle(options => // add google oauth
 {
-    if (Globals.DisableGoogle == false) // If Google OAuth details are not set up, there's nothing to set up Google OAuth with.
+    if (Globals.DisableGoogle == false) // If Google OAuth is not disabled, proceed with adding Google to authentication
     { 
         options.ClientId = gclientid; // retrieve client id from environment variable
         options.ClientSecret = gclientsec; // retrieve client secret from environment variable
@@ -118,7 +118,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandler("/Error?error=999");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
