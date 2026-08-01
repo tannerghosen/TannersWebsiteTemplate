@@ -35,7 +35,10 @@ if (setcheck.Contains(false))
 
 Globals.DisableGoogle = string.IsNullOrWhiteSpace(gclientid) || string.IsNullOrWhiteSpace(gclientsec); // Disable Google login if these system environment variables are empty or not set.
 Globals.DomainName = domainname;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("TWTPolicy",
@@ -61,6 +64,7 @@ builder.Services.AddSession(options =>
     options.Cookie.SameSite = SameSiteMode.Lax;
     options.IdleTimeout = TimeSpan.FromHours(3);
 });
+
 builder.Services.AddScoped<SessionManager>(); // adds SessionManager as a service
 builder.Services.AddScoped<AccountController>(); // adds AccountController as a service
 builder.Services.AddControllers(); // This adds all controllers to services
@@ -145,10 +149,7 @@ app.UseSession();
 
 app.UseRateLimiter();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers(); // this adds the endpoints of the controllers to the routes for this app
-});
+app.MapControllers();
 
 app.UseStatusCodePagesWithRedirects("/Error?error={0}");
 
