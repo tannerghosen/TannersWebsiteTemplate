@@ -5,13 +5,15 @@ namespace TannersWebsiteTemplate.SQL
 {
     public static class Accounts
     {
+        private static Regex EmailRegex = Regexes.GetEmailRegex();
+        private static Regex UsernameRegex = Regexes.GetAccountRegex();
         // Registers an account by first running a SQL statement to see if it the account exists. If it does, don't do anything.
         // If it doesn't, run another SQL statement that inserts it into the table, alongside generating a salt to hash our password.
         // (first bool is did operation succeed, second bool is did an error occur. the first bool will never be true if the second one is true.)
         public static async Task<(bool, bool)> Register(string email, string username, string password, int sessionid = 0)
         {
             // Ensure it meets regex before we even consider registering
-            if (!Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$") || !Regex.IsMatch(username, @"^(?!\s)(?!.*[\W_]{2,})[a-zA-Z0-9_\s]+$"))
+            if (!EmailRegex.IsMatch(email) || !UsernameRegex.IsMatch(username))
                 return (false, false);
 
             try
@@ -157,7 +159,7 @@ namespace TannersWebsiteTemplate.SQL
                                 }
                                 return (true, false);
                             case 1: // email
-                                if (Regex.IsMatch(input, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+                                if (EmailRegex.IsMatch(input))
                                 {
                                     string updateemail = "UPDATE accounts SET email = @email WHERE id = @id";
                                     using (var c = new MySqlCommand(updateemail, con))
@@ -177,7 +179,7 @@ namespace TannersWebsiteTemplate.SQL
                                 }
                                 return (false, false);
                             case 2: // username
-                                if (Regex.IsMatch(input, @"^(?!\s)(?!.*[\W_]{2,})[a-zA-Z0-9_\s]+$"))
+                                if (UsernameRegex.IsMatch(input))
                                 {
                                     string updateusername = "UPDATE accounts SET username = @newusername WHERE id = @id";
                                     using (var c = new MySqlCommand(updateusername, con))
@@ -299,7 +301,7 @@ namespace TannersWebsiteTemplate.SQL
         // Get User ID by Username / Email
         public static int GetUserID(string username)
         {
-            if (Regex.IsMatch(username, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")) username = GetUsername(username);
+            if (EmailRegex.IsMatch(username)) username = GetUsername(username);
             try
             {
                 using (var con = Main.Connect())

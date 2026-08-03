@@ -11,12 +11,14 @@ namespace TannersWebsiteTemplate
             _s = s;
         }
 
+        private Regex EmailRegex = Regexes.GetEmailRegex();
+        private Regex UsernameRegex = Regexes.GetAccountRegex();
         public async Task<IActionResult> Login(string Username, string Password, bool External = false)
         {
             if (!_s.IsUserLoggedIn())
             {
                 int sid = _s.SID(); // generate session id
-                Username = Regex.IsMatch(Username, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$") == true ? SQL.Accounts.GetUsername(Username) : Username;
+                Username = EmailRegex.IsMatch(Username) == true ? SQL.Accounts.GetUsername(Username) : Username;
                 (bool result, bool error) = (false, false);
                 // If external login source
                 if (External == true)

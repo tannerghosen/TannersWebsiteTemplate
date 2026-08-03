@@ -16,6 +16,8 @@ namespace TannersWebsiteTemplate.Pages
         [BindProperty]
         public string Result { get; set; }
 
+        private Regex EmailRegex = Regexes.GetEmailRegex();
+        private Regex UsernameRegex = Regexes.GetAccountRegex();
         public void OnGet()
         {
             if (HttpContext.Session.GetInt32("IsLoggedIn") != 1)
@@ -50,7 +52,7 @@ namespace TannersWebsiteTemplate.Pages
                 {
                 }
 
-                if (!string.IsNullOrEmpty(Email) && Regex.IsMatch(Email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+                if (!string.IsNullOrEmpty(Email) && EmailRegex.IsMatch(Email))
                 {
                     (bool emailupdated, bool error) = await SQL.Accounts.UpdateInfo(HttpContext.Session.GetInt32("UserId"), 1, Email, HttpContext.Session.GetInt32("SessionId"));
                     if (emailupdated)
@@ -69,14 +71,14 @@ namespace TannersWebsiteTemplate.Pages
                 else if (string.IsNullOrEmpty(Email))
                 { 
                 }
-                else if (!Regex.IsMatch(Email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+                else if (!EmailRegex.IsMatch(Email))
                 {
                     Result += "\\nEmail format is invalid. Emails should follow a format of name@emailprovider.com";
                 }
 
                 if (!string.IsNullOrEmpty(Username))
                 {
-                    if (!Regex.IsMatch(Username, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+                    if (UsernameRegex.IsMatch(Username))
                     {
                         (bool usernameupdated, bool error) = await SQL.Accounts.UpdateInfo(HttpContext.Session.GetInt32("UserId"), 2, Username, HttpContext.Session.GetInt32("SessionId"));
                         if (usernameupdated)
@@ -95,7 +97,7 @@ namespace TannersWebsiteTemplate.Pages
                     }
                     else
                     {
-                        Result += "\\nUsername cannot be an email.";
+                        Result += "\\nInvalid username.";
                     }
                 }
                 else if (string.IsNullOrEmpty(Username))

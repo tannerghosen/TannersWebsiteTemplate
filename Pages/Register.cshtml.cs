@@ -40,6 +40,8 @@ namespace TannersWebsiteTemplate.Pages
 
         private readonly ILogger<IndexModel> _logger;
         private AccountController _a;
+        private Regex EmailRegex = Regexes.GetEmailRegex();
+        private Regex UsernameRegex = Regexes.GetAccountRegex();
         public RegisterModel(ILogger<IndexModel> logger, AccountController a)
         {
             _logger = logger;
@@ -56,11 +58,11 @@ namespace TannersWebsiteTemplate.Pages
         }
         public async Task<IActionResult> OnPost()
         {
-            if (string.IsNullOrEmpty(Email)) // if email doesn't match regex / is empty
+            if (string.IsNullOrEmpty(Email)) // if email is empty
             {
                 Result = "Email is blank";
             }
-            else if (!Regex.IsMatch(Email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+            else if (!EmailRegex.IsMatch(Email)) // if email doesn't meet regex
             {
                 Result += "Invalid Email";
             }
@@ -68,14 +70,14 @@ namespace TannersWebsiteTemplate.Pages
             {
                 Result += "Username is blank";
             }
-            else if (!Regex.IsMatch(Username, @"^(?!\s)(?!.*[\W_]{2,})[a-zA-Z0-9_\s]+$"))
+            else if (!UsernameRegex.IsMatch(Username)) // if username doesn't meet regex
             {
                 Result += "Invalid Username";
             }
-            else if (Regex.IsMatch(Username, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+            /*else if (EmailRegex.IsMatch(Username)) // if username is an email
             {
                 Result += "Username cannot be an email.";
-            }
+            }*/
             else if (string.IsNullOrEmpty(Password)) // if password is empty
             {
                 Result += "Password is blank";
