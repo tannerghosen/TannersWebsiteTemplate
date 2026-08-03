@@ -67,6 +67,7 @@ namespace TannersWebsiteTemplate
                 (bool result, bool error) = await SQL.Accounts.Register(Email, Username, Password, sid); 
                 if (result == true)
                 {
+                    await Logger.Write("Registration successful. New user added: " + Username, "REGISTER");
                     await _s.Login(Username, SQL.Accounts.GetUserID(Username), sid);
                     await SQL.Accounts.CreateSecurityQuestion(SQL.Accounts.GetUserID(Username), SecurityQuestion, Answer);
                     IncrementRegistrations();
