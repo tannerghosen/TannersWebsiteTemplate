@@ -39,7 +39,7 @@ namespace TannersWebsiteTemplate
                     if (!SQL.Admin.IsUserBannedSimple(SQL.Accounts.GetUserID(Username))) // if user is not banned
                     {
                         await _s.Login(Username, SQL.Accounts.GetUserID(Username), sid);
-                        IncrementLogins();
+                        Statistics.IncrementLogins();
                         return Ok("Login successful. Logged in as: " + Username + ".");
                     }
                     else
@@ -70,7 +70,7 @@ namespace TannersWebsiteTemplate
                     await Logger.Write("Registration successful. New user added: " + Username, "REGISTER");
                     await _s.Login(Username, SQL.Accounts.GetUserID(Username), sid);
                     await SQL.Accounts.CreateSecurityQuestion(SQL.Accounts.GetUserID(Username), SecurityQuestion, Answer);
-                    IncrementRegistrations();
+                    Statistics.IncrementRegistrations();
                     return Ok("Account Registered. Logged into " + Username + ".");
                 }
                 else if (result == false && error != true)
@@ -94,16 +94,6 @@ namespace TannersWebsiteTemplate
                 return Ok("Logged out of "+ username);
             }
             return BadRequest("You're not logged in.");
-        }
-
-        public void IncrementLogins()
-        {
-            Statistics.IncrementLogins();
-        }
-
-        public void IncrementRegistrations()
-        {
-            Statistics.IncrementRegistrations();
         }
     }
 }
