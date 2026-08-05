@@ -62,7 +62,6 @@ namespace TannersWebsiteTemplate.Pages
                 {
                 }
             }
-            TempData["Result"] = Result;
 
             return Page();
         }
