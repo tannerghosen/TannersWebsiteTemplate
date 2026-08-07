@@ -6,7 +6,7 @@ public struct Session
 {
     public string? Username;
     public int? UserId;
-    public int? SessionId;
+    public string? SessionId;
     public int? IsLoggedIn;
     public int? IsAdmin;
 }
@@ -19,11 +19,11 @@ public class SessionManager
     {
         _h = h;
     }
-    public async Task Login(string username, int id, int sessionid)
+    public async Task Login(string username, int id, string sessionid)
     {
         _h.HttpContext.Session.SetString("Username", username);
         _h.HttpContext.Session.SetInt32("UserId", TannersWebsiteTemplate.SQL.Accounts.GetUserID(username));
-        _h.HttpContext.Session.SetInt32("SessionId", sessionid);
+        _h.HttpContext.Session.SetString("SessionId", sessionid);
         _h.HttpContext.Session.SetInt32("IsLoggedIn", 1);
         _h.HttpContext.Session.SetInt32("IsAdmin", TannersWebsiteTemplate.SQL.Admin.IsAdmin(_h.HttpContext.Session.GetInt32("UserId")) == true ? 1 : 0);
         await Logger.Write("Username: " + username + " id: " + TannersWebsiteTemplate.SQL.Accounts.GetUserID(username) + " ses id: " + sessionid + " is admin?: " + TannersWebsiteTemplate.SQL.Admin.IsAdmin(_h.HttpContext.Session.GetInt32("UserId")), "LOGIN");
@@ -36,14 +36,14 @@ public class SessionManager
             await Logger.Write("Username " + _h.HttpContext.Session.GetString("Username"), "LOGOUT");
             _h.HttpContext.Session.SetString("Username", "");
             _h.HttpContext.Session.SetInt32("UserId", -1);
-            _h.HttpContext.Session.SetInt32("SessionId", -1);
+            _h.HttpContext.Session.SetString("SessionId", "");
             _h.HttpContext.Session.SetInt32("IsLoggedIn", 0);
             _h.HttpContext.Session.SetInt32("IsAdmin", 0);
         }
     }
 
     // Session ID generator
-    public int SID()
+    /*public int SID()
     {
         int max = 999999999;
         byte[] bytes = new byte[4];
@@ -56,6 +56,11 @@ public class SessionManager
         result = result % (max + 1); // in case it goes over our max, we do a modulo to get the remainder. this does nothing if it's less than the max
 
         return result;
+    }*/
+
+    public Guid SID()
+    {
+        return Guid.NewGuid();
     }
 
     public bool IsUserLoggedIn()
@@ -74,6 +79,6 @@ public class SessionManager
 
     public Session GetSession()
     {
-        return new Session { Username = _h.HttpContext?.Session.GetString("Username"), UserId = _h.HttpContext?.Session.GetInt32("UserId"), SessionId = _h.HttpContext?.Session.GetInt32("SessionId"), IsLoggedIn = _h.HttpContext?.Session.GetInt32("IsLoggedIn"), IsAdmin = _h.HttpContext?.Session.GetInt32("IsAdmin") };
+        return new Session { Username = _h.HttpContext?.Session.GetString("Username"), UserId = _h.HttpContext?.Session.GetInt32("UserId"), SessionId = _h.HttpContext?.Session.GetString("SessionId"), IsLoggedIn = _h.HttpContext?.Session.GetInt32("IsLoggedIn"), IsAdmin = _h.HttpContext?.Session.GetInt32("IsAdmin") };
     }
 }

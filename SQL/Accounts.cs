@@ -10,7 +10,7 @@ namespace TannersWebsiteTemplate.SQL
         // Registers an account by first running a SQL statement to see if it the account exists. If it does, don't do anything.
         // If it doesn't, run another SQL statement that inserts it into the table, alongside generating a salt to hash our password.
         // (first bool is did operation succeed, second bool is did an error occur. the first bool will never be true if the second one is true.)
-        public static async Task<(bool, bool)> Register(string email, string username, string password, int sessionid = 0)
+        public static async Task<(bool, bool)> Register(string email, string username, string password, string sessionid = "")
         {
             // Ensure it meets regex before we even consider registering
             if (!EmailRegex.IsMatch(email) || !UsernameRegex.IsMatch(username))
@@ -57,7 +57,7 @@ namespace TannersWebsiteTemplate.SQL
         // If it is, then we run another SQL statement that compares the hashed password with the password given using BCrypt.Verify
         // If it matches, we return true so Login.cshtml.cs can handle setting the session up. If not, we return false.
         // (first bool is did operation succeed, second bool is did an error occur. the first bool will never be true if the second one is true.)
-        public static async Task<(bool, bool)> Login(string username, string password, int sessionid = 0)
+        public static async Task<(bool, bool)> Login(string username, string password, string sessionid = "")
         {
             if (username == "Anonymous") // Let's not allow people to use Anonymous as a username to login
             {
@@ -100,8 +100,8 @@ namespace TannersWebsiteTemplate.SQL
                             {
                                 c.Parameters.AddWithValue("@username", username);
                                 var result = await c.ExecuteScalarAsync();
-                                int id = (result != null && result != DBNull.Value) ? Convert.ToInt32(result) : -1; // Default the id to -1 if it's null or DBNull
-                                if (sessionid != id || id == -1)
+                                string id = (result != null && result != DBNull.Value) ? result.ToString() : ""; // Default the id to -1 if it's null or DBNull
+                                if (sessionid != id || id == "")
                                 {
                                     query = "UPDATE accounts SET sessionid = @sid WHERE username = @username";
                                     using (var cm = new MySqlCommand(query, con))
@@ -127,7 +127,7 @@ namespace TannersWebsiteTemplate.SQL
 
         // Updates various settings of a specified user (by username)'s account.
         // (first bool is did operation succeed, second bool is did an error occur. the first bool will never be true if the second one is true.)
-        public static async Task<(bool, bool)> UpdateInfo(int? userid, int option, string input, int? sessionid = 0, bool adminupdate = false)
+        public static async Task<(bool, bool)> UpdateInfo(int? userid, int option, string input, string? sessionid = "", bool adminupdate = false)
         {
             if ((DoesSIDMatch(userid, sessionid) || adminupdate == true) && userid != -1)
             {
@@ -397,7 +397,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Does Session ID Match
-        public static bool DoesSIDMatch(int? userid, int? sid)
+        public static bool DoesSIDMatch(int? userid, string? sid)
         {
             bool usercheck = DoesUserExist(userid);
             if (usercheck)
@@ -411,7 +411,7 @@ namespace TannersWebsiteTemplate.SQL
                         using (var cmd = new MySqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@userid", userid);
-                            int id = Convert.ToInt32(cmd.ExecuteScalar());
+                            string id = cmd.ExecuteScalar().ToString();
                             if (id != sid)
                             {
                                 return false;

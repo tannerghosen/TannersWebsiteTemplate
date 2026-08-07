@@ -34,7 +34,7 @@ namespace TannersWebsiteTemplate.Pages
                 {
                     // for these if-elses with xupdated, the expected outcome is either it updates it or not.
                     // because the error could
-                    (bool passwordupdated, bool error) = await SQL.Accounts.UpdateInfo(HttpContext.Session.GetInt32("UserId"), 0, Password, HttpContext.Session.GetInt32("SessionId"));
+                    (bool passwordupdated, bool error) = await SQL.Accounts.UpdateInfo(HttpContext.Session.GetInt32("UserId"), 0, Password, HttpContext.Session.GetString("SessionId"));
                     if (passwordupdated)
                     {
                         Result += "Password has been changed. Be sure to write it down or save it in your browser!"; // Success
@@ -54,7 +54,7 @@ namespace TannersWebsiteTemplate.Pages
 
                 if (!string.IsNullOrEmpty(Email) && EmailRegex.IsMatch(Email))
                 {
-                    (bool emailupdated, bool error) = await SQL.Accounts.UpdateInfo(HttpContext.Session.GetInt32("UserId"), 1, Email, HttpContext.Session.GetInt32("SessionId"));
+                    (bool emailupdated, bool error) = await SQL.Accounts.UpdateInfo(HttpContext.Session.GetInt32("UserId"), 1, Email, HttpContext.Session.GetString("SessionId"));
                     if (emailupdated)
                     {
                         Result += "\\nEmail has been updated to " + Email; // Success
@@ -80,7 +80,7 @@ namespace TannersWebsiteTemplate.Pages
                 {
                     if (UsernameRegex.IsMatch(Username))
                     {
-                        (bool usernameupdated, bool error) = await SQL.Accounts.UpdateInfo(HttpContext.Session.GetInt32("UserId"), 2, Username, HttpContext.Session.GetInt32("SessionId"));
+                        (bool usernameupdated, bool error) = await SQL.Accounts.UpdateInfo(HttpContext.Session.GetInt32("UserId"), 2, Username, HttpContext.Session.GetString("SessionId"));
                         if (usernameupdated)
                         {
                             HttpContext.Session.SetString("Username", Username);
