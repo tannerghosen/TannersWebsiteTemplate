@@ -2,23 +2,32 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.WebSockets;
 using System.Text;
+using System.Collections.Concurrent;
 
 namespace TannersWebsiteTemplate.Controllers
 {
     public class WebSocketController : ControllerBase
     {
+        public static ConcurrentDictionary<Guid, WebSocket> WebSocketConnections = new ConcurrentDictionary<Guid, WebSocket>();
         [Route("/ws")]
         public async Task Get()
         {
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+
+                var id = Guid.NewGuid();
+                // Add this new WebSocket connection to the list
+                WebSocketConnections.TryAdd(id, webSocket);
+
                 try
                 {
                     await webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes((Status.status == "" ? "" : Status.status))), WebSocketMessageType.Text, true, CancellationToken.None);
                 }
                 catch (WebSocketException wse)
                 {
+                    // If an error occurs, remove it
+                    WebSocketConnections.TryRemove(id, out _);
                     await Logger.Write(wse.Message, "WEBSOCKET");
                 }
                 await Echo(webSocket);
@@ -59,9 +68,13 @@ namespace TannersWebsiteTemplate.Controllers
                         {
                             Status.status = message;
                         }
-                        if (webSocket.State == WebSocketState.Open)
+                        // Iterate through each connection and send them any updated message
+                        foreach (var connection in WebSocketConnections)
                         {
-                            await webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes((Status.status == "" ? "" : Status.status))), WebSocketMessageType.Text, true, CancellationToken.None);  // update everyone listening's Status
+                            if (connection.Value.State == WebSocketState.Open)
+                            {
+                                _ = connection.Value.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(Status.status)), WebSocketMessageType.Text, true, CancellationToken.None);
+                            }
                         }
                     }
 
