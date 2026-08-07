@@ -33,7 +33,7 @@ public class SessionManager
     {
         if (IsUserLoggedIn() && (_h.HttpContext.Session.GetString("Username") != null || _h.HttpContext.Session.GetString("Username") != ""))
         {
-            await Logger.Write("Username " + _h.HttpContext.Session.GetString("Username"), "LOGOUT");
+            await Logger.Write("Logging out this user: " + _h.HttpContext.Session.GetString("Username") + " " + _h.HttpContext.Session.GetInt32("UserId") + " " + _h.HttpContext.Session.GetString("SessionId") + " " + _h.HttpContext.Session.GetInt32("IsLoggedIn"), "LOGOUT");
             _h.HttpContext.Session.SetString("Username", "");
             _h.HttpContext.Session.SetInt32("UserId", -1);
             _h.HttpContext.Session.SetString("SessionId", "");

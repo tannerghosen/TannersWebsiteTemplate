@@ -21,8 +21,7 @@ namespace TannersWebsiteTemplate.Pages
         }
         public async Task<IActionResult> OnPost()
         {
-            await _a.Logout();
-            Logger.Write("Logging out this user: " + HttpContext.Session.GetString("Username") + " " + HttpContext.Session.GetInt32("UserId") + " " + HttpContext.Session.GetString("SessionId") + " " + HttpContext.Session.GetInt32("IsLoggedIn"), "LOGOUT");
+            await _a.Logout();;
 
             return Redirect("/Index");
         }
