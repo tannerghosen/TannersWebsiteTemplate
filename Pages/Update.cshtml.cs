@@ -23,7 +23,7 @@ namespace TannersWebsiteTemplate.Pages
         private Regex UsernameRegex = Regexes.GetAccountRegex();
         public void OnGet()
         {
-            if (HttpContext.Session.GetInt32("IsAdmin") != 1 || !SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
+            if ((HttpContext.Session.GetInt32("IsAdmin") != 1 || !SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId"))) && HttpContext.Session.GetInt32("UserId") != 1)
             {
                 Response.Redirect("/Index");
             }

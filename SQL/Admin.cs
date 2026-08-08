@@ -78,7 +78,7 @@ namespace TannersWebsiteTemplate.SQL
         // Deletes a user from the accounts table
         public static async Task DeleteUser(int? userid)
         {
-            if (Accounts.DoesUserExist(userid) && (userid != -1 && userid != 1))
+            if (Accounts.DoesUserExist(userid) && userid != -1 && userid != 1)
             {
                 try
                 {
@@ -103,7 +103,7 @@ namespace TannersWebsiteTemplate.SQL
         // Makes user an admin
         public static async Task AdminUser(int? userid)
         {
-            if (Accounts.DoesUserExist(userid) && (userid != -1 && userid != 1))
+            if (Accounts.DoesUserExist(userid) && userid != -1 && userid != 1)
             {
                 try
                 {
