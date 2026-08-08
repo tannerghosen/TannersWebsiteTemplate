@@ -1,0 +1,36 @@
+﻿@page
+@model TannersWebsiteTemplate.Pages.SetupModel
+@{
+    ViewData["Title"] = "Setup";
+}
+@if (TempData["SetupFinished"] == "true")
+{
+    <h1>@ViewData["Title"]</h1>
+    <p>Your admin account password is: <span class="spoiler">@Model.Password</span></p>
+    <p><b>Make sure to get this password noted down! Leaving the page will not show this message again!</b></p>
+}
+else
+{
+    <h1>@ViewData["Title"]</h1>
+    <p>Welcome to your website. To continue the setup process please provide the setup password outputted to your logs.</p>
+        <form method="post">
+        <fieldset>
+            <div>
+                <label for="password">Setup Password:</label>
+                <input type="password" asp-for="SetupPassword" value="" id="pass" class="text-black" />
+            </div>
+            <div>
+                <label>&nbsp;</label>
+                <input type="submit" value="Submit" class="submit" />
+            </div>
+        </fieldset>
+        </form>
+        var message = TempData["Result"] as string;
+
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <script>
+                alert('@message');
+            </script>
+        }
+}

@@ -141,6 +141,8 @@ app.UseRouting();
 
 app.UseCors("TWTPolicy");
 
+app.UseMiddleware<SetupMiddleware>();
+
 app.UseMiddleware<IPBannedMiddleware>(); // Add our middleware addition for IP ban checks n redirects
 
 app.UseAuthentication();
