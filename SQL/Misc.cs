@@ -18,13 +18,8 @@ namespace TannersWebsiteTemplate.SQL
                     int count = Convert.ToInt32(c.ExecuteScalar());
                     if (count == 0)
                     {
-                        Globals.FirstTimeRunning = true;
-                        string password = PasswordHelper.GeneratePassword();
-                        string password2 = PasswordHelper.GeneratePassword();
-                        Globals.AdminPassword = password;
-                        Globals.SetupPassword = password2;
-                        _ = Logger.Write("Setup password is: " + Globals.SetupPassword, "SETUP");
-                        string pass = BCrypt.Net.BCrypt.HashPassword(password);
+                        Setup.StartSetup();
+                        string pass = BCrypt.Net.BCrypt.HashPassword(Globals.AdminPassword);
                         string createadmin = "INSERT INTO accounts (id, email, username, password, isadmin) VALUES (1, 'admin@email.com', 'Admin', @pass, 1)";
                         using (var cmd = new MySqlCommand(createadmin, con))
                         {
