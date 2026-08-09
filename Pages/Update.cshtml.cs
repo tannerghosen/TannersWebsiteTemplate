@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.RegularExpressions;
+using TannersWebsiteTemplate.Helpers;
 
 namespace TannersWebsiteTemplate.Pages
 {

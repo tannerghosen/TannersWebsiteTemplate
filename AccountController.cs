@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
+using TannersWebsiteTemplate.Helpers;
 
 namespace TannersWebsiteTemplate
 {

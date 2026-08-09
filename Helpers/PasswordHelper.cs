@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Text;
 
-namespace TannersWebsiteTemplate
+namespace TannersWebsiteTemplate.Helpers
 {
     public class PasswordHelper
     {

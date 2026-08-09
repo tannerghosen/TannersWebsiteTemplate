@@ -1,4 +1,6 @@
-﻿namespace TannersWebsiteTemplate
+﻿using TannersWebsiteTemplate.Helpers;
+
+namespace TannersWebsiteTemplate
 {
     public static class Status
     {

@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace TannersWebsiteTemplate
+namespace TannersWebsiteTemplate.Helpers
 {
     public static class Regexes
     {

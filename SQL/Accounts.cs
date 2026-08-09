@@ -1,5 +1,6 @@
 ﻿using MySqlConnector;
 using System.Text.RegularExpressions;
+using TannersWebsiteTemplate.Helpers;
 
 namespace TannersWebsiteTemplate.SQL
 {
