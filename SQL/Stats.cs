@@ -2,7 +2,7 @@
 
 namespace TannersWebsiteTemplate.SQL
 {
-    public static class Stats
+    public class Stats
     {
         // Updates various stat entries based on which stat needs to be incremented
         public static async Task UpdateStat(string stat)
@@ -77,7 +77,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Get the stats table as an int array
-        public static Models.Stats GetStats()
+        public static async Task<Models.Stats> GetStats()
         {
             int logins = 0, registrations = 0, errors = 0;
             try
@@ -88,7 +88,7 @@ namespace TannersWebsiteTemplate.SQL
                     string logquery = "SELECT count FROM stats WHERE stat = 'logins'";
                     using (var cmd = new MySqlCommand(logquery, con))
                     {
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader.Read())
                             {
@@ -103,7 +103,7 @@ namespace TannersWebsiteTemplate.SQL
                     string regquery = "SELECT count FROM stats WHERE stat = 'registrations'";
                     using (var cmd = new MySqlCommand(regquery, con))
                     {
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader.Read())
                             {
@@ -118,7 +118,7 @@ namespace TannersWebsiteTemplate.SQL
                     string errquery = "SELECT count FROM stats WHERE stat = 'errors'";
                     using (var cmd = new MySqlCommand(errquery, con))
                     {
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader.Read())
                             {
@@ -135,7 +135,7 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Stats: An error occured in GetStats " + e.Message + "\nSQL.Stats: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Stats: An error occured in GetStats " + e.Message + "\nSQL.Stats: Error Code: " + e.ErrorCode, "ERROR");
                 return new Models.Stats { Logins = 0, Registrations = 0, Errors = 0 };
             }
         }

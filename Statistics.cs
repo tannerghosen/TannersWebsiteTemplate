@@ -27,9 +27,10 @@ namespace TannersWebsiteTemplate
             await SQL.Stats.ResetStats();
         }
 
-        public static Stats GetStats()
+        public static async Task<Stats> GetStats()
         {
-            return SQL.Stats.GetStats();
+            Stats stats = await SQL.Stats.GetStats();
+            return stats;
         }
     }
 }

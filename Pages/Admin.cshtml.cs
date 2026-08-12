@@ -39,7 +39,7 @@ namespace TannersWebsiteTemplate.Pages
                 }
                 return row;
             }).ToArray();
-            stats = Statistics.GetStats();
+            stats = await Statistics.GetStats();
         }
 
         public async Task<IActionResult> OnPostDelete(int? userid)
