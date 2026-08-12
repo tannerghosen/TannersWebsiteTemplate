@@ -38,7 +38,7 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Stats: An error occured in UpdateStat: " + e.Message + "\nSQL.Stats: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Stats: An error occured in UpdateStat: " + e.Message + "\nSQL.Stats: Error Code: " + e.ErrorCode, "ERROR");
             }
         }
 
@@ -72,7 +72,7 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Stats: An error occured in ResetStats: " + e.Message + "\nSQL.Stats: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Stats: An error occured in ResetStats: " + e.Message + "\nSQL.Stats: Error Code: " + e.ErrorCode, "ERROR");
             }
         }
 
