@@ -14,9 +14,9 @@ namespace TannersWebsiteTemplate.Pages
         [BindProperty]
         public string BlogPostId { get; set; }
 
-        public void OnGet()
+        public async Task OnGet()
         {
-            if (HttpContext.Session.GetInt32("IsAdmin") != 1 || !SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
+            if (HttpContext.Session.GetInt32("IsAdmin") != 1 || !await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
             {
                 Response.Redirect("/Index");
             }
@@ -24,7 +24,7 @@ namespace TannersWebsiteTemplate.Pages
         public async Task<IActionResult> OnPost()
         {
             int blogid = SQL.Blog.GetBlogPostCount() + 1;
-            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
+            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
             {
                 if(!string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(Message))
                 {
@@ -37,7 +37,7 @@ namespace TannersWebsiteTemplate.Pages
         public async Task<IActionResult> OnPostDelete()
         {
             int id = int.TryParse(Request.Form["BlogPostId"], out int blogpostid) ? blogpostid : 0;
-            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
+            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
             {
                 await SQL.Blog.DeleteBlogPost(id);
             }

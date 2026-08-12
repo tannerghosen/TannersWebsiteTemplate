@@ -4,7 +4,7 @@ using TannersWebsiteTemplate.Helpers;
 
 namespace TannersWebsiteTemplate.SQL
 {
-    public static class Accounts
+    public class Accounts
     {
         private static Regex EmailRegex = Regexes.GetEmailRegex();
         private static Regex UsernameRegex = Regexes.GetAccountRegex();
@@ -49,7 +49,7 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Accounts: An error occured in Register: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Accounts: An error occured in Register: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
                 return (false, true);
             }
         }
@@ -121,7 +121,7 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Accounts: An error occured in Login: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Accounts: An error occured in Login: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
                 return (false, true);
             }
         }
@@ -130,7 +130,7 @@ namespace TannersWebsiteTemplate.SQL
         // (first bool is did operation succeed, second bool is did an error occur. the first bool will never be true if the second one is true.)
         public static async Task<(bool, bool)> UpdateInfo(int? userid, int option, string input, string? sessionid = "", bool adminupdate = false)
         {
-            if ((DoesSIDMatch(userid, sessionid) || adminupdate == true) && userid != -1)
+            if ((await DoesSIDMatch(userid, sessionid) || adminupdate == true) && userid != -1)
             {
                 try
                 {
@@ -206,7 +206,7 @@ namespace TannersWebsiteTemplate.SQL
                 }
                 catch (MySqlException e)
                 {
-                    Logger.Write("SQL.Accounts: An error occured in UpdateInfo: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
+                    await Logger.Write("SQL.Accounts: An error occured in UpdateInfo: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
                     return (false, true); 
                 }
             }
@@ -217,7 +217,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Used to ensure the user does actually exist before we get too far in with various methods
-        public static bool DoesUserExist(string value, string search = "username")
+        public static async Task<bool> DoesUserExist(string value, string search = "username")
         {
             try
             {
@@ -230,7 +230,7 @@ namespace TannersWebsiteTemplate.SQL
                         using (var cmd = new MySqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@username", value);
-                            int count = Convert.ToInt32(cmd.ExecuteScalar());
+                            int count = Convert.ToInt32(await cmd.ExecuteScalarAsync());
                             if (count == 0)
                             {
                                 return false;
@@ -248,7 +248,7 @@ namespace TannersWebsiteTemplate.SQL
                         using (var cmd = new MySqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@email", value);
-                            int count = Convert.ToInt32(cmd.ExecuteScalar());
+                            int count = Convert.ToInt32(await cmd.ExecuteScalarAsync());
                             if (count == 0)
                             {
                                 return false;
@@ -263,13 +263,13 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Accounts: An error occured in DoesUserExist (string value, string search parameters variant): " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Accounts: An error occured in DoesUserExist (string value, string search parameters variant): " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
                 return false;
             }
         }
 
         // Same as above but userid variant, in case this is more preferable in the future
-        public static bool DoesUserExist(int? userid)
+        public static async Task<bool> DoesUserExist(int? userid)
         {
             try
             {
@@ -280,7 +280,7 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@userid", userid);
-                        int count = Convert.ToInt32(cmd.ExecuteScalar());
+                        int count = Convert.ToInt32(await cmd.ExecuteScalarAsync());
                         if (count == 0)
                         {
                             return false;
@@ -294,15 +294,15 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Accounts: An error occured in DoesUserExist (int? userid parameter variant): " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Accounts: An error occured in DoesUserExist (int? userid parameter variant): " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
                 return false;
             }
         }
 
         // Get User ID by Username / Email
-        public static int GetUserID(string username)
+        public static async Task<int> GetUserID(string username)
         {
-            if (EmailRegex.IsMatch(username)) username = GetUsername(username);
+            if (EmailRegex.IsMatch(username)) username = await GetUsername(username);
             try
             {
                 using (var con = Main.Connect())
@@ -312,24 +312,20 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@username", username);
-                        int id = Convert.ToInt32(cmd.ExecuteScalar());
-                        /*if (id == 0 && username != GetUsername(0))
-                        {
-                            return -1;
-                        }*/
+                        int id = Convert.ToInt32(await cmd.ExecuteScalarAsync());
                         return id;
                     }
                 }
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Accounts: An error occured in GetUserID: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Accounts: An error occured in GetUserID: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
                 return -1;
             }
         }
 
         // Get Username by UserID
-        public static string? GetUsername(int userid)
+        public static async Task<string?> GetUsername(int userid)
         {
             try
             {
@@ -340,19 +336,20 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@userid", userid);
-                        return cmd.ExecuteScalar()?.ToString();
+                        var result = await cmd.ExecuteScalarAsync();
+                        return result.ToString();
                     }
                 }
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Accounts: An error occured in GetUsername (int userid variant): " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Accounts: An error occured in GetUsername (int userid variant): " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
                 return null;
             }
         }
 
         //  Get Username by Email
-        public static string? GetUsername(string email)
+        public static async Task<string?> GetUsername(string email)
         {
             try
             {
@@ -363,19 +360,20 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@email", email);
-                        return cmd.ExecuteScalar()?.ToString();
+                        var result = await cmd.ExecuteScalarAsync();
+                        return result.ToString();
                     }
                 }
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Accounts: An error occured in GetUsername (string email variant): " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Accounts: An error occured in GetUsername (string email variant): " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
                 return null;
             }
         }
 
         // Get Join Date by UserID
-        public static DateTime? GetJoinDate(int userid)
+        public static async Task<DateTime?> GetJoinDate(int userid)
         {
             try
             {
@@ -386,21 +384,22 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@userid", userid);
-                        return (DateTime?)cmd.ExecuteScalar();
+                        var result = await cmd.ExecuteScalarAsync();
+                        return (DateTime?)result;
                     }
                 }
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Accounts: An error occured in GetJoinDate: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Accounts: An error occured in GetJoinDate: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
                 return null;
             }
         }
 
         // Does Session ID Match
-        public static bool DoesSIDMatch(int? userid, string? sid)
+        public static async Task<bool> DoesSIDMatch(int? userid, string? sid)
         {
-            bool usercheck = DoesUserExist(userid);
+            bool usercheck = await DoesUserExist(userid);
             if (usercheck)
             {
                 try
@@ -412,7 +411,8 @@ namespace TannersWebsiteTemplate.SQL
                         using (var cmd = new MySqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@userid", userid);
-                            string id = cmd.ExecuteScalar().ToString();
+                            var result = await cmd.ExecuteScalarAsync();
+                            string id = result.ToString();
                             if (id != sid)
                             {
                                 return false;
@@ -426,120 +426,11 @@ namespace TannersWebsiteTemplate.SQL
                 }
                 catch (MySqlException e)
                 {
-                    Logger.Write("SQL.Accounts: An error occured in DoesSIDMatch: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
+                    await Logger.Write("SQL.Accounts: An error occured in DoesSIDMatch: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
                     return false;
                 }
             }
             return false;
-        }
-
-        // Gets Security Question by UserID
-        public static string[] GetSecurityQuestion(int? userid)
-        {
-            try
-            {
-                using (var con = Main.Connect())
-                {
-                    con.Open();
-                    string query = "SELECT question, answer FROM securityquestion WHERE id = @id";
-                    using (var cmd = new MySqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@id", userid);
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                string question = reader.GetString(0); 
-                                string answer = reader.GetString(1);
-                                return new string[] { question, answer };
-                            }
-                        }
-                    }
-                }
-            }
-            catch (MySqlException e)
-            {
-                Logger.Write("SQL.Accounts: An error occured in GetSecurityQuestion: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
-                return new string[] { null, null };
-            }
-            return new string[] { null, null };
-        }
-
-        // Creates a Security Question entry under a specified UserID.
-        public static async Task<(bool, bool)> CreateSecurityQuestion(int? userid, string? question, string? answer)
-        {
-            try
-            {
-                using (var con = Main.Connect())
-                {
-                    con.Open();
-                    string prequery = "SELECT COUNT(*) FROM securityquestion WHERE id = @id";
-                    using (var cmd = new MySqlCommand(prequery, con))
-                    {
-                        cmd.Parameters.AddWithValue("@id", userid);
-                        int count = Convert.ToInt32(await cmd.ExecuteScalarAsync());
-                        if (count > 0)
-                        {
-                            return (false, false);
-                        }
-                    }
-                    string query = "INSERT INTO securityquestion (id, question, answer) VALUES (@id, @q, @a)";
-                    using (var cmd = new MySqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@id", userid);
-                        cmd.Parameters.AddWithValue("@q", question);
-                        cmd.Parameters.AddWithValue("@a", answer);
-                        await cmd.ExecuteNonQueryAsync();
-                        return (true, false);
-                    }
-                }
-            }
-            catch (MySqlException e)
-            {
-                Logger.Write("SQL.Accounts: An error occured in CreateSecurityQuestion: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
-                return (false, true);
-            }
-        }
-
-        // Updates a Security Question entry under a specified UserID.
-        public static async Task<(bool, bool)> UpdateSecurityQuestion(int? userid, string? question = null, string? answer = null)
-        {
-            try
-            {
-                using (var con = Main.Connect())
-                {
-                    con.Open();
-                    string prequery = "SELECT COUNT(*) FROM securityquestion WHERE id = @id";
-                    using (var cmd = new MySqlCommand(prequery, con))
-                    {
-                        cmd.Parameters.AddWithValue("@id", userid);
-                        int count = Convert.ToInt32(await cmd.ExecuteScalarAsync());
-                        if (count == 0)
-                        {
-                            return (false, false);
-                        }
-                    }
-                    
-                    string? q = GetSecurityQuestion(userid)[0];
-                    string? a = GetSecurityQuestion(userid)[1];
-                    question = question == null ? q : question;
-                    answer = answer == null ? a : answer;
-                    string query = "UPDATE securityquestion SET question = @q, answer = @a WHERE id = @id";
-                    using (var cmd = new MySqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@id", userid);
-                        cmd.Parameters.AddWithValue("@q", question);
-                        cmd.Parameters.AddWithValue("@a", answer);
-                        await cmd.ExecuteNonQueryAsync();
-                        return (true, false);
-                    }
-                }
-            }
-            catch (MySqlException e)
-            {
-                Logger.Write("SQL.Accounts: An error occured in UpdateSecurityQuestion: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
-                return (false, true);
-            }
         }
     }
 }

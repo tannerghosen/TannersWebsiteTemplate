@@ -29,7 +29,7 @@
                 </div>
             </fieldset>
         </form>
-        if (HttpContext.Session.GetInt32("IsAdmin") == 1 && SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
+        if (HttpContext.Session.GetInt32("IsAdmin") == 1 && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
         {
             <a href="/Admin">Admin Page</a>
         }

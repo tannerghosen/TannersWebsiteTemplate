@@ -37,9 +37,9 @@ namespace TannersWebsiteTemplate.Pages
                 var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value; // Email
 
                 // We login / register the user based on email
-                if (!SQL.Accounts.DoesUserExist(email, "email"))
+                if (!await SQL.Accounts.DoesUserExist(email, "email"))
                 {
-                    if (SQL.Accounts.DoesUserExist(username, "username"))
+                    if (await SQL.Accounts.DoesUserExist(username, "username"))
                     {
                         // If this user already exists, we prevent an issue by adding a number to the end of the username
                         Random random = new Random();

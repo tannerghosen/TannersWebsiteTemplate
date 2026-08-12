@@ -17,7 +17,7 @@ namespace TannersWebsiteTemplate.Pages
         [BindProperty]
         public string Result { get; set; }
 
-        public void OnGet()
+        public async Task OnGet()
         {
             Id = TempData["Id"]?.ToString();
             if (Id == null)
@@ -27,8 +27,7 @@ namespace TannersWebsiteTemplate.Pages
             try
             {
                 int userid = int.TryParse(Id, out int newid) ? newid : 0;
-                Question = SQL.Accounts.GetSecurityQuestion(userid)[0];
-                CorrectAnswer = SQL.Accounts.GetSecurityQuestion(userid)[1];
+                (Question, CorrectAnswer) = await SQL.SecurityQuestions.GetSecurityQuestion(userid);
             }
             catch
             {

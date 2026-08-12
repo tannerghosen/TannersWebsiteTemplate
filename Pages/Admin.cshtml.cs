@@ -18,14 +18,14 @@ namespace TannersWebsiteTemplate.Pages
         {
             _logger = logger;
         }
-        public void OnGet()
+        public async Task OnGet()
         {
-            if (HttpContext.Session.GetInt32("IsAdmin") != 1 || !SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
+            if (HttpContext.Session.GetInt32("IsAdmin") != 1 || !await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
             {
                 Response.Redirect("/Index");
             }
             // Accounts / Security Question Tables joined as a 2d array (row, column). each user entry is 1 row, with multiple columns
-            AccountsTable = SQL.Admin.GrabAccountsTable();
+            AccountsTable = await SQL.Admin.GrabAccountsTable();
             // row[5] being modified from being a boolean true / false to a Yes / No via a select statement
             AccountsTable = AccountsTable.Select(row =>
             {
@@ -44,7 +44,7 @@ namespace TannersWebsiteTemplate.Pages
 
         public async Task<IActionResult> OnPostDelete(int? userid)
         {
-            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")) && HttpContext.Session.GetInt32("UserId") == 1) // is the user admin and is it super admin doing this and does the userid in session check out as admin? if so, delete user requested.
+            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")) && HttpContext.Session.GetInt32("UserId") == 1) // is the user admin and is it super admin doing this and does the userid in session check out as admin? if so, delete user requested.
             {
                 await SQL.Admin.DeleteUser(userid);
             }
@@ -53,7 +53,7 @@ namespace TannersWebsiteTemplate.Pages
         }
         public async Task<IActionResult> OnPostAdmin(int? userid)
         {
-            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")) && HttpContext.Session.GetInt32("UserId") == 1) // is the user admin and is it super admin doing this and does the userid in session check out as admin? if so, make the requested userid an admin
+            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")) && HttpContext.Session.GetInt32("UserId") == 1) // is the user admin and is it super admin doing this and does the userid in session check out as admin? if so, make the requested userid an admin
             {
                 await SQL.Admin.AdminUser(userid);
             }
@@ -61,9 +61,9 @@ namespace TannersWebsiteTemplate.Pages
             return RedirectToPage();
         }
 
-        public IActionResult OnPostResetStats()
+        public async Task<IActionResult> OnPostResetStats()
         {
-            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && HttpContext.Session.GetInt32("UserId") == 1 && SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId"))) // is the user admin and is it super admin doing this and does the userid in session check out as admin? if so, make the requested userid an admin
+            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && HttpContext.Session.GetInt32("UserId") == 1 && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId"))) // is the user admin and is it super admin doing this and does the userid in session check out as admin? if so, make the requested userid an admin
             {
                 Statistics.ResetStats();
             }
@@ -72,7 +72,7 @@ namespace TannersWebsiteTemplate.Pages
 
         public async Task<IActionResult> OnPostUnbanUser(int? userid)
         {
-            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId"))) // is the user admin and does the userid in session check out as admin? if so, make the requested userid an admin
+            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId"))) // is the user admin and does the userid in session check out as admin? if so, make the requested userid an admin
             {
                 await SQL.Admin.UnbanUser(userid);
             }
@@ -81,7 +81,7 @@ namespace TannersWebsiteTemplate.Pages
 
         public async Task<IActionResult> OnPostBanUser(int? userid)
         {
-            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId"))) // is the user admin and does the userid in session check out as admin? if so, make the requested userid an admin
+            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId"))) // is the user admin and does the userid in session check out as admin? if so, make the requested userid an admin
             {
                 await SQL.Admin.BanUser(userid, "You have been banned.", DateTime.Now.AddYears(999));
             }

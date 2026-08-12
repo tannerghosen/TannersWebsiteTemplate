@@ -2,10 +2,10 @@
 
 namespace TannersWebsiteTemplate.SQL
 {
-    public static class Admin
+    public class Admin
     {
         // Grabs the entire table of accounts and returns an array of all 6 columns
-        public static string[]?[]? GrabAccountsTable()
+        public static async Task<string[]?[]?> GrabAccountsTable()
         {
             try
             {
@@ -15,7 +15,7 @@ namespace TannersWebsiteTemplate.SQL
                     string query = "SELECT a.*, s.question FROM accounts a LEFT JOIN securityquestion s ON a.id = s.id";
                     using (var cmd = new MySqlCommand(query, con))
                     {
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             List<string[]> rows = new List<string[]>(); // create a List of string arrays called rows
                             while (reader.Read())
@@ -39,15 +39,15 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Admin: An error occurred in GrabAccountsTable: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Admin: An error occurred in GrabAccountsTable: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
                 return null;
             }
         }
 
         // checks if user is admin
-        public static bool IsAdmin(int? userid)
+        public static async Task<bool> IsAdmin(int? userid)
         {
-            if (Accounts.DoesUserExist(userid))
+            if (await Accounts.DoesUserExist(userid))
             {
                 try
                 {
@@ -68,7 +68,7 @@ namespace TannersWebsiteTemplate.SQL
                 }
                 catch (MySqlException e)
                 {
-                    Logger.Write("SQL.Admin: An error occured in IsAdmin " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                    await Logger.Write("SQL.Admin: An error occured in IsAdmin " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
                     return false;
                 }
             }
@@ -78,7 +78,7 @@ namespace TannersWebsiteTemplate.SQL
         // Deletes a user from the accounts table
         public static async Task DeleteUser(int? userid)
         {
-            if (Accounts.DoesUserExist(userid) && userid != -1 && userid != 1)
+            if (await Accounts.DoesUserExist(userid) && userid != -1 && userid != 1)
             {
                 try
                 {
@@ -95,7 +95,7 @@ namespace TannersWebsiteTemplate.SQL
                 }
                 catch (MySqlException e)
                 {
-                    Logger.Write("SQL.Admin: An error occured in DeleteUser: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                    await Logger.Write("SQL.Admin: An error occured in DeleteUser: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace TannersWebsiteTemplate.SQL
         // Makes user an admin
         public static async Task AdminUser(int? userid)
         {
-            if (Accounts.DoesUserExist(userid) && userid != -1 && userid != 1)
+            if (await Accounts.DoesUserExist(userid) && userid != -1 && userid != 1)
             {
                 try
                 {
@@ -114,14 +114,14 @@ namespace TannersWebsiteTemplate.SQL
                         using (var cmd = new MySqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@userid", userid);
-                            cmd.Parameters.AddWithValue("@isadmin", IsAdmin(userid) ? 0 : 1);
+                            cmd.Parameters.AddWithValue("@isadmin", await IsAdmin(userid) ? 0 : 1);
                             await cmd.ExecuteNonQueryAsync();
                         }
                     }
                 }
                 catch (MySqlException e)
                 {
-                    Logger.Write("SQL.Admin: An error occured in AdminUser: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                    await Logger.Write("SQL.Admin: An error occured in AdminUser: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
                 }
             }
         }
@@ -150,17 +150,17 @@ namespace TannersWebsiteTemplate.SQL
                             await cmd.ExecuteNonQueryAsync();
                         }
                     }
-                    Logger.Write("Ban added for IP Address " + ip);
+                    await Logger.Write("Ban added for IP Address " + ip);
                 }
                 catch (MySqlException e)
                 {
-                    Logger.Write("SQL.Admin: An error occured in BanIP: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                    await Logger.Write("SQL.Admin: An error occured in BanIP: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
                 }
             }
         }
 
         // Checks if the user is IP Banned
-        public static (bool, string?, string?, DateTime?) IsUserIPBanned(string ip)
+        public static async Task<(bool, string?, string?, DateTime?)> IsUserIPBanned(string ip)
         {
             try
             {
@@ -171,7 +171,7 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@ip", ip);
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader.Read())
                             {
@@ -186,13 +186,13 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Admin: An error occured in IsUserIPBanned " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Admin: An error occured in IsUserIPBanned " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
                 return (false, null, null, null);
             }
         }
 
         // Checks if the user is IP Banned, but as a simple true (yes) or false (no).
-        public static bool IsUserIPBannedSimple(string ip)
+        public static async Task<bool> IsUserIPBannedSimple(string ip)
         {
             try
             {
@@ -203,7 +203,7 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@ip", ip);
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader.Read())
                             {
@@ -216,7 +216,7 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Admin: An error occured in IsUserIPBannedS " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Admin: An error occured in IsUserIPBannedS " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
                 return false;
             }
         }
@@ -224,7 +224,7 @@ namespace TannersWebsiteTemplate.SQL
         // Bans a user by their UserID
         public static async Task BanUser(int? id, string? reason, DateTime? expire)
         {
-            if (id != 1 && id != -1 && id != null && SQL.Accounts.DoesUserExist(id))
+            if (id != 1 && id != -1 && id != null && await SQL.Accounts.DoesUserExist(id))
             {
                 if (expire == null)
                     expire = DateTime.Now;
@@ -246,17 +246,17 @@ namespace TannersWebsiteTemplate.SQL
                             await cmd.ExecuteNonQueryAsync();
                         }
                     }
-                    Logger.Write("Ban added for Account ID " + id);
+                    await Logger.Write("Ban added for Account ID " + id);
                 }
                 catch (MySqlException e)
                 {
-                    Logger.Write("SQL.Admin: An error occured in BanUser: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                    await Logger.Write("SQL.Admin: An error occured in BanUser: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
                 }
             }
         }
 
         // Is a user banned from the website
-        public static (bool, int?, string?, DateTime?) IsUserBanned(int? id)
+        public static async Task<(bool, int?, string?, DateTime?)> IsUserBanned(int? id)
         {
             try
             {
@@ -267,7 +267,7 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@id", id);
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader.Read())
                             {
@@ -283,13 +283,13 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Admin: An error occured in IsUserBanned " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Admin: An error occured in IsUserBanned " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
                 return (false, null, null, null);
             }
         }
 
         // Is the user banned from the website, but a simple true (yes) or false (no).
-        public static bool IsUserBannedSimple(int id)
+        public static async Task<bool> IsUserBannedSimple(int id)
         {
             try
             {
@@ -300,7 +300,7 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@id", id);
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader.Read())
                             {
@@ -314,7 +314,7 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Admin: An error occured in IsUserBannedS " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Admin: An error occured in IsUserBannedS " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
                 return false;
             }
         }
@@ -322,7 +322,7 @@ namespace TannersWebsiteTemplate.SQL
         // Unbans a user by UserID
         public static async Task UnbanUser(int? id)
         {
-            (bool b, int? i, string? r, DateTime? ex) = IsUserBanned(id);
+            (bool b, int? i, string? r, DateTime? ex) = await IsUserBanned(id);
             if (b == true)
             {
                 try
@@ -339,11 +339,11 @@ namespace TannersWebsiteTemplate.SQL
                             await cmd.ExecuteNonQueryAsync();
                         }
                     }
-                    Logger.Write("Unbanned Account ID " + id);
+                    await Logger.Write("Unbanned Account ID " + id);
                 }
                 catch (MySqlException e)
                 {
-                    Logger.Write("SQL.Admin: An error occured in UnbanUser: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                    await Logger.Write("SQL.Admin: An error occured in UnbanUser: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
                 }
             }
         }
@@ -351,7 +351,7 @@ namespace TannersWebsiteTemplate.SQL
         // Unbans an IP based on IP address
         public static async Task UnbanIP(string ip)
         {
-            (bool b, string? i, string? r, DateTime? ex) = IsUserIPBanned(ip);
+            (bool b, string? i, string? r, DateTime? ex) = await IsUserIPBanned(ip);
             if (b == true)
             {
                 try
@@ -367,11 +367,11 @@ namespace TannersWebsiteTemplate.SQL
                             await cmd.ExecuteNonQueryAsync();
                         }
                     }
-                    Logger.Write("Ban removed for IP Address " + ip);
+                    await Logger.Write("Ban removed for IP Address " + ip);
                 }
                 catch (MySqlException e)
                 {
-                    Logger.Write("SQL.Admin: An error occured in UnbanIP: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                    await Logger.Write("SQL.Admin: An error occured in UnbanIP: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
                 }
             }
         }

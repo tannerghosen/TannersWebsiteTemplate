@@ -23,7 +23,7 @@
                     <tr><td>@row[0]</td><td><a href="/Profile/@row[0]">@row[2]</a></td><td>@row[1]</td><td>@row[4]</td><td>@row[5]</td>
                         @{  bool IsOffLimits = row[0] == "1" || row[0] == "-1"; 
                             // If user isn't -1 or 1 which is anonymous/admin, and if the user is an admin and either 1. they're an admin
-                            if (!IsOffLimits && SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")) && HttpContext.Session.GetInt32("IsAdmin") == 1 && (HttpContext.Session.GetInt32("UserId") == 1 || row[5] != "Yes") && HttpContext.Session.GetInt32("UserId") != Convert.ToInt32(row[0]))
+                            if (!IsOffLimits && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")) && HttpContext.Session.GetInt32("IsAdmin") == 1 && (HttpContext.Session.GetInt32("UserId") == 1 || row[5] != "Yes") && HttpContext.Session.GetInt32("UserId") != Convert.ToInt32(row[0]))
                             {
                                 if(HttpContext.Session.GetInt32("UserId") == 1)
                                 {
@@ -40,7 +40,7 @@
                                     <td></td>
                                     <td></td>
                                 }
-                                if (SQL.Admin.IsUserBannedSimple(Convert.ToInt32(row[0])))
+                                if (await SQL.Admin.IsUserBannedSimple(Convert.ToInt32(row[0])))
                                 {
                                         <td>
                                             <form method="post" asp-page-handler="UnbanUser">
@@ -63,7 +63,7 @@
                                 <td></td>
                             }
 
-                            if (!IsOffLimits && (SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")) && (HttpContext.Session.GetInt32("IsAdmin") == 1 && HttpContext.Session.GetInt32("UserId") == 1)))  // if admin and userid = 1
+                            if (!IsOffLimits && (await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")) && (HttpContext.Session.GetInt32("IsAdmin") == 1 && HttpContext.Session.GetInt32("UserId") == 1)))  // if admin and userid = 1
                             {
                                         <td>
                                             <form method="post" asp-page-handler="Admin">

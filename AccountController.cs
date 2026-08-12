@@ -19,14 +19,14 @@ namespace TannersWebsiteTemplate
             if (!_s.IsUserLoggedIn())
             {
                 Guid sid = _s.SID(); // generate session id
-                Username = EmailRegex.IsMatch(Username) == true ? SQL.Accounts.GetUsername(Username) : Username;
+                Username = EmailRegex.IsMatch(Username) == true ? await SQL.Accounts.GetUsername(Username) : Username;
                 (bool result, bool error) = (false, false);
                 // If external login source
                 if (External == true)
                 {
                     // If it's an external login and this method is being called, it's a successful login via that site
                     // So all we need to really prove here is the user does actually exist
-                    (result, error) = (SQL.Accounts.DoesUserExist(Username), false);
+                    (result, error) = (await SQL.Accounts.DoesUserExist(Username), false);
                 }
                 // Else, just login like normaal.
                 else
@@ -37,9 +37,9 @@ namespace TannersWebsiteTemplate
                 // if the result from the login is true (successful outcome)
                 if (result == true)
                 {
-                    if (!SQL.Admin.IsUserBannedSimple(SQL.Accounts.GetUserID(Username))) // if user is not banned
+                    if (!await SQL.Admin.IsUserBannedSimple(await SQL.Accounts.GetUserID(Username))) // if user is not banned
                     {
-                        await _s.Login(Username, SQL.Accounts.GetUserID(Username), sid.ToString());
+                        await _s.Login(Username, await SQL.Accounts.GetUserID(Username), sid.ToString());
                         Statistics.IncrementLogins();
                         return Ok("Login successful. Logged in as: " + Username + ".");
                     }
@@ -69,8 +69,8 @@ namespace TannersWebsiteTemplate
                 if (result == true)
                 {
                     await Logger.Write("Registration successful. New user added: " + Username, "REGISTER");
-                    await _s.Login(Username, SQL.Accounts.GetUserID(Username), sid.ToString());
-                    await SQL.Accounts.CreateSecurityQuestion(SQL.Accounts.GetUserID(Username), SecurityQuestion, Answer);
+                    await _s.Login(Username, await SQL.Accounts.GetUserID(Username), sid.ToString());
+                    await SQL.SecurityQuestions.CreateSecurityQuestion(await SQL.Accounts.GetUserID(Username), SecurityQuestion, Answer);
                     Statistics.IncrementRegistrations();
                     return Ok("Account Registered. Logged into " + Username + ".");
                 }

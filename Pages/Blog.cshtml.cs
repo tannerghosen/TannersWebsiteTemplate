@@ -52,7 +52,7 @@ namespace TannersWebsiteTemplate.Pages
         public async Task<IActionResult> OnPost()
         {
             Post = int.TryParse(Request.Form["CS"], out int cs) ? cs : 1; // What post this comment belongs to (CS input in form on page)
-            string username = SQL.Accounts.DoesUserExist(HttpContext.Session.GetString("Username")) ? HttpContext.Session.GetString("Username") : "Anonymous"; // if the user is not logged in, use anonymous
+            string username = await SQL.Accounts.DoesUserExist(HttpContext.Session.GetString("Username")) ? HttpContext.Session.GetString("Username") : "Anonymous"; // if the user is not logged in, use anonymous
             await SQL.Comments.AddComment(Comment, username, Post);
 
             return RedirectToPage("/Blog", new { post = Post});
@@ -60,7 +60,7 @@ namespace TannersWebsiteTemplate.Pages
 
         public async Task<IActionResult> OnPostDelete(int? commentid)
         {
-            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
+            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
             {
                 await SQL.Comments.DeleteComment(commentid);
             }

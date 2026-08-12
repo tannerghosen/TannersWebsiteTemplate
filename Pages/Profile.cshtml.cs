@@ -19,13 +19,13 @@ namespace TannersWebsiteTemplate.Pages
 
         [BindProperty]
         public string? AccountType { get; set; }
-        public void OnGet()
+        public async Task OnGet()
         {
             //Id = Convert.ToInt32(Request.Query["UserId"]);
             Id = Convert.ToInt32(RouteData.Values["id"]);
-            Username = SQL.Accounts.GetUsername(Id) == null || SQL.Accounts.GetUsername(Id) == string.Empty ? "Not Registered" : SQL.Accounts.GetUsername(Id);
-            AccountType = SQL.Admin.IsAdmin(Id) == true ? Id == 1 ? "Owner" : "Admin" : Id == -1 ? "Guest" : "Member";
-            JoinDate = SQL.Accounts.GetJoinDate(Id) == null || SQL.Accounts.GetJoinDate(Id) < DateTime.MinValue ? DateTime.Now : SQL.Accounts.GetJoinDate(Id);
+            Username = await SQL.Accounts.GetUsername(Id) == null || await SQL.Accounts.GetUsername(Id) == string.Empty ? "Not Registered" : await SQL.Accounts.GetUsername(Id);
+            AccountType = await SQL.Admin.IsAdmin(Id) == true ? Id == 1 ? "Owner" : "Admin" : Id == -1 ? "Guest" : "Member";
+            JoinDate = await SQL.Accounts.GetJoinDate(Id) == null || await SQL.Accounts.GetJoinDate(Id) < DateTime.MinValue ? DateTime.Now : await SQL.Accounts.GetJoinDate(Id);
             TotalComments = SQL.Comments.CountCommentsByUserId(Id);
         }
     }

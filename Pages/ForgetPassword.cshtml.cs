@@ -15,13 +15,13 @@ namespace TannersWebsiteTemplate.Pages
         {
 
         }
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             bool isusernameemail = Regex.IsMatch(Username, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
-            Username = isusernameemail == true ? SQL.Accounts.GetUsername(Username) : Username;
-            if (SQL.Accounts.DoesUserExist(Username))
+            Username = isusernameemail == true ? await SQL.Accounts.GetUsername(Username) : Username;
+            if (await SQL.Accounts.DoesUserExist(Username))
             {
-                int id = SQL.Accounts.GetUserID(Username);
+                int id = await SQL.Accounts.GetUserID(Username);
                 TempData["Id"] = id; // This is the TempData Id we use to assign Id in both SecurityQuestion and ChangePassword to, which we pass along!
                 Response.Redirect("/SecurityQuestion");
             }

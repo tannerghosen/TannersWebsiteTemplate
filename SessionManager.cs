@@ -22,11 +22,11 @@ public class SessionManager
     public async Task Login(string username, int id, string sessionid)
     {
         _h.HttpContext.Session.SetString("Username", username);
-        _h.HttpContext.Session.SetInt32("UserId", TannersWebsiteTemplate.SQL.Accounts.GetUserID(username));
+        _h.HttpContext.Session.SetInt32("UserId", await TannersWebsiteTemplate.SQL.Accounts.GetUserID(username));
         _h.HttpContext.Session.SetString("SessionId", sessionid);
         _h.HttpContext.Session.SetInt32("IsLoggedIn", 1);
-        _h.HttpContext.Session.SetInt32("IsAdmin", TannersWebsiteTemplate.SQL.Admin.IsAdmin(_h.HttpContext.Session.GetInt32("UserId")) == true ? 1 : 0);
-        await Logger.Write("Username: " + username + " id: " + TannersWebsiteTemplate.SQL.Accounts.GetUserID(username) + " ses id: " + sessionid + " is admin?: " + TannersWebsiteTemplate.SQL.Admin.IsAdmin(_h.HttpContext.Session.GetInt32("UserId")), "LOGIN");
+        _h.HttpContext.Session.SetInt32("IsAdmin", await TannersWebsiteTemplate.SQL.Admin.IsAdmin(_h.HttpContext.Session.GetInt32("UserId")) == true ? 1 : 0);
+        await Logger.Write("Username: " + username + " id: " + await TannersWebsiteTemplate.SQL.Accounts.GetUserID(username) + " ses id: " + sessionid + " is admin?: " + await TannersWebsiteTemplate.SQL.Admin.IsAdmin(_h.HttpContext.Session.GetInt32("UserId")), "LOGIN");
     }
 
     public async Task Logout()

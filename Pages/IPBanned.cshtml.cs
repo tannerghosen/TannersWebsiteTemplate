@@ -7,9 +7,9 @@ namespace TannersWebsiteTemplate.Pages
     [DisableRateLimiting]
     public class IPBannedModel : PageModel
     {
-        public void OnGet()
+        public async Task OnGet()
         {
-            if (!TannersWebsiteTemplate.SQL.Admin.IsUserIPBannedSimple(HttpContext.Connection.RemoteIpAddress.ToString()))
+            if (!await TannersWebsiteTemplate.SQL.Admin.IsUserIPBannedSimple(HttpContext.Connection.RemoteIpAddress.ToString()))
             {
                 Response.Redirect("/Index");
             }

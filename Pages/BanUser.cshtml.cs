@@ -22,9 +22,9 @@ namespace TannersWebsiteTemplate.Pages
             _s = s;
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {
-            if (HttpContext.Session.GetInt32("IsAdmin") != 1 || !SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
+            if (HttpContext.Session.GetInt32("IsAdmin") != 1 || !await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
             {
                 Response.Redirect("/Index");
             }
@@ -33,7 +33,7 @@ namespace TannersWebsiteTemplate.Pages
 
         public async Task<IActionResult> OnPost()
         {
-            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
+            if (HttpContext.Session.GetInt32("IsAdmin") == 1 && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
             {
                 if (Id == _s.GetSession().UserId)
                 {

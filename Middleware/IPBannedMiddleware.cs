@@ -26,7 +26,7 @@ namespace TannersWebsiteTemplate.Middleware
             }
 
             // If this IP is banned, always redirect to the IPBanned page
-            if (SQL.Admin.IsUserIPBannedSimple(ip))
+            if (await SQL.Admin.IsUserIPBannedSimple(ip))
             {
                 context.Response.Redirect("/IPBanned");
                 return;

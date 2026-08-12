@@ -13,13 +13,13 @@ namespace TannersWebsiteTemplate.SQL
             {
                 comment = "";
             }
-            if (!Accounts.DoesUserExist(username) || (username == "" || username == null || username == "Anonymous"))
+            if (!await Accounts.DoesUserExist(username) || (username == "" || username == null || username == "Anonymous"))
             {
                 userid = anonymousid;
             }
             else
             {
-                userid = Accounts.GetUserID(username);
+                userid = await Accounts.GetUserID(username);
             }
             try
             {
