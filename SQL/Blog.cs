@@ -3,7 +3,7 @@ using TannersWebsiteTemplate.Models;
 
 namespace TannersWebsiteTemplate.SQL
 {
-    public static class Blog
+    public class Blog
     {
         // Adds a blog post
         public static async Task AddBlogPost(string title, string message)
@@ -21,11 +21,11 @@ namespace TannersWebsiteTemplate.SQL
                         await cmd.ExecuteNonQueryAsync();
                     }
                 }
-                Logger.Write("Added blog post with title " + title);
+                await Logger.Write("Added blog post with title " + title);
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Blog: An error occured in AddBlogPost: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Blog: An error occured in AddBlogPost: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
             }
         }
 
@@ -46,11 +46,11 @@ namespace TannersWebsiteTemplate.SQL
                         await cmd.ExecuteNonQueryAsync();
                     }
                 }
-                Logger.Write("Updated blog post " + blogid);
+                await Logger.Write("Updated blog post " + blogid);
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Blog: An error occured in UpdateBlogPost: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Blog: An error occured in UpdateBlogPost: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
             }
         }
 
@@ -69,16 +69,16 @@ namespace TannersWebsiteTemplate.SQL
                         await cmd.ExecuteNonQueryAsync();
                     }
                 }
-                Logger.Write("Deleted blog post " + blogid);
+                await Logger.Write("Deleted blog post " + blogid);
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Blog: An error occured in DeleteBlogPost: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Blog: An error occured in DeleteBlogPost: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
             }
         }
 
         // Gets a blog post by blogid
-        public static BlogPost GetBlogPost(int? blogid)
+        public static async Task<BlogPost> GetBlogPost(int? blogid)
         {
             string? title = null, message = null, date = null;
             try
@@ -90,7 +90,7 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@id", blogid);
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader.Read())
                             {
@@ -109,13 +109,13 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Blog: An error occured in GetBlogPost: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Blog: An error occured in GetBlogPost: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
                 return new BlogPost { Title = null, Message = null, Date = null };
             }
         }
 
         // Get the total amount of blog posts.
-        public static int GetBlogPostCount()
+        public static async Task<int> GetBlogPostCount()
         {
             int count = 0;
             try
@@ -126,7 +126,7 @@ namespace TannersWebsiteTemplate.SQL
                     string query = "SELECT COUNT(*) FROM blog";
                     using (var cmd = new MySqlCommand(query, con))
                     {
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader != null)
                             {
@@ -142,13 +142,13 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Blog: An error occured in GetBlogPostCount: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Blog: An error occured in GetBlogPostCount: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
                 return 0;
             }
         }
 
         // Checks if a blog post exist by blogid
-        public static bool DoesBlogPostExist(int? blogid)
+        public static async Task<bool> DoesBlogPostExist(int? blogid)
         {
             try
             {
@@ -175,7 +175,7 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Blog: An error occured in DoesBlogPostExist: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Blog: An error occured in DoesBlogPostExist: " + e.Message + "\nSQL.Blog: Error Code: " + e.ErrorCode, "ERROR");
                 return false;
             }
         }

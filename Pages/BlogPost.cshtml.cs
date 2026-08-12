@@ -23,7 +23,7 @@ namespace TannersWebsiteTemplate.Pages
         }
         public async Task<IActionResult> OnPost()
         {
-            int blogid = SQL.Blog.GetBlogPostCount() + 1;
+            int blogid = await SQL.Blog.GetBlogPostCount() + 1;
             if (HttpContext.Session.GetInt32("IsAdmin") == 1 && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
             {
                 if(!string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(Message))

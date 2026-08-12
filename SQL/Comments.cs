@@ -3,7 +3,7 @@ using TannersWebsiteTemplate.Models;
 
 namespace TannersWebsiteTemplate.SQL
 {
-    public static class Comments
+    public class Comments
     {
         // Adds a comment to a specified comment section
         public static async Task AddComment(string? comment, string username = "Anonymous", int commentsection = 0)
@@ -35,17 +35,17 @@ namespace TannersWebsiteTemplate.SQL
                         cmd.Parameters.AddWithValue("@commentsection", commentsection);
                         await cmd.ExecuteNonQueryAsync();
                     }
-                    Logger.Write("Comment added by " + username + " to comment section id " + commentsection);
+                    await Logger.Write("Comment added by " + username + " to comment section id " + commentsection);
                 }
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Comments: An error occured in AddComment: " + e.Message + "\nSQL.Comments: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Comments: An error occured in AddComment: " + e.Message + "\nSQL.Comments: Error Code: " + e.ErrorCode, "ERROR");
             }
         }
 
         // Gets the comments for a specified section and puts them into a CommentSection model
-        public static CommentSection GetCommentSection(int section = 0)
+        public static async Task<CommentSection> GetCommentSection(int section = 0)
         {
             CommentSection cs = new CommentSection();
             try
@@ -58,7 +58,7 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@section", section);
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader != null)
                             {
@@ -75,7 +75,7 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Comments: An error occured in GetCommentSection: " + e.Message + "\nSQL.Comments: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Comments: An error occured in GetCommentSection: " + e.Message + "\nSQL.Comments: Error Code: " + e.ErrorCode, "ERROR");
                 return null;
             }
         }
@@ -95,15 +95,15 @@ namespace TannersWebsiteTemplate.SQL
                         await cmd.ExecuteNonQueryAsync();
                     }
                 }
-                Logger.Write("Deleted comment with id " + commentid);
+                await Logger.Write("Deleted comment with id " + commentid);
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Comments: An error occured in DeleteComment: " + e.Message + "\nSQL.Comments: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Comments: An error occured in DeleteComment: " + e.Message + "\nSQL.Comments: Error Code: " + e.ErrorCode, "ERROR");
             }
         }
 
-        public static int CountCommentsByUserId(int userid)
+        public static async Task<int> CountCommentsByUserId(int userid)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@userid", userid);
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader != null)
                             {
@@ -130,7 +130,7 @@ namespace TannersWebsiteTemplate.SQL
             }
             catch (MySqlException e)
             {
-                Logger.Write("SQL.Comments: An error occured in CountCommentsByUserId: " + e.Message + "\nSQL.Comments: Error Code: " + e.ErrorCode, "ERROR");
+                await Logger.Write("SQL.Comments: An error occured in CountCommentsByUserId: " + e.Message + "\nSQL.Comments: Error Code: " + e.ErrorCode, "ERROR");
                 return 0;
             }
         }

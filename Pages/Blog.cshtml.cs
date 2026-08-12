@@ -24,7 +24,7 @@ namespace TannersWebsiteTemplate.Pages
 
         [BindProperty]
         public CommentSection cs { get; set; }
-        public void OnGet()
+        public async Task OnGet()
         {
             //Post = Convert.ToInt32(Request.Query["Post"]);
             Post = Convert.ToInt32(RouteData.Values["post"]);
@@ -32,21 +32,21 @@ namespace TannersWebsiteTemplate.Pages
             {
                 Post = 1;
             }
-            else if (Post > SQL.Blog.GetBlogPostCount()) // if post is greater than the total amount of posts, we went too far forward
+            else if (Post > await SQL.Blog.GetBlogPostCount()) // if post is greater than the total amount of posts, we went too far forward
             {
-                Post = SQL.Blog.GetBlogPostCount();
+                Post = await SQL.Blog.GetBlogPostCount();
             }
-            if (SQL.Blog.DoesBlogPostExist(Post) == false)
+            if (await SQL.Blog.DoesBlogPostExist(Post) == false)
             {
                 Title = "Deleted Post";
                 Message = "This post was deleted";
                 Date = "Unknown";
             }
-            BlogPost blogpost = SQL.Blog.GetBlogPost(Post); //  Get the post to be displayed in the page
+            BlogPost blogpost = await SQL.Blog.GetBlogPost(Post); //  Get the post to be displayed in the page
             Title = blogpost.Title;
             Message = blogpost.Message;
             Date = blogpost.Date;
-            cs = SQL.Comments.GetCommentSection(Post);
+            cs = await SQL.Comments.GetCommentSection(Post);
         }
 
         public async Task<IActionResult> OnPost()

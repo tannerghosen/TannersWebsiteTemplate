@@ -1,11 +1,10 @@
 ﻿@page
-@using System.Globalization
 @using TannersWebsiteTemplate.Models;
 @model BlogModel
 @{
     ViewData["Title"] = Model.Title;//title;
 }
-@if(SQL.Blog.GetBlogPostCount() >= 1)
+@if(await SQL.Blog.GetBlogPostCount() >= 1)
 {
     <!-- Blog -->
     <h1>@ViewData["Title"]</h1>
@@ -16,7 +15,7 @@
         {
             <a href="/Blog/@(Model.Post - 1)">Back</a>
         }
-        @if (Model.Post < SQL.Blog.GetBlogPostCount()) // if post id is less than total blog posts
+        @if (Model.Post < await SQL.Blog.GetBlogPostCount()) // if post id is less than total blog posts
         {
             <a href="/Blog/@(Model.Post + 1)">Next</a>
         }

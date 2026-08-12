@@ -26,7 +26,7 @@ namespace TannersWebsiteTemplate.Pages
             Username = await SQL.Accounts.GetUsername(Id) == null || await SQL.Accounts.GetUsername(Id) == string.Empty ? "Not Registered" : await SQL.Accounts.GetUsername(Id);
             AccountType = await SQL.Admin.IsAdmin(Id) == true ? Id == 1 ? "Owner" : "Admin" : Id == -1 ? "Guest" : "Member";
             JoinDate = await SQL.Accounts.GetJoinDate(Id) == null || await SQL.Accounts.GetJoinDate(Id) < DateTime.MinValue ? DateTime.Now : await SQL.Accounts.GetJoinDate(Id);
-            TotalComments = SQL.Comments.CountCommentsByUserId(Id);
+            TotalComments = await SQL.Comments.CountCommentsByUserId(Id);
         }
     }
 }
