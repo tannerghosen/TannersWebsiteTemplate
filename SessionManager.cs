@@ -1,5 +1,4 @@
-﻿using TannersWebsiteTemplate;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 
 public struct Session
 {
