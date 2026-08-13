@@ -25,14 +25,12 @@ public class SessionManager
         _h.HttpContext.Session.SetString("SessionId", sessionid);
         _h.HttpContext.Session.SetInt32("IsLoggedIn", 1);
         _h.HttpContext.Session.SetInt32("IsAdmin", await TannersWebsiteTemplate.SQL.Admin.IsAdmin(_h.HttpContext.Session.GetInt32("UserId")) == true ? 1 : 0);
-        await Logger.Write("Username: " + username + " id: " + await TannersWebsiteTemplate.SQL.Accounts.GetUserID(username) + " ses id: " + sessionid + " is admin?: " + await TannersWebsiteTemplate.SQL.Admin.IsAdmin(_h.HttpContext.Session.GetInt32("UserId")), "LOGIN");
     }
 
     public async Task Logout()
     {
         if (IsUserLoggedIn() && (_h.HttpContext.Session.GetString("Username") != null || _h.HttpContext.Session.GetString("Username") != ""))
         {
-            await Logger.Write("Logging out this user: " + _h.HttpContext.Session.GetString("Username") + " " + _h.HttpContext.Session.GetInt32("UserId") + " " + _h.HttpContext.Session.GetString("SessionId") + " " + _h.HttpContext.Session.GetInt32("IsLoggedIn"), "LOGOUT");
             _h.HttpContext.Session.SetString("Username", "");
             _h.HttpContext.Session.SetInt32("UserId", -1);
             _h.HttpContext.Session.SetString("SessionId", "");

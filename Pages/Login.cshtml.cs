@@ -53,6 +53,7 @@ namespace TannersWebsiteTemplate.Pages
             }
             else if (result is OkObjectResult)
             {
+                await Logger.Write("Username: " + username + " id: " + await TannersWebsiteTemplate.SQL.Accounts.GetUserID(username) + "ses id" + HttpContext.Session.GetInt32("UserId") + " is admin?: " + await TannersWebsiteTemplate.SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")), "LOGIN");
                 Result = "Login successful. Logged in as: " + Username + ".";
             }
             else if (result is BadRequestObjectResult)
