@@ -5,16 +5,7 @@ namespace TannersWebsiteTemplate.Helpers
 {
     public class PasswordHelper
     {
-        /* Other Misc Things: characters, regexpattern, regex */
         private static string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*";
-        /* It checks for:
-        1 uppercase letter
-        1 lowercase letter
-        1 number
-        1 special character
-        should not repeat characters more than 5 times consecutively
-        8-32 characters in width
-        */
         private static Regex passregex = Regexes.GetPasswordRegex();
 
         public static string GeneratePassword()
@@ -23,7 +14,6 @@ namespace TannersWebsiteTemplate.Helpers
             Random r = new Random();
             for (int i = 0; i < 16; i++)
             {
-                // characters[Random([0, characters' length])];
                 password.Append(characters[r.Next(characters.Length)]);
             }
             string GeneratedPass = password.ToString();
