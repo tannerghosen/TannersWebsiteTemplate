@@ -42,22 +42,6 @@ public class SessionManager
         }
     }
 
-    // Session ID generator
-    /*public int SID()
-    {
-        int max = 999999999;
-        byte[] bytes = new byte[4];
-        using (var rng = RandomNumberGenerator.Create()) // create a random number generator
-        {
-            rng.GetBytes(bytes);
-            rng.Dispose();
-        }
-        int result = BitConverter.ToInt32(bytes, 0) & int.MaxValue; // convert the bytes to an int. & int.MaxValue is an AND bitwise operation that ensures we only get positives
-        result = result % (max + 1); // in case it goes over our max, we do a modulo to get the remainder. this does nothing if it's less than the max
-
-        return result;
-    }*/
-
     public Guid SID()
     {
         return Guid.NewGuid();
