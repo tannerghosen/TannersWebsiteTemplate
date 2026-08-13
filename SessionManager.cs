@@ -1,6 +1,5 @@
 ﻿using TannersWebsiteTemplate;
 using Microsoft.AspNetCore.Authentication;
-using System.Security.Cryptography;
 
 public struct Session
 {
