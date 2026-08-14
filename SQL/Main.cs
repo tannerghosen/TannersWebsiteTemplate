@@ -4,15 +4,15 @@ namespace TannersWebsiteTemplate.SQL
 {
     public static class Main
     {
-        public static string ConnectionString = "";
+        public static string? ConnectionString = "";
         // Connects to our database
         public static MySqlConnection Connect()
         {
-            string connect = ConnectionString;
+            string? connect = ConnectionString;
             return new MySqlConnection(connect);
         }
         // Creates database and tables if they don't exist
-        public static void Init(string sqlconstr)
+        public static void Init(string? sqlconstr)
         {
             SetConnectionString(sqlconstr);
             if (TryConnectionString() == true)
@@ -41,13 +41,13 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Sets connection string
-        public static void SetConnectionString(string cs)
+        public static void SetConnectionString(string? cs)
         {
             ConnectionString = cs;
         }
 
         // Gets connection string
-        public static string GetConnectionString()
+        public static string? GetConnectionString()
         {
             return ConnectionString;
         }
