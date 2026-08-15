@@ -13,8 +13,8 @@ namespace TannersWebsiteTemplate
             _s = s;
         }
 
-        private Regex EmailRegex = Regexes.GetEmailRegex();
-        private Regex UsernameRegex = Regexes.GetAccountRegex();
+        private static Regex EmailRegex = Regexes.GetEmailRegex();
+        private static Regex UsernameRegex = Regexes.GetAccountRegex();
         public async Task<IActionResult> Login(string Username, string Password, bool External = false)
         {
             if (!_s.IsUserLoggedIn())
