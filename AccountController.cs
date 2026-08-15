@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 using TannersWebsiteTemplate.Helpers;
+using TannersWebsiteTemplate.Interfaces;
 
 namespace TannersWebsiteTemplate
 {
-    public class AccountController : Controller
+    public class AccountController : Controller, IAccountController
     {
         SessionManager _s;
         public AccountController(SessionManager s)

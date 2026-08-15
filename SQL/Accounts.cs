@@ -1,10 +1,11 @@
 ﻿using MySqlConnector;
 using System.Text.RegularExpressions;
 using TannersWebsiteTemplate.Helpers;
+using TannersWebsiteTemplate.Interfaces.SQL;
 
 namespace TannersWebsiteTemplate.SQL
 {
-    public class Accounts
+    public class Accounts : IAccounts
     {
         private static Regex EmailRegex = Regexes.GetEmailRegex();
         private static Regex UsernameRegex = Regexes.GetAccountRegex();

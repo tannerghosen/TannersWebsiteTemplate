@@ -1,8 +1,9 @@
 ﻿using MySqlConnector;
+using TannersWebsiteTemplate.Interfaces.SQL;
 
 namespace TannersWebsiteTemplate.SQL
 {
-    public class Stats
+    public class Stats : IStats
     {
         // Updates various stat entries based on which stat needs to be incremented
         public static async Task UpdateStat(string stat)

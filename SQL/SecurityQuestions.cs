@@ -1,8 +1,9 @@
 ﻿using MySqlConnector;
+using TannersWebsiteTemplate.Interfaces.SQL;
 
 namespace TannersWebsiteTemplate.SQL
 {
-    public class SecurityQuestions
+    public class SecurityQuestions : ISecurityQuestions
     {
         // Gets Security Question by UserID
         public static async Task<(string, string)> GetSecurityQuestion(int? userid)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using TannersWebsiteTemplate.Interfaces;
 
 public struct Session
 {
@@ -8,7 +9,7 @@ public struct Session
     public int? IsLoggedIn;
     public int? IsAdmin;
 }
-public class SessionManager
+public class SessionManager : ISessionManager
 {
 
     private IHttpContextAccessor _h;

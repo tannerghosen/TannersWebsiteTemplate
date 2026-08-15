@@ -1,9 +1,10 @@
 ﻿using MySqlConnector;
 using TannersWebsiteTemplate.Models;
+using TannersWebsiteTemplate.Interfaces.SQL;
 
 namespace TannersWebsiteTemplate.SQL
 {
-    public class Blog
+    public class Blog : IBlog
     {
         // Adds a blog post
         public static async Task AddBlogPost(string title, string message)

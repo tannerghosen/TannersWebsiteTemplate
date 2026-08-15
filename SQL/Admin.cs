@@ -1,8 +1,9 @@
 ﻿using MySqlConnector;
+using TannersWebsiteTemplate.Interfaces.SQL;
 
 namespace TannersWebsiteTemplate.SQL
 {
-    public class Admin
+    public class Admin : IAdmin
     {
         // Grabs the entire table of accounts and returns an array of all 6 columns
         public static async Task<string[]?[]?> GrabAccountsTable()

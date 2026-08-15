@@ -1,9 +1,10 @@
 ﻿using MySqlConnector;
 using TannersWebsiteTemplate.Models;
+using TannersWebsiteTemplate.Interfaces.SQL;
 
 namespace TannersWebsiteTemplate.SQL
 {
-    public class Comments
+    public class Comments : IComments
     {
         // Adds a comment to a specified comment section
         public static async Task AddComment(string? comment, string username = "Anonymous", int commentsection = 0)
