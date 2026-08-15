@@ -1,16 +1,18 @@
-﻿using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.RegularExpressions;
+using TannersWebsiteTemplate.Helpers;
 
 namespace TannersWebsiteTemplate.Pages
 {
     public class LoginModel : PageModel
     {
         [BindProperty]
-        public string Username { get; set; }
+        public string Username { get; set; } = string.Empty;
         [BindProperty]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
 
         [BindProperty]
         public string Result { get; set; }
@@ -24,6 +26,8 @@ namespace TannersWebsiteTemplate.Pages
         private readonly ILogger<IndexModel> _logger;
 
         private AccountController _a;
+
+        private Regex EmailRegex = Regexes.GetEmailRegex();
 
         public LoginModel(ILogger<IndexModel> logger, SessionManager s, AccountController a)
         {
@@ -44,6 +48,7 @@ namespace TannersWebsiteTemplate.Pages
         // Changed from void to IActionResult because void doesn't actually wait for methods. For some reason, this was not an issue before we switched to MySQL, funny enough.
         public async Task<IActionResult> OnPost()
         {
+            if (EmailRegex.IsMatch(Username)) Username = await SQL.Accounts.GetUsername(Username);
             (bool b, int? id, string? reason, DateTime? expire) = await SQL.Admin.IsUserBanned(await SQL.Accounts.GetUserID(Username));
             IActionResult result = await _a.Login(Username, Password);
             if (result is OkObjectResult && b)
