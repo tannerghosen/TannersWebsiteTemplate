@@ -4,8 +4,6 @@ namespace TannersWebsiteTemplate.Interfaces.SQL
 {
     public interface IAccounts
     {
-        private static Regex EmailRegex = Regexes.GetEmailRegex();
-        private static Regex UsernameRegex = Regexes.GetAccountRegex();
         public static abstract Task<(bool, bool)> Register(string email, string username, string password, string sessionid = "");
         public static abstract Task<(bool, bool)> Login(string username, string password, string sessionid = "");
         public static abstract Task<(bool, bool)> UpdateInfo(int? userid, int option, string input, string? sessionid = "", bool adminupdate = false);
