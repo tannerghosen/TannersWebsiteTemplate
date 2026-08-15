@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using TannersWebsiteTemplate.Helpers;
-namespace TannersWebsiteTemplate.Interfaces.SQL
+﻿namespace TannersWebsiteTemplate.Interfaces.SQL
 {
     public interface IAccounts
     {
