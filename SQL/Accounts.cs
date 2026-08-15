@@ -300,13 +300,9 @@ namespace TannersWebsiteTemplate.SQL
             }
         }
 
-        // Get User ID by Username / Email
+        // Get User ID by Username
         public static async Task<int> GetUserID(string username)
         {
-            /*if (EmailRegex.IsMatch(username))
-            {
-                username = await GetUsername(username);
-            }*/
             try
             {
                 using (var con = Main.Connect())

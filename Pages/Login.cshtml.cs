@@ -48,7 +48,7 @@ namespace TannersWebsiteTemplate.Pages
         // Changed from void to IActionResult because void doesn't actually wait for methods. For some reason, this was not an issue before we switched to MySQL, funny enough.
         public async Task<IActionResult> OnPost()
         {
-            if (EmailRegex.IsMatch(Username)) Username = await SQL.Accounts.GetUsername(Username);
+            if (EmailRegex.IsMatch(Username)) Username = await SQL.Accounts.GetUsername(Username); // We convert the email to a username here via the GetUsername method.
             (bool b, int? id, string? reason, DateTime? expire) = await SQL.Admin.IsUserBanned(await SQL.Accounts.GetUserID(Username));
             IActionResult result = await _a.Login(Username, Password);
             if (result is OkObjectResult && b)
