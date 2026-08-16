@@ -1,6 +1,7 @@
 ﻿// https://www.c-sharpcorner.com/article/middlewares-in-asp-net-core-the-ultimate-detailed-guide/
 namespace TannersWebsiteTemplate.Middleware
 {
+    // IP Banned Middleware, basically checks the IP ban table via a SQL method for the current user's IP and redirects them to the IP Banned page if they're banned
     public class IPBannedMiddleware
     {
         private readonly RequestDelegate _next;
