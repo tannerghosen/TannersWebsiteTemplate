@@ -128,7 +128,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 TannersWebsiteTemplate.SQL.Main.Init(sqlconstr);  // Init MySQL classes, also creates tables / triggers / events if they aren't already made.
-await TannersWebsiteTemplate.Status.CreateAccessPassword(); // Create the Access Password
+TannersWebsiteTemplate.Status.CreateAccessPassword(); // Create the Access Password
 
 app.UseWebSockets();
 

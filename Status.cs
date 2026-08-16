@@ -18,7 +18,7 @@ namespace TannersWebsiteTemplate
             return status;
         }
 
-        public static async Task CreateAccessPassword()
+        public static void CreateAccessPassword()
         {
             AccessPassword = PasswordHelper.GeneratePassword(); // generate a password needed to actually send new updates to the websocket server (can be get'd)
             // Remove special characters that can cause issues
