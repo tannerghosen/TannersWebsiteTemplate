@@ -15,10 +15,10 @@ document.addEventListener("DOMContentLoaded", () =>
 	{
 		const url = window.location.href;
 		let link = document.createElement("link");
-		if (!url.includes("/Blog/") && !url.includes("/Profile/"))
-			link.href = "./css/mobile.css";
-		else
+		if (url.includes("/Blog/") || url.includes("/Profile/"))
 			link.href = "../css/mobile.css";
+		else
+			link.href = "./css/mobile.css";
 		link.rel = "stylesheet";
 		document.head.appendChild(link);
 	}
