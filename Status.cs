@@ -4,7 +4,7 @@ namespace TannersWebsiteTemplate
 {
     public static class Status
     {
-        public static string status = "";
+        private static string status = "";
 
         private static string AccessPassword = "";
 
