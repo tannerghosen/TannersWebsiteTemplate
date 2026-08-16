@@ -15,22 +15,22 @@
     string Password = Status.GetAccessPassword();
 }
 <script>
-            const websocket = new WebSocket("wss://@Globals.DomainName/ws");
+            const ws = new WebSocket("wss://@Globals.DomainName/ws");
 
-            websocket.onopen = () =>
+            ws.onopen = () =>
             {
                 console.log("Connected!");
             };
 
             //  On Message Received from WebSocket server
-            websocket.onmessage = (event) =>
+            ws.onmessage = (event) =>
             {
                 const messages = document.getElementById("messages");
                 console.log(event.data);
                 messages.innerHTML = `<p>Current Notification Banner: ${event.data}</p>`;
             };
 
-            websocket.onclose = () =>
+            ws.onclose = () =>
             {
                 console.log("Disconnected");
             };
@@ -40,7 +40,7 @@
                 const input = document.getElementById("input");
                 if (input.value)
                 {
-                    websocket.send(input.value + " " + "@Password");
+                    ws.send(input.value + " " + "@Password");
                     input.value = '';
                 }
             };
