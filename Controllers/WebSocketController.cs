@@ -73,7 +73,7 @@ namespace TannersWebsiteTemplate.Controllers
                         {
                             if (connection.Value.State == WebSocketState.Open)
                             {
-                                _ = connection.Value.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(Status.GetStatus())), WebSocketMessageType.Text, true, CancellationToken.None);
+                                await connection.Value.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(Status.GetStatus())), WebSocketMessageType.Text, true, CancellationToken.None);
                             }
                         }
                     }
