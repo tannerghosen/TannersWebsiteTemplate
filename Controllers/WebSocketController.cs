@@ -22,7 +22,7 @@ namespace TannersWebsiteTemplate.Controllers
 
                 try
                 {
-                    await webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes((Status.status == "" ? "" : Status.status))), WebSocketMessageType.Text, true, CancellationToken.None);
+                    await webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes((Status.GetStatus() == "" ? "" : Status.GetStatus()))), WebSocketMessageType.Text, true, CancellationToken.None);
                 }
                 catch (WebSocketException wse)
                 {
@@ -62,18 +62,18 @@ namespace TannersWebsiteTemplate.Controllers
                         message = message.Remove(index, Status.GetAccessPassword().Length + 1); // remove from the index to the end of the accesspassword length's + 1. (again, we include the space)
                         if (message == "clear")  // if the message is clear, reset it back to an empty string
                         {
-                            Status.status = String.Empty;
+                            Status.SetStatus("");
                         }
                         else // update status
                         {
-                            Status.status = message;
+                            Status.SetStatus(message);
                         }
                         // Iterate through each connection and send them any updated message
                         foreach (var connection in WebSocketConnections)
                         {
                             if (connection.Value.State == WebSocketState.Open)
                             {
-                                _ = connection.Value.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(Status.status)), WebSocketMessageType.Text, true, CancellationToken.None);
+                                _ = connection.Value.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(Status.GetStatus())), WebSocketMessageType.Text, true, CancellationToken.None);
                             }
                         }
                     }
