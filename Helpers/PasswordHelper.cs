@@ -5,8 +5,8 @@ namespace TannersWebsiteTemplate.Helpers
 {
     public class PasswordHelper
     {
-        private static string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*";
-        private static Regex passregex = Regexes.GetPasswordRegex();
+        private static string Characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*";
+        private static Regex PasswordRegex = Regexes.GetPasswordRegex();
 
         public static string GeneratePassword()
         {
@@ -14,15 +14,15 @@ namespace TannersWebsiteTemplate.Helpers
             Random r = new Random();
             for (int i = 0; i < 16; i++)
             {
-                password.Append(characters[r.Next(characters.Length)]);
+                password.Append(Characters[r.Next(Characters.Length)]);
             }
             string GeneratedPass = password.ToString();
-            return passregex.IsMatch(GeneratedPass) == true ? GeneratedPass : GeneratePassword();
+            return PasswordRegex.IsMatch(GeneratedPass) == true ? GeneratedPass : GeneratePassword();
         }
 
         public static bool ValidatePassword(string password)
         {
-            return (!passregex.IsMatch(password) || password == null || password == String.Empty) ? false : true;
+            return (!PasswordRegex.IsMatch(password) || password == null || password == String.Empty) ? false : true;
         }
     }
 }
