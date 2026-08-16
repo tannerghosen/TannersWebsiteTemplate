@@ -16,10 +16,11 @@ namespace TannersWebsiteTemplate.Controllers
             {
                 using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
 
-                var id = Guid.NewGuid();
                 // Add this new WebSocket connection to the list
+                var id = Guid.NewGuid();
                 WebSocketConnections.TryAdd(id, webSocket);
 
+                // Try to send a message to those that make a websocket request to us, however if an exception occurs we just remove them from the connections list
                 try
                 {
                     await webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes((Status.GetStatus() == "" ? "" : Status.GetStatus()))), WebSocketMessageType.Text, true, CancellationToken.None);
@@ -30,6 +31,7 @@ namespace TannersWebsiteTemplate.Controllers
                     WebSocketConnections.TryRemove(id, out _);
                     await Logger.Write(wse.Message, "WEBSOCKET");
                 }
+
                 await Echo(webSocket);
             }
             else
@@ -81,10 +83,10 @@ namespace TannersWebsiteTemplate.Controllers
                     receiveResult = await webSocket.ReceiveAsync(
                         new ArraySegment<byte>(buffer), CancellationToken.None);
                 }
-                    await webSocket.CloseAsync(
-                        receiveResult.CloseStatus.Value,
-                        receiveResult.CloseStatusDescription,
-                        CancellationToken.None);
+                await webSocket.CloseAsync(
+                    receiveResult.CloseStatus.Value,
+                    receiveResult.CloseStatusDescription,
+                    CancellationToken.None);
             }
             catch (WebSocketException wse)
             {
