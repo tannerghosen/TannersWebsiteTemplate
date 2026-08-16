@@ -320,7 +320,7 @@ namespace TannersWebsiteTemplate.SQL
             catch (MySqlException e)
             {
                 await Logger.Write("SQL.Accounts: An error occured in GetUserID: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
-                return -1;
+                return 0;
             }
         }
 
@@ -337,6 +337,7 @@ namespace TannersWebsiteTemplate.SQL
                     {
                         cmd.Parameters.AddWithValue("@userid", userid);
                         var result = await cmd.ExecuteScalarAsync();
+                        if (result == null || result == DBNull.Value) result = "";
                         return result.ToString();
                     }
                 }
@@ -361,6 +362,7 @@ namespace TannersWebsiteTemplate.SQL
                     {
                         cmd.Parameters.AddWithValue("@email", email);
                         var result = await cmd.ExecuteScalarAsync();
+                        if (result == null || result == DBNull.Value) result = "";
                         return result.ToString();
                     }
                 }
