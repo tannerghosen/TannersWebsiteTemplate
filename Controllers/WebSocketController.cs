@@ -68,7 +68,7 @@ namespace TannersWebsiteTemplate.Controllers
                         {
                             Status.SetStatus(message);
                         }
-                        // Iterate through each connection and send them any updated message
+                        // Iterate through each connection and send them the updated message
                         foreach (var connection in WebSocketConnections)
                         {
                             if (connection.Value.State == WebSocketState.Open)
