@@ -26,7 +26,6 @@
             ws.onmessage = (event) =>
             {
                 const messages = document.getElementById("messages");
-                console.log(event.data);
                 messages.innerHTML = `<p>Current Notification Banner: ${event.data}</p>`;
             };
 
