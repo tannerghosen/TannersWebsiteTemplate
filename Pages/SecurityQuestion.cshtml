@@ -7,7 +7,7 @@
     @if(Model.Question != null)
     {
     <h1>@ViewData["Title"]</h1>
-    <p>Hi @SQL.Accounts.GetUsername(Convert.ToInt32(Model.Id))!<br />To recover your account you will need to answer your security question!<br />It is as follows: "@Model.Question"</p>
+    <p>Hi @await SQL.Accounts.GetUsername(Convert.ToInt32(Model.Id))!<br />To recover your account you will need to answer your security question!<br />It is as follows: "@Model.Question"</p>
         <form method="post">
             <fieldset>
                 <div>
