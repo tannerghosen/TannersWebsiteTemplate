@@ -31,7 +31,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Updates an existing blog post by blogid.
-        public static async Task UpdateBlogPost(int? blogid, string title, string message)
+        public static async Task UpdateBlogPost(int blogid, string title, string message)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Deletes a blog post by blogid
-        public static async Task DeleteBlogPost(int? blogid)
+        public static async Task DeleteBlogPost(int blogid)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Gets a blog post by blogid
-        public static async Task<BlogPost> GetBlogPost(int? blogid)
+        public static async Task<BlogPost> GetBlogPost(int blogid)
         {
             string? title = null, message = null, date = null;
             try
@@ -149,7 +149,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Checks if a blog post exist by blogid
-        public static async Task<bool> DoesBlogPostExist(int? blogid)
+        public static async Task<bool> DoesBlogPostExist(int blogid)
         {
             try
             {

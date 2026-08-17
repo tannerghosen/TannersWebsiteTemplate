@@ -15,6 +15,6 @@ namespace TannersWebsiteTemplate.Interfaces.SQL
         public static abstract Task<string?> GetUsername(int userid);
         public static abstract Task<string?> GetUsername(string email);
         public static abstract Task<DateTime?> GetJoinDate(int userid);
-        public static abstract Task<bool> DoesSIDMatch(int? userid, string? sid);
+        public static abstract Task<bool> DoesSIDMatch(int? userid, string sid);
     }
 }

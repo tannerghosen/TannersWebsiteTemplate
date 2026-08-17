@@ -6,7 +6,7 @@ namespace TannersWebsiteTemplate.SQL
     public class SecurityQuestions : ISecurityQuestions
     {
         // Gets Security Question by UserID
-        public static async Task<(string, string)> GetSecurityQuestion(int? userid)
+        public static async Task<(string, string)> GetSecurityQuestion(int userid)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Creates a Security Question entry under a specified UserID.
-        public static async Task<(bool, bool)> CreateSecurityQuestion(int? userid, string? question, string? answer)
+        public static async Task<(bool, bool)> CreateSecurityQuestion(int userid, string question, string answer)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Updates a Security Question entry under a specified UserID.
-        public static async Task<(bool, bool)> UpdateSecurityQuestion(int? userid, string? question = null, string? answer = null)
+        public static async Task<(bool, bool)> UpdateSecurityQuestion(int userid, string question = "", string answer = "")
         {
             try
             {

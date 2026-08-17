@@ -6,7 +6,7 @@ namespace TannersWebsiteTemplate.SQL
     public class Admin : IAdmin
     {
         // Grabs the entire table of accounts and returns an array of all 6 columns
-        public static async Task<string[]?[]?> GrabAccountsTable()
+        public static async Task<string[][]> GrabAccountsTable()
         {
             try
             {
@@ -290,7 +290,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Is the user banned from the website, but a simple true (yes) or false (no).
-        public static async Task<bool> IsUserBannedSimple(int id)
+        public static async Task<bool> IsUserBannedSimple(int? id)
         {
             try
             {

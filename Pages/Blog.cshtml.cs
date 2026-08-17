@@ -58,7 +58,7 @@ namespace TannersWebsiteTemplate.Pages
             return RedirectToPage("/Blog", new { post = Post});
         }
 
-        public async Task<IActionResult> OnPostDelete(int? commentid)
+        public async Task<IActionResult> OnPostDelete(int commentid)
         {
             if (HttpContext.Session.GetInt32("IsAdmin") == 1 && await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId")))
             {

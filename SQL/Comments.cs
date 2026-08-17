@@ -7,7 +7,7 @@ namespace TannersWebsiteTemplate.SQL
     public class Comments : IComments
     {
         // Adds a comment to a specified comment section
-        public static async Task AddComment(string? comment, string username = "Anonymous", int commentsection = 0)
+        public static async Task AddComment(string comment, string username = "Anonymous", int commentsection = 0)
         {
             int userid, anonymousid = -1;
             if (comment == null)
@@ -82,7 +82,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Deletes comment by commentid
-        public static async Task DeleteComment(int? commentid)
+        public static async Task DeleteComment(int commentid)
         {
             try
             {
