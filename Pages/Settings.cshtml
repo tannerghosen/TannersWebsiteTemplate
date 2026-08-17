@@ -11,10 +11,13 @@
 @{
         <form method="post">
             <fieldset>
+                @if (Model.IsExternal == false)
+                {
                 <div>
                     <label for="email">Email:</label>
                     <input type="text" name="email" asp-for="Email" value="" id="email" class="text-black" placeholder="you@example.com" />
                 </div>
+                }
                 <div>
                     <label for="username">Username:</label>
                     <input type="text" name="username" asp-for="Username" value="" id="username" class="text-black" placeholder="you" />

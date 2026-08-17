@@ -17,14 +17,17 @@ namespace TannersWebsiteTemplate.Pages
         [BindProperty]
         public string Result { get; set; }
 
+        public bool IsExternal { get; set; }
         private Regex EmailRegex = Regexes.GetEmailRegex();
         private Regex UsernameRegex = Regexes.GetAccountRegex();
-        public void OnGet()
+        public async Task OnGet()
         {
             if (HttpContext.Session.GetInt32("IsLoggedIn") != 1)
             {
                 Response.Redirect("/Index");
             }
+            IsExternal = await SQL.Accounts.IsExternal(HttpContext.Session.GetInt32("UserId"));
+            await Logger.Write(IsExternal.ToString());
         }
 
         public async Task<IActionResult> OnPost()
