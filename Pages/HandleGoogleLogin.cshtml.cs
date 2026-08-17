@@ -49,7 +49,7 @@ namespace TannersWebsiteTemplate.Pages
                     }
                     string password = PasswordHelper.GeneratePassword();
                     TempData["TempPassword"] = password; // we store this for WelcomeExternal's message so the user can see their password
-                    await _a.Register(email, username, password, "", "");
+                    await _a.RegisterExternal(email, username, password);
                 }
                 else
                 {

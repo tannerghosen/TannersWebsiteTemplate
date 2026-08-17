@@ -87,6 +87,31 @@ namespace TannersWebsiteTemplate
             return StatusCode(403, "You're already logged in, no need to register an account!");
         }
 
+        public async Task<IActionResult> RegisterExternal(string Email, string Username, string Password)
+        {
+            if (!_s.IsUserLoggedIn())
+            {
+                Guid sid = _s.SID(); // generate session id
+                (bool result, bool error) = await SQL.Accounts.Register(Email, Username, Password, sid.ToString(), true);
+                if (result == true)
+                {
+                    await Logger.Write("Registration successful. New user added: " + Username, "REGISTER");
+                    await _s.Login(Username, await SQL.Accounts.GetUserID(Username), sid.ToString());
+                    Statistics.IncrementRegistrations();
+                    return Ok("Account Registered. Logged into " + Username + ".");
+                }
+                else if (result == false && error != true)
+                {
+                    BadRequest("Duplicate account.");
+                }
+                else if (error == true)
+                {
+                    StatusCode(500, "An error occured while registering the account.");
+                }
+            }
+            return StatusCode(403, "You're already logged in, no need to register an account!");
+        }
+
         public async Task<IActionResult> Logout()
         {
             string? username = _s.GetSession().Username;
