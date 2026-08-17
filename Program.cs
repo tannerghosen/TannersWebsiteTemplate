@@ -105,7 +105,7 @@ builder.Services.AddAuthentication(options =>
     { 
         options.ClientId = gclientid; // retrieve client id from environment variable
         options.ClientSecret = gclientsec; // retrieve client secret from environment variable
-        options.CallbackPath = "/signin-google"; // do not change, /login or /login?method=google or similar would all be invalid, it has to be specific.
+        options.CallbackPath = "/signin-google"; // this must match the Authorized redirect URIs you choose on Google Cloud
                                                  // This is where the middleware will process the challenge's response so HandleGoogleLogin can use it.
         options.SignInScheme = IdentityConstants.ExternalScheme; // we sign in with the external scheme as the default scheme is cookie otherwise, which is not what we want 
         options.Scope.Add("email");
