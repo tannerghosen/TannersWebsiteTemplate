@@ -8,7 +8,7 @@ using TannersWebsiteTemplate.Helpers;
 
 namespace TannersWebsiteTemplate.Pages
 {
-    // This is the callback page after we initiated the OAuth2 login challenge in Login. We redirect to WelcomeExternal.
+    // This is the redirect page that handles the data after we initiated the OAuth2 login challenge in Login and it goes to the CallbathPack. We redirect to WelcomeExternal.
     public class HandleGoogleLoginModel : PageModel
     {
         private readonly SessionManager _s;
@@ -21,7 +21,7 @@ namespace TannersWebsiteTemplate.Pages
             _a = a;
             _h = h;
         }
-        // This method accesses the processed response the middleware at signin-google gets from the challenge we started back in Login.cshtml.cs.
+        // This method accesses the processed response the middleware at CallbathPack gets from the challenge we started back in Login.cshtml.cs.
         // Based on the data, we either login the user or register them, or we redirect back to login because the authentication in middleware failed.
         // The next step is to redirect to WelcomeExternal, which either is the end of the process or it redirects to Index and stops there
         // HandleGoogleLogin -> WelcomeExternal (redirect, all log in related stuff is finalized here)
@@ -59,7 +59,7 @@ namespace TannersWebsiteTemplate.Pages
             }
             else
             {
-                Logger.Write("Google authentication failed!", "ERROR");
+                await Logger.Write("Google authentication failed!", "ERROR");
                 return RedirectToPage("/Login", new { Result = "Google authentication failed." });
             }
         }

@@ -82,8 +82,8 @@ namespace TannersWebsiteTemplate.Pages
         }
 
         // This method initiates the OAuth2 authentication flow with Google by creating a challenge
-        // The next step is middleware processing the response at signin-google, followed by registering / logging in being handled in HandleGoogleLogin
-        // Login -> Middleware (signin-google) -> HandleGoogleLogin -> WelcomeExternal
+        // The next step is middleware processing the response at CallbackPath, followed by registering / logging in being handled in HandleGoogleLogin
+        // Login -> Middleware (CallbackPath) -> HandleGoogleLogin -> WelcomeExternal
         public IActionResult OnPostGoogleLogin()
         {
             TempData["LoginSource"] = "Google";
