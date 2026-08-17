@@ -27,7 +27,6 @@ namespace TannersWebsiteTemplate.Pages
                 Response.Redirect("/Index");
             }
             IsExternal = await SQL.Accounts.IsExternal(HttpContext.Session.GetInt32("UserId"));
-            await Logger.Write(IsExternal.ToString());
         }
 
         public async Task<IActionResult> OnPost()
