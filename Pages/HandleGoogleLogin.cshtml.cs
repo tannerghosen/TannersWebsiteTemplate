@@ -33,10 +33,11 @@ namespace TannersWebsiteTemplate.Pages
                 // Claims are the data that Google sends back to us that contains the authenticated user's identity
                 // These can consist of the user's email, username, etc.
                 var claims = result.Principal.Claims;
+                // We grab the first (or default) type of claim  of each value we need to register / login, Username (Name) and Email
                 var username = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value; // Username
                 var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value; // Email
 
-                // We login / register the user based on email
+                // We register / login the user based on if the email is attached to a registered account
                 if (!await SQL.Accounts.DoesUserExist(email, "email"))
                 {
                     if (await SQL.Accounts.DoesUserExist(username, "username"))
