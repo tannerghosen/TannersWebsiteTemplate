@@ -28,9 +28,10 @@ namespace TannersWebsiteTemplate.SQL
                                 row[3] = reader.GetString(3); // password
                                 row[4] = reader.IsDBNull(4) ? "" : reader.GetString(4); // sessionid
                                 row[5] = reader.IsDBNull(5) ? null : reader.GetBoolean(5).ToString(); // is admin?
-                                row[6] = reader.IsDBNull(6) ? DateTime.Now.ToString() : reader.GetDateTime(6).ToString(); // join date
-                                row[7] = reader.IsDBNull(7) ? "No security question set!" : reader.GetString(7); // security question
-        
+                                row[6] = reader.IsDBNull(7) ? DateTime.Now.ToString() : reader.GetDateTime(7).ToString(); // join date
+                                row[7] = reader.IsDBNull(8) ? "No security question set!" : reader.GetString(8); // security question
+                                row[8] = reader.IsDBNull(6) ? null : reader.GetBoolean(6).ToString(); // is external?
+
                                 rows.Add(row);
                             }
                             return rows.ToArray(); // convert the List to an array and return it
@@ -59,7 +60,7 @@ namespace TannersWebsiteTemplate.SQL
                         using (var cmd = new MySqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@userid", userid);
-                            var result = cmd.ExecuteScalar();
+                            var result = await cmd.ExecuteScalarAsync();
                             if (result != null && result != DBNull.Value) 
                             {
                                 return Convert.ToInt32(result) == 1;

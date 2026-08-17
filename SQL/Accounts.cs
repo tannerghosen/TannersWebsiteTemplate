@@ -12,7 +12,7 @@ namespace TannersWebsiteTemplate.SQL
         // Registers an account by first running a SQL statement to see if it the account exists. If it does, don't do anything.
         // If it doesn't, run another SQL statement that inserts it into the table, alongside generating a salt to hash our password.
         // (first bool is did operation succeed, second bool is did an error occur. the first bool will never be true if the second one is true.)
-        public static async Task<(bool, bool)> Register(string email, string username, string password, string sessionid = "")
+        public static async Task<(bool, bool)> Register(string email, string username, string password, string sessionid = "", bool external = false)
         {
             // Ensure it meets regex before we even consider registering
             if (!EmailRegex.IsMatch(email) || !UsernameRegex.IsMatch(username))
@@ -34,7 +34,7 @@ namespace TannersWebsiteTemplate.SQL
                             return (false, false);
                         }
                     }
-                    query = "INSERT INTO accounts (email, username, password, sessionid) VALUES (@email, @username, @password, @sid)";
+                    query = "INSERT INTO accounts (email, username, password, sessionid, isexternal) VALUES (@email, @username, @password, @sid, @external)";
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
@@ -43,6 +43,7 @@ namespace TannersWebsiteTemplate.SQL
                         cmd.Parameters.AddWithValue("@username", username);
                         cmd.Parameters.AddWithValue("@password", hashpass);
                         cmd.Parameters.AddWithValue("@sid", sessionid);
+                        cmd.Parameters.AddWithValue("@external", external);
                         await cmd.ExecuteNonQueryAsync();
                         return (true, false);
                     }
@@ -429,6 +430,37 @@ namespace TannersWebsiteTemplate.SQL
                 catch (MySqlException e)
                 {
                     await Logger.Write("SQL.Accounts: An error occured in DoesSIDMatch: " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        // Is the User an External Source one?
+        public static async Task<bool> IsExternal(int? userid)
+        {
+            if (await Accounts.DoesUserExist(userid))
+            {
+                try
+                {
+                    using (var con = Main.Connect())
+                    {
+                        con.Open();
+                        string query = "SELECT isexternal FROM accounts WHERE id = @userid";
+                        using (var cmd = new MySqlCommand(query, con))
+                        {
+                            cmd.Parameters.AddWithValue("@userid", userid);
+                            var result = await cmd.ExecuteScalarAsync();
+                            if (result != null && result != DBNull.Value)
+                            {
+                                return Convert.ToInt32(result) == 1;
+                            }
+                        }
+                    }
+                }
+                catch (MySqlException e)
+                {
+                    await Logger.Write("SQL.Accounts: An error occured in IsExternal " + e.Message + "\nSQL.Accounts: Error Code: " + e.ErrorCode, "ERROR");
                     return false;
                 }
             }

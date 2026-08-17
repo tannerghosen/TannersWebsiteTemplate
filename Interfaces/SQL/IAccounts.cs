@@ -6,7 +6,7 @@ namespace TannersWebsiteTemplate.Interfaces.SQL
     {
         private static Regex EmailRegex;
         private static Regex UsernameRegex;
-        public static abstract Task<(bool, bool)> Register(string email, string username, string password, string sessionid = "");
+        public static abstract Task<(bool, bool)> Register(string email, string username, string password, string sessionid = "", bool external = false);
         public static abstract Task<(bool, bool)> Login(string username, string password, string sessionid = "");
         public static abstract Task<(bool, bool)> UpdateInfo(int? userid, int option, string input, string? sessionid = "", bool adminupdate = false);
         public static abstract Task<bool> DoesUserExist(string value, string search = "username");
@@ -16,5 +16,6 @@ namespace TannersWebsiteTemplate.Interfaces.SQL
         public static abstract Task<string?> GetUsername(string email);
         public static abstract Task<DateTime?> GetJoinDate(int userid);
         public static abstract Task<bool> DoesSIDMatch(int? userid, string sid);
+        public static abstract Task<bool> IsExternal(int? userid);
     }
 }
