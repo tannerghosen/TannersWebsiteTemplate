@@ -61,7 +61,7 @@ namespace TannersWebsiteTemplate
             return StatusCode(403, "You're already logged in.");
         }
 
-        public async Task<IActionResult> Register(string Email, string Username, string Password, string? SecurityQuestion = null, string? Answer = null)
+        public async Task<IActionResult> Register(string Email, string Username, string Password, string SecurityQuestion, string Answer)
         {
             if(!_s.IsUserLoggedIn())
             {
@@ -71,7 +71,7 @@ namespace TannersWebsiteTemplate
                 {
                     await Logger.Write("Registration successful. New user added: " + Username, "REGISTER");
                     await _s.Login(Username, await SQL.Accounts.GetUserID(Username), sid.ToString());
-                    await SQL.SecurityQuestions.CreateSecurityQuestion(await SQL.Accounts.GetUserID(Username), SecurityQuestion, Answer);
+                    if(SecurityQuestion != "" && Answer != "" ) await SQL.SecurityQuestions.CreateSecurityQuestion(await SQL.Accounts.GetUserID(Username), SecurityQuestion, Answer);
                     Statistics.IncrementRegistrations();
                     return Ok("Account Registered. Logged into " + Username + ".");
                 }
