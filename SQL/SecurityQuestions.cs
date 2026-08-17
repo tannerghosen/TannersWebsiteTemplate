@@ -74,7 +74,7 @@ namespace TannersWebsiteTemplate.SQL
         }
 
         // Updates a Security Question entry under a specified UserID.
-        public static async Task<(bool, bool)> UpdateSecurityQuestion(int userid, string question = "", string answer = "")
+        public static async Task<(bool, bool)> UpdateSecurityQuestion(int userid, string question, string answer)
         {
             try
             {
@@ -92,8 +92,8 @@ namespace TannersWebsiteTemplate.SQL
                         }
                     }
                     (string? q, string? a) = await GetSecurityQuestion(userid); 
-                    question = question == null ? q : question;
-                    answer = answer == null ? a : answer;
+                    question = question == null || question == "" ? q : question;
+                    answer = answer == null || answer == "" ? a : answer;
                     string query = "UPDATE securityquestion SET question = @q, answer = @a WHERE id = @id";
                     using (var cmd = new MySqlCommand(query, con))
                     {
