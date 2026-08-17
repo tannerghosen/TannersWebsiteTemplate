@@ -87,8 +87,8 @@ namespace TannersWebsiteTemplate.Pages
         public IActionResult OnPostGoogleLogin()
         {
             TempData["LoginSource"] = "Google";
-            var redirect = Url.Page("/HandleGoogleLogin");  // this is our page which contains the code for handling this request
-            var properties = new AuthenticationProperties { RedirectUri = redirect }; // set the redirect as the redirect uri
+            var redirect = Url.Page("/HandleGoogleLogin");  // this is our page which contains the code for handling the results of the Challenge
+            var properties = new AuthenticationProperties { RedirectUri = redirect }; // set the redirect as the redirect uri after our Challenge on the CallbackPath
             return Challenge(properties, GoogleDefaults.AuthenticationScheme); // create a challenge that makes the user grant access to their Google account for their user identity.
         }
     }
