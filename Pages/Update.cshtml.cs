@@ -21,7 +21,7 @@ namespace TannersWebsiteTemplate.Pages
         public int Id { get; set; }
 
         private Regex EmailRegex = Regexes.GetEmailRegex();
-        private Regex UsernameRegex = Regexes.GetAccountRegex();
+        private Regex UsernameRegex = Regexes.GetUsernameRegex();
         public async Task OnGet()
         {
             if ((HttpContext.Session.GetInt32("IsAdmin") != 1 || !await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId"))) && HttpContext.Session.GetInt32("UserId") != 1)

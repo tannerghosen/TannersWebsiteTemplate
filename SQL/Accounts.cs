@@ -8,7 +8,7 @@ namespace TannersWebsiteTemplate.SQL
     public class Accounts : IAccounts
     {
         private static Regex EmailRegex = Regexes.GetEmailRegex();
-        private static Regex UsernameRegex = Regexes.GetAccountRegex();
+        private static Regex UsernameRegex = Regexes.GetUsernameRegex();
         // Registers an account by first running a SQL statement to see if it the account exists. If it does, don't do anything.
         // If it doesn't, run another SQL statement that inserts it into the table, alongside generating a salt to hash our password.
         // (first bool is did operation succeed, second bool is did an error occur. the first bool will never be true if the second one is true.)

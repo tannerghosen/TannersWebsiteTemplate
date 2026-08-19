@@ -42,7 +42,7 @@ namespace TannersWebsiteTemplate.Pages
         private readonly ILogger<IndexModel> _logger;
         private AccountController _a;
         private Regex EmailRegex = Regexes.GetEmailRegex();
-        private Regex UsernameRegex = Regexes.GetAccountRegex();
+        private Regex UsernameRegex = Regexes.GetUsernameRegex();
         public RegisterModel(ILogger<IndexModel> logger, AccountController a)
         {
             _logger = logger;

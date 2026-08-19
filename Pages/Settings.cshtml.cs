@@ -19,7 +19,7 @@ namespace TannersWebsiteTemplate.Pages
 
         public bool IsExternal { get; set; }
         private Regex EmailRegex = Regexes.GetEmailRegex();
-        private Regex UsernameRegex = Regexes.GetAccountRegex();
+        private Regex UsernameRegex = Regexes.GetUsernameRegex();
         public async Task OnGet()
         {
             if (HttpContext.Session.GetInt32("IsLoggedIn") != 1)
