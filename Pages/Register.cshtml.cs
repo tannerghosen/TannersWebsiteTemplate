@@ -43,6 +43,7 @@ namespace TannersWebsiteTemplate.Pages
         private AccountController _a;
         private Regex EmailRegex = Regexes.GetEmailRegex();
         private Regex UsernameRegex = Regexes.GetUsernameRegex();
+        private Regex PasswordRegex = Regexes.GetPasswordRegex();
         public RegisterModel(ILogger<IndexModel> logger, AccountController a)
         {
             _logger = logger;
@@ -82,6 +83,10 @@ namespace TannersWebsiteTemplate.Pages
             else if (string.IsNullOrEmpty(Password)) // if password is empty
             {
                 Result += "Password is blank";
+            }
+            else if (!PasswordRegex.IsMatch(Password)) // if password doesn't meet regex
+            {
+                Result += "Weak password. A strong password should be 8-32 characters, contain 1 letter, number, and special character, and should not repeat excessive characters.";
             }
             else if (string.IsNullOrEmpty(ConfirmPassword)) // if password is empty
             {

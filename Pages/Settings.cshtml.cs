@@ -20,6 +20,7 @@ namespace TannersWebsiteTemplate.Pages
         public bool IsExternal { get; set; }
         private Regex EmailRegex = Regexes.GetEmailRegex();
         private Regex UsernameRegex = Regexes.GetUsernameRegex();
+        private Regex PasswordRegex = Regexes.GetPasswordRegex();
         public async Task OnGet()
         {
             if (HttpContext.Session.GetInt32("IsLoggedIn") != 1)
@@ -35,20 +36,27 @@ namespace TannersWebsiteTemplate.Pages
             {
                 if (!string.IsNullOrEmpty(Password))
                 {
-                    // for these if-elses with xupdated, the expected outcome is either it updates it or not.
-                    // because the error could
-                    (bool passwordupdated, bool error) = await SQL.Accounts.UpdateInfo(HttpContext.Session.GetInt32("UserId"), 0, Password, HttpContext.Session.GetString("SessionId"));
-                    if (passwordupdated)
+                    if (PasswordRegex.IsMatch(Password)) // if password meets regex
                     {
-                        Result += "Password has been changed. Be sure to write it down or save it in your browser!"; // Success
+                        // for these if-elses with xupdated, the expected outcome is either it updates it or not.
+                        // because the error could
+                        (bool passwordupdated, bool error) = await SQL.Accounts.UpdateInfo(HttpContext.Session.GetInt32("UserId"), 0, Password, HttpContext.Session.GetString("SessionId"));
+                        if (passwordupdated)
+                        {
+                            Result += "Password has been changed. Be sure to write it down or save it in your browser!"; // Success
+                        }
+                        else if (!passwordupdated && !error)
+                        {
+                            Result += "An unknown error occurred while changing the Password."; // unlike below where dups can happen, this should never happen
+                        }
+                        else if (!passwordupdated && error)
+                        {
+                            Result += "An error occurred while changing the Password."; // SQL Error
+                        }
                     }
-                    else if (!passwordupdated && !error)
+                    else
                     {
-                        Result += "An unknown error occurred while changing the Password."; // unlike below where dups can happen, this should never happen
-                    }
-                    else if (!passwordupdated && error)
-                    {
-                        Result += "An error occurred while changing the Password."; // SQL Error
+                        Result += "Weak password. A strong password should be 8-32 characters, contain 1 letter, number, and special character, and should not repeat excessive characters.";
                     }
                 }
                 else if (string.IsNullOrEmpty(Password))

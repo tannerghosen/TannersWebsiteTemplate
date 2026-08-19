@@ -22,6 +22,7 @@ namespace TannersWebsiteTemplate.Pages
 
         private Regex EmailRegex = Regexes.GetEmailRegex();
         private Regex UsernameRegex = Regexes.GetUsernameRegex();
+        private Regex PasswordRegex = Regexes.GetPasswordRegex();
         public async Task OnGet()
         {
             if ((HttpContext.Session.GetInt32("IsAdmin") != 1 || !await SQL.Admin.IsAdmin(HttpContext.Session.GetInt32("UserId"))) && HttpContext.Session.GetInt32("UserId") != 1)
@@ -38,21 +39,28 @@ namespace TannersWebsiteTemplate.Pages
             {
                 if (!string.IsNullOrEmpty(Password))
                 {
-                    // for these if-elses with xupdated, the expected outcome is either it updates it or not.
-                    // bool error is true if either a sql exception occurs, sql issues =/= bool error is true. ONLY if it causes an exception.
-                                                                                   // id option value sid (n/a) isadmin
-                    (bool passwordupdated, bool error) = await SQL.Accounts.UpdateInfo(Id, 0, Password, null, true); // isadmin is true as we are admin
-                    if (passwordupdated)
+                    if (PasswordRegex.IsMatch(Password)) // if password meets regex
                     {
-                        Result += "Password has been changed."; 
+                        // for these if-elses with xupdated, the expected outcome is either it updates it or not.
+                        // bool error is true if either a sql exception occurs, sql issues =/= bool error is true. ONLY if it causes an exception.
+                        // id option value sid (n/a) isadmin
+                        (bool passwordupdated, bool error) = await SQL.Accounts.UpdateInfo(Id, 0, Password, null, true); // isadmin is true as we are admin
+                        if (passwordupdated)
+                        {
+                            Result += "Password has been changed.";
+                        }
+                        else if (!passwordupdated && !error)
+                        {
+                            Result += "An unknown error occurred while changing the Password.";
+                        }
+                        else if (!passwordupdated && error)
+                        {
+                            Result += "An error occurred while changing the Password.";
+                        }
                     }
-                    else if (!passwordupdated && !error)
+                    else
                     {
-                        Result += "An unknown error occurred while changing the Password.";
-                    }
-                    else if (!passwordupdated && error)
-                    {
-                        Result += "An error occurred while changing the Password."; 
+                        Result += "Weak password. A strong password should be 8-32 characters, contain 1 letter, number, and special character, and should not repeat excessive characters.";
                     }
                 }
                 else if (string.IsNullOrEmpty(Password)) 
