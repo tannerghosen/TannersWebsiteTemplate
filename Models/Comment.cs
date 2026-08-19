@@ -3,9 +3,9 @@
     public class Comment
     {
         public int CommentSId { get; set; }
-        public string Date { get; set; }
+        public string Date = "";
         public int UserId { get; set; }
-        public string Username { get; set; }
-        public string Content { get; set; }
+        public string Username = "";
+        public string Content = "";
     }
 }
