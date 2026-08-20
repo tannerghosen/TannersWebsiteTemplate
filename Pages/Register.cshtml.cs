@@ -66,45 +66,45 @@ namespace TannersWebsiteTemplate.Pages
             }
             else if (!EmailRegex.IsMatch(Email)) // if email doesn't meet regex
             {
-                Result += "Invalid Email";
+                Result = "Invalid Email";
             }
             else if (string.IsNullOrEmpty(Username)) // if username is empty
             {
-                Result += "Username is blank";
+                Result = "Username is blank";
             }
             else if (!UsernameRegex.IsMatch(Username)) // if username doesn't meet regex
             {
-                Result += "Invalid Username";
+                Result = "Invalid Username";
             }
-            /*else if (EmailRegex.IsMatch(Username)) // if username is an email
-            {
-                Result += "Username cannot be an email.";
-            }*/
             else if (string.IsNullOrEmpty(Password)) // if password is empty
             {
-                Result += "Password is blank";
+                Result = "Password is blank";
             }
             else if (!PasswordRegex.IsMatch(Password)) // if password doesn't meet regex
             {
-                Result += "Weak password. A strong password should be 8-32 characters, contain 1 letter, number, and special character, and should not repeat excessive characters.";
+                Result = "Weak password. A strong password should be 8-32 characters, contain 1 letter, number, and special character, and should not repeat excessive characters.";
             }
             else if (string.IsNullOrEmpty(ConfirmPassword)) // if password is empty
             {
-                Result += "Confirm Password is blank";
+                Result = "Confirm Password is blank";
             }
             else if (Password != ConfirmPassword)
             {
-                Result += "Password and Confirm Password do not match.";
+                Result = "Password and Confirm Password do not match.";
             }
             else if (string.IsNullOrEmpty(SecurityQuestion)) // if security question / answer is empty
             {
-                Result += "The security question or the answer to it cannot be blank!";
+                Result = "The security question or the answer to it cannot be blank!";
             }
             else if (string.IsNullOrEmpty(Answer))
             {
-                Result += "The security question or the answer to it cannot be blank!";
+                Result = "The security question or the answer to it cannot be blank!";
             }
-            else if (Checkbox)
+            else if (!Checkbox) // else if checkbox is not checked
+            {
+                Result = "You did not click the verification checkbox.";
+            }
+            else
             {
                 IActionResult result = await _a.Register(Email, Username, Password, SecurityQuestion, Answer);
                 if (result is OkObjectResult)
@@ -123,10 +123,6 @@ namespace TannersWebsiteTemplate.Pages
                 {
                     Result = "You are already logged in.";
                 }
-            }
-            else
-            {
-                Result = "You did not click the verification checkbox.";
             }
             (email, username, password, confirmpassword, securityquestion, answer) = (Email, Username, Password, ConfirmPassword, SecurityQuestion, Answer);
             TempData["Result"] = Result;
