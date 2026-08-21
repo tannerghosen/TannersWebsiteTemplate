@@ -20,22 +20,22 @@ public class SessionManager : ISessionManager
     }
     public async Task Login(string username, int id, string sessionid)
     {
-        _h.HttpContext.Session.SetString("Username", username);
-        _h.HttpContext.Session.SetInt32("UserId", await TannersWebsiteTemplate.SQL.Accounts.GetUserID(username));
-        _h.HttpContext.Session.SetString("SessionId", sessionid);
-        _h.HttpContext.Session.SetInt32("IsLoggedIn", 1);
-        _h.HttpContext.Session.SetInt32("IsAdmin", await TannersWebsiteTemplate.SQL.Admin.IsAdmin(_h.HttpContext.Session.GetInt32("UserId")) == true ? 1 : 0);
+        _h.HttpContext?.Session.SetString("Username", username);
+        _h.HttpContext?.Session.SetInt32("UserId", await TannersWebsiteTemplate.SQL.Accounts.GetUserID(username));
+        _h.HttpContext?.Session.SetString("SessionId", sessionid);
+        _h.HttpContext?.Session.SetInt32("IsLoggedIn", 1);
+        _h.HttpContext?.Session.SetInt32("IsAdmin", await TannersWebsiteTemplate.SQL.Admin.IsAdmin(_h.HttpContext.Session.GetInt32("UserId")) == true ? 1 : 0);
     }
 
     public async Task Logout()
     {
-        if (IsUserLoggedIn() && (_h.HttpContext.Session.GetString("Username") != null || _h.HttpContext.Session.GetString("Username") != ""))
+        if (IsUserLoggedIn() && (_h.HttpContext?.Session.GetString("Username") != null || _h.HttpContext?.Session.GetString("Username") != ""))
         {
-            _h.HttpContext.Session.SetString("Username", "");
-            _h.HttpContext.Session.SetInt32("UserId", -1);
-            _h.HttpContext.Session.SetString("SessionId", "");
-            _h.HttpContext.Session.SetInt32("IsLoggedIn", 0);
-            _h.HttpContext.Session.SetInt32("IsAdmin", 0);
+            _h.HttpContext?.Session.SetString("Username", "");
+            _h.HttpContext?.Session.SetInt32("UserId", -1);
+            _h.HttpContext?.Session.SetString("SessionId", "");
+            _h.HttpContext?.Session.SetInt32("IsLoggedIn", 0);
+            _h.HttpContext?.Session.SetInt32("IsAdmin", 0);
         }
     }
 
