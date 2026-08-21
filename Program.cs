@@ -14,7 +14,7 @@ string? domainname = Environment.GetEnvironmentVariable("TWTDomainName"); // TWT
 /* To set up Google Login:
    1. Go to console.cloud.google.com
    2. Create an OAuth 2.0 Client ID
-   3. Set an Authorized redirect URI to https://(website)/signin-google (if hosted locally, https://localhost:7081/signin-google)
+   3. Set an Authorized redirect URI to https://(website)/signin-google (if hosted locally, https://localhost/signin-google)
    4. Save and wait roughly 5 minutes for it to take effect.
 */
 
