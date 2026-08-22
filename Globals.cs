@@ -1,6 +1,6 @@
 ﻿namespace TannersWebsiteTemplate
 {
-    public struct Globals
+    public static class Globals
     {
         public static string? AdminPassword = ""; // Password generated for the admin account on first setup
         public static bool DisableGoogle = true; // Disable Google OAuth
