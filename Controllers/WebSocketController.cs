@@ -29,7 +29,7 @@ namespace TannersWebsiteTemplate.Controllers
                 {
                     // If an error occurs, remove it
                     WebSocketConnections.TryRemove(id, out _);
-                    await Logger.Write(wse.Message, "WEBSOCKET");
+                    await Logger.Write(wse.Message, "WEBSOCKET GET");
                 }
 
                 await Echo(webSocket);
@@ -90,7 +90,7 @@ namespace TannersWebsiteTemplate.Controllers
             }
             catch (WebSocketException wse)
             {
-                await Logger.Write(wse.Message, "WEBSOCKET");
+                await Logger.Write(wse.Message, "WEBSOCKET ECHO");
             }
         }
     }
