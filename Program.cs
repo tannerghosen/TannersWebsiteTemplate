@@ -70,6 +70,7 @@ builder.Services.AddScoped<AccountController>(); // adds AccountController as a 
 builder.Services.AddControllers(); // This adds all controllers to services
 
 // Rate Limiter
+// https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit?view=aspnetcore-10.0
 builder.Services.AddRateLimiter(options =>
 {
     options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
@@ -93,6 +94,7 @@ builder.Services.AddRateLimiter(options =>
 });
 
 // OAuth
+// https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/?view=aspnetcore-10.0
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme; // default auth scheme is cookie, which is what Sessions use
@@ -115,6 +117,7 @@ builder.Services.AddAuthentication(options =>
 
 // App
 var app = builder.Build();
+
 app.UseHttpsRedirection();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
