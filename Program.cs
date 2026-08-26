@@ -156,4 +156,15 @@ app.UseStatusCodePagesWithRedirects("/Error?error={0}");
 
 app.MapRazorPages();
 
+// Automation regarding unbanning users / ips whose bans have expired
+var start = TimeSpan.Zero;
+var interval = TimeSpan.FromMinutes(1);
+
+var timer = new System.Threading.Timer((e) =>
+{
+    _ = TannersWebsiteTemplate.SQL.Automation.UnbanAccounts();
+    _ = TannersWebsiteTemplate.SQL.Automation.UnbanIPs();
+}, null, start, interval);
+
+
 app.Run();
