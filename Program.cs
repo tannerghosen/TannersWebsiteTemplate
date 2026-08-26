@@ -128,11 +128,6 @@ app.UseStaticFiles();
 
 app.UseWebSockets();
 
-var WebSocketOptions = new WebSocketOptions
-{
-    KeepAliveInterval = TimeSpan.FromSeconds(120)
-};
-
 app.UseRouting();
 
 app.UseCors("TWTPolicy");
