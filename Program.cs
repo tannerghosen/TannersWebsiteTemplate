@@ -54,7 +54,7 @@ builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
     options.Conventions.AddPageRoute("/Blog", "Blog/{post}"); // /Blog/(post)
 });
 builder.Services.AddHttpContextAccessor();
-// Add session
+// Add session and its cookie
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = "TannersWebsiteTemplate.Session";
@@ -97,7 +97,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme; // default auth scheme is cookie, which is what Sessions use
 })
-.AddCookie("Identity.External") // Register the external identity scheme
+.AddCookie("Identity.External") // Add the cookie used by Identity
 // A lot of the OAuth2.0 authentication is handled by middleware in ASP.NET Core, all we need to do is initiate a request to the provider and handle the response.
 .AddGoogle(options => // add google oauth
 {
@@ -126,9 +126,6 @@ app.UseHsts();
 
 app.UseStaticFiles();
 
-TannersWebsiteTemplate.SQL.Main.Init(sqlconstr);  // Init MySQL classes, also creates tables / triggers / events if they aren't already made.
-TannersWebsiteTemplate.Status.CreateAccessPassword(); // Create the Access Password
-
 app.UseWebSockets();
 
 var WebSocketOptions = new WebSocketOptions
@@ -155,6 +152,9 @@ app.MapControllers();
 app.UseStatusCodePagesWithRedirects("/Error?error={0}");
 
 app.MapRazorPages();
+
+TannersWebsiteTemplate.SQL.Main.Init(sqlconstr);  // Init MySQL classes, also creates tables / triggers / events if they aren't already made.
+TannersWebsiteTemplate.Status.CreateAccessPassword(); // Create the Access Password
 
 // Automation regarding unbanning users / ips whose bans have expired
 var start = TimeSpan.Zero;
