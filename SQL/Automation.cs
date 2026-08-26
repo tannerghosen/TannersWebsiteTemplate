@@ -11,7 +11,7 @@ namespace TannersWebsiteTemplate.SQL
                 using (var con = Main.Connect())
                 {
                     con.Open();
-                    string e = "UPDATE accountbans SET expire = NOW(), banned = 0 WHERE expire <= NOW()";
+                    string e = "DELETE FROM accountbans WHERE expire <= NOW()";
                     using (var cmd = new MySqlCommand(e, con))
                     {
                         await cmd.ExecuteNonQueryAsync();

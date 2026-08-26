@@ -21,7 +21,6 @@ namespace TannersWebsiteTemplate.SQL
                 Tables.Accounts(); // accounts table
                 Tables.SecurityQuestion(); // securityquestion tables
                 Tables.AccountBans(); // account bans table
-                Triggers.Accounts(); // accounts trigger
                 Misc.CreateDefaultAccounts(); // create accounts
                 Tables.Blog(); // blog table
                 Tables.Comments(); // comments table

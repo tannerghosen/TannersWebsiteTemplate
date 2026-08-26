@@ -150,7 +150,7 @@ namespace TannersWebsiteTemplate.SQL
             {
                 con.Open();
 
-                string bans = "CREATE TABLE IF NOT EXISTS accountbans (id INT(11) PRIMARY KEY, banned BOOL, reason VARCHAR(255) DEFAULT 'You have been banned.', expire DATETIME DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_accountbans_id_accounts FOREIGN KEY (id) REFERENCES accounts(id) ON DELETE CASCADE)";
+                string bans = "CREATE TABLE IF NOT EXISTS accountbans (id INT(11) PRIMARY KEY, reason VARCHAR(255) DEFAULT 'You have been banned.', expire DATETIME DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_accountbans_id_accounts FOREIGN KEY (id) REFERENCES accounts(id) ON DELETE CASCADE)";
                 using (var cmd = new MySqlCommand(bans, con))
                 {
                     cmd.ExecuteNonQuery();

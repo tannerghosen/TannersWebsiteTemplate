@@ -238,11 +238,10 @@ namespace TannersWebsiteTemplate.SQL
                     using (var con = Main.Connect())
                     {
                         con.Open();
-                        string query = "UPDATE accountbans SET banned = @banned, reason = @reason, expire = @expire WHERE id = @id";
+                        string query = "INSERT INTO accountbans (id, reason, expire) VALUES (@id, @reason, @expire)";
                         using (var cmd = new MySqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@id", id);
-                            cmd.Parameters.AddWithValue("@banned", true);
                             cmd.Parameters.AddWithValue("@reason", reason);
                             cmd.Parameters.AddWithValue("@expire", expire);
                             await cmd.ExecuteNonQueryAsync();
@@ -265,7 +264,7 @@ namespace TannersWebsiteTemplate.SQL
                 using (var con = Main.Connect())
                 {
                     con.Open();
-                    string query = "SELECT banned, reason, expire FROM accountbans WHERE id = @id";
+                    string query = "SELECT reason, expire FROM accountbans WHERE id = @id";
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@id", id);
@@ -273,10 +272,9 @@ namespace TannersWebsiteTemplate.SQL
                         {
                             if (reader.Read())
                             {
-                                bool banned = reader.GetBoolean(0);
-                                string reason = reader.GetString(1);
-                                DateTime expire = reader.GetDateTime(2);
-                                return (banned, id, reason, expire);
+                                string reason = reader.GetString(0);
+                                DateTime expire = reader.GetDateTime(1);
+                                return (true, id, reason, expire);
                             }
                             return (false, null, null, null);
                         }
@@ -298,7 +296,7 @@ namespace TannersWebsiteTemplate.SQL
                 using (var con = Main.Connect())
                 {
                     con.Open();
-                    string query = "SELECT banned, reason, expire FROM accountbans WHERE id = @id";
+                    string query = "SELECT reason, expire FROM accountbans WHERE id = @id";
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@id", id);
@@ -306,8 +304,7 @@ namespace TannersWebsiteTemplate.SQL
                         {
                             if (reader.Read())
                             {
-                                bool banned = reader.GetBoolean(0);
-                                return banned;
+                                return true;
                             }
                             return false;
                         }
@@ -332,12 +329,10 @@ namespace TannersWebsiteTemplate.SQL
                     using (var con = Main.Connect())
                     {
                         con.Open();
-                        string query = "UPDATE accountbans SET expire = @expire, banned = @banned WHERE id = @id";
+                        string query = "DELETE FROM accountbans WHERE id = @id";
                         using (var cmd = new MySqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@id", id);
-                            cmd.Parameters.AddWithValue("@banned", false);
-                            cmd.Parameters.AddWithValue("@expire", DateTime.Now);
                             await cmd.ExecuteNonQueryAsync();
                         }
                     }
@@ -361,11 +356,10 @@ namespace TannersWebsiteTemplate.SQL
                     using (var con = Main.Connect())
                     {
                         con.Open();
-                        string query = "UPDATE bans SET expire = @expire WHERE ip = @ip";
+                        string query = "DELETE FROM bans WHERE ip = @ip";
                         using (var cmd = new MySqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@ip", ip);
-                            cmd.Parameters.AddWithValue("@expire", DateTime.Now);
                             await cmd.ExecuteNonQueryAsync();
                         }
                     }
