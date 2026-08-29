@@ -1,5 +1,4 @@
 ﻿using MySqlConnector;
-using TannersWebsiteTemplate.Helpers;
 
 namespace TannersWebsiteTemplate.SQL
 {
