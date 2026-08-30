@@ -12,11 +12,12 @@ namespace TannersWebsiteTemplate
     public static class Logger
     {
         /// <summary>
-        /// Our log file is located in the program's folder
+        /// Our log file
         /// </summary>
         public static string Log = "./TWT.log";
+
         /// <summary>
-        /// Writes a message to our TWT.log, containing SQL errors / messages, website interactions (login, logout), and debug info when needed.
+        /// Writes a message to our log.
         /// </summary>
         /// <param name="message"></param>
         /// <param name="messagetype"></param>
