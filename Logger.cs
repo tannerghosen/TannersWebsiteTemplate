@@ -22,7 +22,6 @@ namespace TannersWebsiteTemplate
         /// <param name="messagetype"></param>
         public static async Task Write(string message, string messagetype = "LOG")
         {
-            string[] flavortexts = { "The problem probably lies in", "The stack is as follows:" };
             string Time = DateTime.Now.ToString("M/d/yyyy h:mm:ss tt");
             StackTrace st = new StackTrace(); // Create a stack trace
             StackFrame parentsf = st.GetFrame(1); // this is the parent of the method call
@@ -34,7 +33,7 @@ namespace TannersWebsiteTemplate
                 {
                     if (messagetype == "ERROR") await Statistics.IncrementErrors();
                     string stack = grandparentsf != null ? grandparentsf.GetMethod().Name + " -> " + parentsf.GetMethod().Name : parentsf.GetMethod().Name; // this is a string that says Grandparent -> Parent
-                    await writer.WriteLineAsync("(" + Time + ") [" + messagetype + "]: " + messagetype == "ERROR" ? flavortexts[0] : flavortexts[1] + " " + stack + ".");
+                    await writer.WriteLineAsync("(" + Time + ") [" + messagetype + "]: The stack is as follows: " + stack + ".");
                 }
                 writer.Close();
             }
