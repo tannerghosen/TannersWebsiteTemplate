@@ -14,11 +14,13 @@
                     <label for="reason">Reason:</label>
                     <input type="text" name="reason" asp-for="Reason" value="" id="reason" class="text-black" placeholder="You are banned." />
                 </div>
+                <div style="height: 10px;"></div>
                 <div>
                     <label for="ExpirationDate">Expires:</label>
                     <input type="datetime-local" name="ExpirationDate" asp-for="ExpirationDate" value="" id="expire" placeholder="" class="text-black" />
                 </div>
-            <input type="hidden" name="Id" value="@Model.Id" />
+                <div style="height: 10px;"></div>
+                <input type="hidden" name="Id" value="@Model.Id" />
                 <div>
                     <label>&nbsp;</label>
                     <input type="submit" value="Submit" class="submit" />
