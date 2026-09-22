@@ -459,3 +459,7 @@ input {
   background-color: #CCC;
   color: #000;
 }
+
+input[type=submit]:hover {
+  cursor: pointer;
+}

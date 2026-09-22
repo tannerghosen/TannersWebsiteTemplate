@@ -565,3 +565,8 @@ input {
 	background-color: $lightgray;
 	color: $black;
 }
+
+input[type="submit"]:hover 
+{
+	cursor: pointer;
+}
