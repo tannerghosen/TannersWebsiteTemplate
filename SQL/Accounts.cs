@@ -103,7 +103,7 @@ namespace TannersWebsiteTemplate.SQL
                             {
                                 c.Parameters.AddWithValue("@username", username);
                                 var result = await c.ExecuteScalarAsync();
-                                string id = (result != null && result != DBNull.Value) ? result.ToString() : ""; // Default the id to -1 if it's null or DBNull
+                                string id = (result != null && result != DBNull.Value) ? result.ToString() : ""; // if result is null, set it to ""
                                 if (sessionid != id || id == "")
                                 {
                                     query = "UPDATE accounts SET sessionid = @sid WHERE username = @username";
