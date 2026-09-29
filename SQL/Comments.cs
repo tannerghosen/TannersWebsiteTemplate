@@ -10,10 +10,7 @@ namespace TannersWebsiteTemplate.SQL
         public static async Task AddComment(string comment, string username = "Anonymous", int commentsection = 0)
         {
             int userid, anonymousid = -1;
-            if (comment == null)
-            {
-                comment = "";
-            }
+            comment = comment == null ? "" : comment;
             if (!await Accounts.DoesUserExist(username) || (username == "" || username == null || username == "Anonymous"))
             {
                 userid = anonymousid;
