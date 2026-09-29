@@ -63,7 +63,7 @@ namespace TannersWebsiteTemplate.SQL
                 using (var con = Main.Connect())
                 {
                     con.Open();
-                    string query = "DELETE FROM blog WHERE id = @id";
+                    string query = "UPDATE blog SET title = \"Deleted Post\", message = \"This blog post was deleted.\" WHERE id = @id";
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@id", blogid);
