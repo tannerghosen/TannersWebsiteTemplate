@@ -33,7 +33,7 @@ input, #commentbox {
     font-size: 80%;
   }
   .container {
-    height: 100vh; /* screen height */
+    height: 100%; /* screen height */
     max-height: 90vh;
     max-width: 100%;
     top: 5%;
@@ -72,7 +72,7 @@ input, #commentbox {
     font-size: 80%;
   }
   .container {
-    height: 100vh; /* screen height */
+    height: 100%; /* screen height */
     max-height: 90vh;
     max-width: 100%;
     top: 5%;
@@ -151,7 +151,7 @@ input, #commentbox {
     font-size: 60%;
   }
   .container {
-    height: 100vh; /* screen height */
+    height: 100%; /* screen height */
     max-height: 90vh;
     max-width: 100%;
     top: 5%;
