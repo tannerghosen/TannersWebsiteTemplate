@@ -14,5 +14,7 @@
         public static abstract Task<bool> IsUserBannedSimple(int? id);
         public static abstract Task UnbanUser(int? id);
         public static abstract Task UnbanIP(string ip);
+        public static abstract Task<string[][]> GrabBansTable();
+        public static abstract Task<string[][]> GrabIPBansTable();
     }
 }

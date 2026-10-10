@@ -371,5 +371,73 @@ namespace TannersWebsiteTemplate.SQL
                 }
             }
         }
+        public static async Task<string[][]> GrabBansTable()
+        {
+            try
+            {
+                using (var con = Main.Connect())
+                {
+                    con.Open();
+                    string query = "SELECT * FROM accountbans";
+                    using (var cmd = new MySqlCommand(query, con))
+                    {
+                        using (var reader = await cmd.ExecuteReaderAsync())
+                        {
+                            List<string[]> rows = new List<string[]>(); // create a List of string arrays called rows
+                            while (reader.Read())
+                            {
+                                string[] row = new string[9];
+                                row[0] = reader.GetInt32(0).ToString(); // id
+                                row[1] = reader.GetInt32(0).ToString(); // banned (tinyint, 0/1)
+                                row[2] = reader.GetString(2); // reason
+                                row[3] = reader.IsDBNull(3) ? DateTime.Now.ToString() : reader.GetDateTime(3).ToString(); // expire (datetime)
+
+                                rows.Add(row);
+                            }
+                            return rows.ToArray(); // convert the List to an array and return it
+                        }
+                    }
+                }
+            }
+            catch (MySqlException e)
+            {
+                await Logger.Write("SQL.Admin: An error occurred in GrabBansTable: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                return null;
+            }
+        }
+        public static async Task<string[][]> GrabIPBansTable()
+        {
+            try
+            {
+                using (var con = Main.Connect())
+                {
+                    con.Open();
+                    string query = "SELECT * FROM bans";
+                    using (var cmd = new MySqlCommand(query, con))
+                    {
+                        using (var reader = await cmd.ExecuteReaderAsync())
+                        {
+                            List<string[]> rows = new List<string[]>(); // create a List of string arrays called rows
+                            while (reader.Read())
+                            {
+                                string[] row = new string[9];
+                                row[0] = reader.GetInt32(0).ToString(); // id
+                                row[1] = reader.GetString(1); // ip
+                                row[2] = reader.GetString(2); // reason
+                                row[3] = reader.IsDBNull(3) ? DateTime.Now.ToString() : reader.GetDateTime(3).ToString(); // expire (datetime)
+
+                                rows.Add(row);
+                            }
+                            return rows.ToArray(); // convert the List to an array and return it
+                        }
+                    }
+                }
+            }
+            catch (MySqlException e)
+            {
+                await Logger.Write("SQL.Admin: An error occurred in GrabIPBansTable: " + e.Message + "\nSQL.Admin: Error Code: " + e.ErrorCode, "ERROR");
+                return null;
+            }
+        }
     }
 }
