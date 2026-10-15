@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 /* to-do: clean up the stylesheet a bit */
 body {
-  font: normal 110% Consolas;
+  font: normal 110% monospace;
   margin: 0;
 }
 
