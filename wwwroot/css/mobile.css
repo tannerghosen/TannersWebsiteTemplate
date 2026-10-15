@@ -13,9 +13,9 @@ html, body {
 
 table {
   max-height: 20vh;
-  max-width: 300px;
-  min-width: 300px;
-  width: 300px;
+  max-width: 500px;
+  min-width: 400px;
+  width: 400px;
 }
 
 input, #commentbox {
@@ -142,6 +142,13 @@ input, #commentbox {
     width: 200px;
     text-align: center;
   }
+  .blogmessage {
+    height: 125px;
+  }
+  .blog {
+    max-height: 150px;
+    min-height: 0px;
+  }
 }
 @media (min-height: 0) and (max-height: 350px) {
   body {
@@ -180,5 +187,12 @@ input, #commentbox {
     height: 75px;
     width: 200px;
     text-align: center;
+  }
+  .blogmessage {
+    height: 100px;
+  }
+  .blog {
+    max-height: 125px;
+    min-height: 0px;
   }
 }

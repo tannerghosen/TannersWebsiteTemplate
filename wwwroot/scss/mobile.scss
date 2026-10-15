@@ -15,9 +15,9 @@ html, body
 table 
 {
 	max-height: 20vh;
-	max-width: 300px;
-	min-width: 300px;
-	width: 300px;
+	max-width: 500px;
+	min-width: 400px;
+	width: 400px;
 }
 input, #commentbox
 {
@@ -29,6 +29,7 @@ input, #commentbox
 	height: 80vh;
 	overflow: visible;
 }
+
 @media (min-width: 480px) and (max-width: 720px)
 {
 	body 
@@ -92,13 +93,13 @@ input, #commentbox
 		font-size: 80%;
 	}
 
-    .container 
-    {
-        height: 100%; /* screen height */
-        max-width: 100%;
-        top: 5%;
-        overflow: hidden;
-    }
+	.container 
+	{
+		height: 100%; /* screen height */
+		max-width: 100%;
+		top: 5%;
+		overflow: hidden;
+	}
 
 	h1 
 	{
@@ -195,6 +196,15 @@ input, #commentbox
 		width: 200px;
 		text-align: center;
 	}
+	.blogmessage 
+	{
+		height: 125px;
+	}
+	.blog 
+	{
+		max-height: 150px;
+		min-height: 0px;
+	}
 }
 
 @media (min-height: 0) and (max-height: 350px)
@@ -204,12 +214,12 @@ input, #commentbox
         font-size: 60%;
     }
 
-    .container 
-    {
-        height: 100%; /* screen height */
-        max-width: 100%;
-        top: 5%;
-        overflow: hidden;
+	.container 
+	{
+		height: 100%; /* screen height */
+		max-width: 100%;
+		top: 5%;
+		overflow: hidden;
 	}
 
 	h1 
@@ -251,5 +261,14 @@ input, #commentbox
 		height: 75px;
 		width: 200px;
 		text-align: center;
+	}
+	.blogmessage 
+	{
+		height: 100px;
+	}
+	.blog 
+	{
+		max-height: 125px;
+		min-height: 0px;
 	}
 }
