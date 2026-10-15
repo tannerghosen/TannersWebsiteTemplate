@@ -36,7 +36,7 @@ input, #commentbox {
     height: 100%; /* screen height */
     max-width: 100%;
     top: 5%;
-    overflow: hidden;
+    overflow: visible;
   }
   h1 {
     font: 400 125% "Press Start 2P";
@@ -74,7 +74,7 @@ input, #commentbox {
     height: 100%; /* screen height */
     max-width: 100%;
     top: 5%;
-    overflow: hidden;
+    overflow: visible;
   }
   h1 {
     font: 400 110% "Press Start 2P";
@@ -112,7 +112,7 @@ input, #commentbox {
     height: 100%; /* screen height */
     max-width: 100%;
     top: 5%;
-    overflow: hidden;
+    overflow: visible;
   }
   h1 {
     font: 400 105% "Press Start 2P";
@@ -158,7 +158,7 @@ input, #commentbox {
     height: 100%; /* screen height */
     max-width: 100%;
     top: 5%;
-    overflow: hidden;
+    overflow: visible;
   }
   h1 {
     font: 400 95% "Press Start 2P";
