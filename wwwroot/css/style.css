@@ -364,6 +364,10 @@ table {
   width: 800px;
 }
 
+.commentsection table {
+  max-height: 25vh;
+}
+
 .adminstuff {
   position: relative;
 }
