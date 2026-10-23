@@ -21,23 +21,23 @@ namespace TannersWebsiteTemplate.Pages
             _a = a;
             _h = h;
         }
-        // This method accesses the processed response the middleware at CallbathPack gets from the challenge we started back in Login.cshtml.cs.
-        // Based on the data, we either login the user or register them, or we redirect back to login because the authentication in middleware failed.
+        // This method accesses the authenticated request the middleware at CallbathPack handles from the challenge we started back in Login.cshtml.cs.
+        // Based on the data, we either login the user or register them, or we redirect back to login because the authentication here failed.
         // The next step is to redirect to WelcomeExternal, which either is the end of the process or it redirects to Index and stops there
-        // HandleGoogleLogin -> WelcomeExternal (redirect, all log in related stuff is finalized here)
+        // HandleGoogleLogin -> WelcomeExternal (final stop if register, introduction, or redirect if login, all log in related stuff is finalized here)
         public async Task<IActionResult> OnGetAsync()
         {
-            var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme); // Authenticate the request using Google's auth scheme
-            if (result.Succeeded)
+            var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme); // Authenticate the current request using ASP.NET Core's Google auth scheme
+            if (result.Succeeded) // If authenticated successfully , we can access the claims from the results
             {
                 // Claims are the data that Google sends back to us that contains the authenticated user's identity
                 // These can consist of the user's email, username, etc.
                 var claims = result.Principal.Claims;
-                // We grab the first (or default) type of claim  of each value we need to register / login, Username (Name) and Email
+                // We grab the claims we need to for an account to register / log in, Username (Name) and Email
                 var username = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value; // Username
                 var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value; // Email
 
-                // We register / login the user based on if the email is attached to a registered account
+                // If the user doesn't exist, we make their account
                 if (!await SQL.Accounts.DoesUserExist(email, "email"))
                 {
                     if (await SQL.Accounts.DoesUserExist(username, "username"))
@@ -51,11 +51,12 @@ namespace TannersWebsiteTemplate.Pages
                     TempData["TempPassword"] = password; // we store this for WelcomeExternal's message so the user can see their password
                     await _a.RegisterExternal(email, username, password);
                 }
-                else
+                else // otherwise if they exist, we just log in as google has affirmed the user is who they say they are
                 {
                     await _a.Login(email, "", true);
                 }
 
+                // We redirect back to WelcomeExternal, which for new users will introduce them to the sites, and for returning visitors redirect instantly back to Index.
                 return RedirectToPage(Url.Page("/WelcomeExternal"));
             }
             else
