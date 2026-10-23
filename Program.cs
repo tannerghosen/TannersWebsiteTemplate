@@ -152,7 +152,6 @@ app.UseStatusCodePagesWithRedirects("/Error?error={0}");
 app.MapRazorPages();
 
 TannersWebsiteTemplate.SQL.Main.Init(sqlconstr);  // Init MySQL classes, also creates tables / triggers / events if they aren't already made.
-TannersWebsiteTemplate.Status.CreateAccessPassword(); // Create the Access Password
 
 // Automation regarding unbanning users / ips whose bans have expired
 var start = TimeSpan.Zero;

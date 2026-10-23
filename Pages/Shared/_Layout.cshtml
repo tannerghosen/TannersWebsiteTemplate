@@ -55,26 +55,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/main.js"></script>
-    <script>
-        const websocket = new WebSocket("wss://@Globals.DomainName/ws");
-
-                websocket.onopen = () =>
-                {
-                    console.log("Connected!");
-                };
-
-                //  On Message Received from WebSocket server
-                websocket.onmessage = (event) =>
-                {
-                    const status = document.getElementById("status");
-                    status.innerHTML = `<p>${event.data}</p>`;
-                };
-
-                websocket.onclose = () =>
-                {
-                    console.log("Disconnected");
-                };
-    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
