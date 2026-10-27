@@ -63,7 +63,7 @@
                             {
                                 <td>
                                     <form method="post" asp-page-handler="Delete">
-                                        <input type="hidden" name="commentid" value="@Model.Post" />
+                                        <input type="hidden" name="commentid" value="@comment.CommentId" />
                                         <input type="hidden" name="CS" value="@Model.Post" />
                                         <input type="hidden" asp-for="Title" value="@Model.Title" />
                                         <input type="hidden" asp-for="Message" value="@Model.Message" />

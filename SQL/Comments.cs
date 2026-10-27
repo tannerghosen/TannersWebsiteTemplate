@@ -62,8 +62,8 @@ namespace TannersWebsiteTemplate.SQL
                             {
                                 while (reader.Read())
                                 {
-                                    //Comment c = new Comment { UserId = reader.GetInt32(0), Username = reader.GetString(1), Content = reader.GetString(2), Date = Convert.ToString(reader.GetDateTime(3)), CommentSId = reader.GetInt32(4) };
-                                    cs.Comments.Add(new Comment { UserId = reader.GetInt32(0), Username = reader.GetString(1), Content = reader.GetString(2), Date = Convert.ToString(reader.GetDateTime(3)), CommentSId = reader.GetInt32(4) });
+                                    //Comment c = new Comment { UserId = reader.GetInt32(0), Username = reader.GetString(1), Content = reader.GetString(2), Date = Convert.ToString(reader.GetDateTime(3)), CommentId = reader.GetInt32(4) };
+                                    cs.Comments.Add(new Comment { UserId = reader.GetInt32(0), Username = reader.GetString(1), Content = reader.GetString(2), Date = Convert.ToString(reader.GetDateTime(3)), CommentId = reader.GetInt32(4) });
                                 }
                             }
                         }
@@ -81,6 +81,7 @@ namespace TannersWebsiteTemplate.SQL
         // Deletes comment by commentid
         public static async Task DeleteComment(int commentid)
         {
+            int affected;
             try
             {
                 using (var con = Main.Connect())
@@ -90,10 +91,11 @@ namespace TannersWebsiteTemplate.SQL
                     using (var cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@id", commentid);
-                        await cmd.ExecuteNonQueryAsync();
+                        affected = await cmd.ExecuteNonQueryAsync();
                     }
                 }
                 await Logger.Write("Deleted comment with id " + commentid);
+                await Logger.Write(affected.ToString());
             }
             catch (MySqlException e)
             {
