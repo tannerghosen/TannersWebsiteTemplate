@@ -27,7 +27,7 @@ namespace TannersWebsiteTemplate.Pages
         // HandleGoogleLogin -> WelcomeExternal (final stop if register, introduction, or redirect if login, all log in related stuff is finalized here)
         public async Task<IActionResult> OnGetAsync()
         {
-            var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme); // Authenticate the current request using ASP.NET Core's Google auth scheme
+            var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme); // Authenticate and receive the results of the request we made to Google regarding the sign-in in middleware
             if (result.Succeeded) // If authenticated successfully , we can access the claims from the results
             {
                 // Claims are the data that Google sends back to us that contains the authenticated user's identity
@@ -57,7 +57,7 @@ namespace TannersWebsiteTemplate.Pages
                 }
 
                 // We redirect back to WelcomeExternal, which for new users will introduce them to the sites, and for returning visitors redirect instantly back to Index.
-                return RedirectToPage(Url.Page("/WelcomeExternal"));
+                return RedirectToPage("/WelcomeExternal");
             }
             else
             {
