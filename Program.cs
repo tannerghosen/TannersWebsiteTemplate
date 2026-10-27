@@ -48,6 +48,7 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod());
 });
 // Add custom routes for certain pages
+// https://learn.microsoft.com/en-us/aspnet/core/razor-pages/razor-pages-conventions?view=aspnetcore-10.0
 builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
 {
     options.Conventions.AddPageRoute("/Profile", "Profile/{id}"); // /Profile/(id)
@@ -55,6 +56,7 @@ builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
 });
 builder.Services.AddHttpContextAccessor();
 // Add session and its cookie
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-10.0
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = "TannersWebsiteTemplate.Session";
@@ -64,13 +66,14 @@ builder.Services.AddSession(options =>
     options.Cookie.SameSite = SameSiteMode.Lax;
     options.IdleTimeout = TimeSpan.FromHours(3);
 });
-
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0, AddScoped
 builder.Services.AddScoped<SessionManager>(); // adds SessionManager as a service
 builder.Services.AddScoped<AccountController>(); // adds AccountController as a service
 builder.Services.AddControllers(); // This adds all controllers to services
 
 // Rate Limiter
 // https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit?view=aspnetcore-10.0
+// https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit-samples?view=aspnetcore-10.0
 builder.Services.AddRateLimiter(options =>
 {
     options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
@@ -135,7 +138,7 @@ app.UseRouting();
 
 app.UseCors("TWTPolicy");
 
-app.UseMiddleware<SetupMiddleware>();
+app.UseMiddleware<SetupMiddleware>(); // Middleware for site setup
 
 app.UseMiddleware<IPBannedMiddleware>(); // Add our middleware addition for IP ban checks n redirects
 
