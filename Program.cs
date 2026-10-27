@@ -68,7 +68,9 @@ builder.Services.AddSession(options =>
 });
 // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0, AddScoped
 builder.Services.AddScoped<SessionManager>(); // adds SessionManager as a service
+builder.Services.AddScoped<IdentityManager>(); // adds SessionManager as a service
 builder.Services.AddScoped<AccountController>(); // adds AccountController as a service
+builder.Services.AddScoped<AccountMiddleware>(); // adds AccountMiddleware as a service
 builder.Services.AddControllers(); // This adds all controllers to services
 
 // Rate Limiter
@@ -82,9 +84,9 @@ builder.Services.AddRateLimiter(options =>
             factory: partition => new FixedWindowRateLimiterOptions
             {
                 AutoReplenishment = true,
-                PermitLimit = 50,
+                PermitLimit = 50, // 50 requests
                 QueueLimit = 0,
-                Window = TimeSpan.FromMinutes(1)
+                Window = TimeSpan.FromMinutes(1) // per minute
             }));
     options.OnRejected = async (context, cancellationToken) =>
     {
@@ -100,9 +102,15 @@ builder.Services.AddRateLimiter(options =>
 // https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/?view=aspnetcore-10.0
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme; // default auth scheme is cookie, which is what Sessions use
+    options.DefaultAuthenticateScheme = "TWTCookie"; //CookieAuthenticationDefaults.AuthenticationScheme; // default auth scheme is cookie, which is what Sessions use
+    options.DefaultSignInScheme = "TWTCookie";
+    options.DefaultChallengeScheme = "TWTCookie";
 })
 .AddCookie("Identity.External") // Add the cookie used by Identity
+.AddCookie("TWTCookie", options =>
+{
+    options.Cookie.Name = "TannersWebsiteTemplate.Cookie";
+})
 // A lot of the OAuth2.0 authentication is handled by middleware in ASP.NET Core, all we need to do is initiate a request to the provider and handle the response.
 .AddGoogle(options => // add google oauth
 {
@@ -138,13 +146,16 @@ app.UseRouting();
 
 app.UseCors("TWTPolicy");
 
-app.UseMiddleware<SetupMiddleware>(); // Middleware for site setup
-
-app.UseMiddleware<IPBannedMiddleware>(); // Add our middleware addition for IP ban checks n redirects
-
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseSession();
+
+app.UseMiddleware<SetupMiddleware>(); // Middleware for site setup
+
+app.UseMiddleware<IPBannedMiddleware>(); // Middleware for IP ban checks and redirects
+
+app.UseMiddleware<AccountMiddleware>(); // Middleware to log you back into a session cookie if you're logged in
 
 app.UseRateLimiter();
 
