@@ -27,16 +27,20 @@ namespace TannersWebsiteTemplate.Pages
         // HandleGoogleLogin -> WelcomeExternal (final stop if register, introduction, or redirect if login, all log in related stuff is finalized here)
         public async Task<IActionResult> OnGetAsync()
         {
+            // https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.authentication.authenticationhttpcontextextensions.authenticateasync?view=aspnetcore-10.0
             var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme); // Authenticate and receive the results of the request we made to Google regarding the sign-in in middleware
             if (result.Succeeded) // If authenticated successfully , we can access the claims from the results
             {
-                // Claims are the data that Google sends back to us that contains the authenticated user's identity
+                // https://learn.microsoft.com/en-us/dotnet/api/system.security.claims.claimsprincipal?view=net-10.0
+                // Claims are the data that Google sends back to us that contains the authenticated user's identity stored in a principal
                 // These can consist of the user's email, username, etc.
-                var claims = result.Principal.Claims;
-                // We grab the claims we need to for an account to register / log in, Username (Name) and Email
+                var claims = result.Principal.Claims; // Get a collection of the claims out of the principal
+                // We get the claims we need to for an account to register / log in, Username (Name) and Email
                 var username = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value; // Username
                 var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value; // Email
-
+                // If either claims are null don't bother continuing.
+                if (email == null || username == null) { await Logger.Write("Google authentication results returned null for username and/or email!", "ERROR"); return RedirectToPage("/Login", new { Result = "Google authentication results returned null claims." }); }
+                
                 // If the user doesn't exist, we make their account
                 if (!await SQL.Accounts.DoesUserExist(email, "email"))
                 {
