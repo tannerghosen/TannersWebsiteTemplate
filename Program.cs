@@ -155,7 +155,7 @@ app.UseMiddleware<SetupMiddleware>(); // Middleware for site setup
 
 app.UseMiddleware<IPBannedMiddleware>(); // Middleware for IP ban checks and redirects
 
-app.UseMiddleware<AccountMiddleware>(); // Middleware to log you back into a session cookie if you're logged in
+app.UseMiddleware<AccountMiddleware>(); // Middleware to restore a session if the user is logged in
 
 app.UseRateLimiter();
 

@@ -66,7 +66,8 @@ public class SessionManager : ISessionManager
         return new Session { Username = _h.HttpContext?.Session.GetString("Username"), UserId = _h.HttpContext?.Session.GetInt32("UserId"), SessionId = _h.HttpContext?.Session.GetString("SessionId"), IsLoggedIn = _h.HttpContext?.Session.GetInt32("IsLoggedIn"), IsAdmin = _h.HttpContext?.Session.GetInt32("IsAdmin") };
     }
 
-    public async Task LoginIfCookieExists()
+    // Restores session if the user is still logged in but the session either expired / doesn't exist
+    public async Task RestoreSession()
     {
         // If Authenticated && Username is in the claims and it's not null && Session's username is either empty or null
         if (_h.HttpContext.User.Identity.IsAuthenticated && _h.HttpContext.User.FindFirst("Username").Value != null && string.IsNullOrEmpty(GetSession().Username))

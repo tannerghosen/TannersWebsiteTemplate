@@ -9,10 +9,10 @@
             _s = s;
         }
 
-        // This simply logs the user into the session if they have a 
+        // This simply restores the session if the user was logged in and it expired. 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            await _s.LoginIfCookieExists();
+            await _s.RestoreSession();
 
             // Otherwise continue the request as normal
             await next(context);
