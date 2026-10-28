@@ -70,7 +70,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<SessionManager>(); // adds SessionManager as a service
 builder.Services.AddScoped<IdentityManager>(); // adds SessionManager as a service
 builder.Services.AddScoped<AccountController>(); // adds AccountController as a service
-builder.Services.AddScoped<AccountMiddleware>(); // adds AccountMiddleware as a service
+builder.Services.AddScoped<SessionMiddleware>(); // adds AccountMiddleware as a service
 builder.Services.AddControllers(); // This adds all controllers to services
 
 // Rate Limiter
@@ -155,7 +155,7 @@ app.UseMiddleware<SetupMiddleware>(); // Middleware for site setup
 
 app.UseMiddleware<IPBannedMiddleware>(); // Middleware for IP ban checks and redirects
 
-app.UseMiddleware<AccountMiddleware>(); // Middleware to restore a session if the user is logged in
+app.UseMiddleware<SessionMiddleware>(); // Middleware to restore a session if the user is logged in
 
 app.UseRateLimiter();
 
