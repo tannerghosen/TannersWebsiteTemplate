@@ -5,10 +5,10 @@ using System.Security.Claims;
 
 namespace TannersWebsiteTemplate
 {
-    public class IdentityManager
+    public class CookieManager
     {
         private IHttpContextAccessor _h;
-        public IdentityManager(IHttpContextAccessor h)
+        public CookieManager(IHttpContextAccessor h)
         {
             _h = h;
         }

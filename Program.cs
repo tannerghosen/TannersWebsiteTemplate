@@ -68,7 +68,7 @@ builder.Services.AddSession(options =>
 });
 // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0, AddScoped
 builder.Services.AddScoped<SessionManager>(); // adds SessionManager as a service
-builder.Services.AddScoped<IdentityManager>(); // adds SessionManager as a service
+builder.Services.AddScoped<CookieManager>(); // adds CookieManager as a service
 builder.Services.AddScoped<AccountController>(); // adds AccountController as a service
 builder.Services.AddScoped<SessionMiddleware>(); // adds AccountMiddleware as a service
 builder.Services.AddControllers(); // This adds all controllers to services
