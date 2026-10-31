@@ -101,7 +101,7 @@ namespace TannersWebsiteTemplate
                 {
                     await Logger.Write("Registration successful. New user added: " + Username, "REGISTER");
                     await _s.Login(Username, await SQL.Accounts.GetUserID(Username), sid.ToString());
-                    await _i.Login(Username, await SQL.Accounts.GetUserID(Username));
+                    await _c.Login(Username, await SQL.Accounts.GetUserID(Username));
                     await Statistics.IncrementRegistrations();
                     return Ok("Account Registered. Logged into " + Username + ".");
                 }
