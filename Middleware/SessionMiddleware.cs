@@ -9,10 +9,10 @@
             _s = s;
         }
 
-        // This simply restores the session if the user was logged in and it expired. 
+        // This simply creates a new session if the user was logged in and it expired / doesn't exist
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            await _s.RestoreSession();
+            await _s.CreateNewSession();
 
             // Otherwise continue the request as normal
             await next(context);
