@@ -72,7 +72,7 @@ public class SessionManager : ISessionManager
         // If Authenticated && Username is in the claims and it's not null && Session's username is either empty or null
         if (_h.HttpContext.User.Identity.IsAuthenticated && _h.HttpContext.User.FindFirst("Username").Value != null && string.IsNullOrEmpty(GetSession().Username))
         {
-            await Logger.Write("User " + _h.HttpContext.User.FindFirst("Username").Value + " returning, logging them back in to the session...", "LOGIN");
+            await Logger.Write("User " + _h.HttpContext.User.FindFirst("Username").Value + " returning, logging them back into a session...", "LOGIN");
             Login(_h.HttpContext.User.FindFirst("Username").Value, await TannersWebsiteTemplate.SQL.Accounts.GetUserID(_h.HttpContext.User.FindFirst("Username").Value), SID().ToString());
         }
     }
