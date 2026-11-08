@@ -29,7 +29,49 @@ input, #commentbox {
     overflow: visible;
 }
 
-@media (min-width: 480px) and (max-width: 720px) {
+@media (min-width: 800px) and (max-width: 1600px) {
+    body {
+        font-size: 90%;
+    }
+
+    .container {
+        height: 100%; /* screen height */
+        max-width: 95%;
+        top: 5%;
+        overflow: visible;
+    }
+
+    h1 {
+        font: 400 150% var(--psfont);
+        margin: 0;
+    }
+
+    .container h2 {
+        font: 400 100% var(--psfont);
+        margin: 0;
+        grid-column: span 2;
+    }
+
+    .linkcontainer {
+        font-size: 85%;
+    }
+
+        .linkcontainer a {
+            float: left;
+            padding: 0px 5px;
+        }
+
+    .headercontainer {
+        height: 10vh;
+    }
+
+    #simage {
+        height: 200px;
+        width: 225px;
+        text-align: center;
+    }
+}
+@media (min-width: 480px) and (max-width: 800px) {
     body {
         font-size: 80%;
     }
@@ -50,10 +92,6 @@ input, #commentbox {
         font: 400 90% var(--psfont);
         margin: 0;
         grid-column: span 2;
-    }
-
-    #buttoncontainer {
-        bottom: 25%;
     }
 
     .linkcontainer {
@@ -99,10 +137,6 @@ input, #commentbox {
         grid-column: span 2;
     }
 
-    #buttoncontainer {
-        bottom: 15%;
-    }
-
     .linkcontainer {
         font-size: 77.5%;
     }
@@ -146,9 +180,6 @@ input, #commentbox {
         grid-column: span 2;
     }
 
-    #buttoncontainer {
-        bottom: 10%;
-    }
 
     .linkcontainer {
         font-size: 120%;
@@ -156,12 +187,6 @@ input, #commentbox {
 
     .headercontainer {
         height: 10vh;
-    }
-
-    .project {
-        height: 20vh;
-        align-items: flex-start;
-        flex-wrap: wrap;
     }
 
     #simage {
@@ -209,12 +234,6 @@ input, #commentbox {
 
     .linkcontainer {
         font-size: 120%;
-    }
-
-    .project {
-        height: 15vh;
-        align-items: flex-start;
-        flex-wrap: wrap;
     }
 
     .headercontainer {
