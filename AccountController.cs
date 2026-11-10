@@ -19,7 +19,7 @@ namespace TannersWebsiteTemplate
         private static Regex UsernameRegex = Regexes.GetUsernameRegex();
         public async Task<IActionResult> Login(string Username, string Password, bool External = false)
         {
-            if (!_s.IsUserLoggedIn())
+            if (!_c.IsUserLoggedIn())
             {
                 Guid sid = _s.SID(); // generate session id
                 Username = EmailRegex.IsMatch(Username) == true ? await SQL.Accounts.GetUsername(Username) : Username;
@@ -66,7 +66,7 @@ namespace TannersWebsiteTemplate
 
         public async Task<IActionResult> Register(string Email, string Username, string Password, string SecurityQuestion, string Answer)
         {
-            if(!_s.IsUserLoggedIn())
+            if(!_c.IsUserLoggedIn())
             {
                 Guid sid = _s.SID(); // generate session id
                 (bool result, bool error) = await SQL.Accounts.Register(Email, Username, Password, sid.ToString()); 
@@ -93,7 +93,7 @@ namespace TannersWebsiteTemplate
 
         public async Task<IActionResult> RegisterExternal(string Email, string Username, string Password)
         {
-            if (!_s.IsUserLoggedIn())
+            if (!_c.IsUserLoggedIn())
             {
                 Guid sid = _s.SID(); // generate session id
                 (bool result, bool error) = await SQL.Accounts.Register(Email, Username, Password, sid.ToString(), true);
@@ -119,8 +119,9 @@ namespace TannersWebsiteTemplate
 
         public async Task<IActionResult> Logout()
         {
-            string? username = _s.GetSession().Username;
-            if (_s.IsUserLoggedIn() && (username != null || username != ""))
+            Cookie c = await _c.GetCookie();
+            string? username = c.Username;
+            if (_c.IsUserLoggedIn() && (username != null || username != ""))
             {
                 await _s.Logout();
                 await _c.Logout();

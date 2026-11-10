@@ -5,6 +5,13 @@ using System.Security.Claims;
 
 namespace TannersWebsiteTemplate
 {
+    public class Cookie
+    {
+        public string? Username;
+        public string? Id;
+        public string? IsAdmin;
+
+    }
     public class CookieManager
     {
         private IHttpContextAccessor _h;
@@ -53,6 +60,21 @@ namespace TannersWebsiteTemplate
         public async Task Logout()
         {
             await _h.HttpContext.SignOutAsync("TWTCookie");
+        }
+
+        public async Task<bool> IsAdmin()
+        {
+            return _h.HttpContext.User.FindFirst("IsAdmin").Value == "1";
+        }
+
+        public bool IsUserLoggedIn()
+        {
+            return _h.HttpContext.User.Identity.IsAuthenticated;
+        }
+
+        public async Task<Cookie> GetCookie()
+        {
+            return new Cookie { Username = _h.HttpContext.User.FindFirst("Username").Value, Id = _h.HttpContext.User.FindFirst("Id").Value, IsAdmin = _h.HttpContext.User.FindFirst("IsAdmin").Value };
         }
     }
 }
