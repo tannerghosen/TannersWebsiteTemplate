@@ -2,7 +2,7 @@
 using TannersWebsiteTemplate;
 using TannersWebsiteTemplate.Interfaces;
 
-public struct Session
+public class Session
 {
     public string? Username;
     public int? UserId;
